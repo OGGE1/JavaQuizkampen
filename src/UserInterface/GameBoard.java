@@ -14,7 +14,7 @@ public class GameBoard extends JFrame {
     public GameBoard(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        this.setSize(400, 600);
+        this.setSize(300, 500);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.cyan);

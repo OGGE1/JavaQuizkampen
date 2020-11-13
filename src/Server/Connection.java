@@ -1,7 +1,11 @@
 package Server;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Dictionary;
 
 /**
  * Created by Oscar Norman <br>
@@ -25,16 +29,11 @@ public class Connection extends Thread {
 
     public void testConnection() {
         try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-            String message, result;
-            while ((message = in.readLine()) != null) {
-                if (message.equalsIgnoreCase("exit")){
-                    break;
-                }
-                result = "Typed: " + message + "\n";
-                out.println(result);
+            for (int i = 0; i <= 3; i++) {
+                out.println(i);
+                Thread.sleep(500);
             }
 
         } catch (Exception e) {

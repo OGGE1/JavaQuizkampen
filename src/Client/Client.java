@@ -1,8 +1,6 @@
 package Client;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -20,13 +18,14 @@ public class Client {
 
 
         try(Socket clientSocket = new Socket(address, port);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter out = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()), true)) {
 
             String message;
                 while ((message = in.readLine()) != null) {
                     System.out.println(message);
-                    
                 }
+
 
         } catch (IOException ioException) {
             ioException.printStackTrace();

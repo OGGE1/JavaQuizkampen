@@ -2,10 +2,7 @@ package Panels;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 
 /**
  * Created by Hanna Edlund
@@ -21,17 +18,18 @@ public class ResultPanel extends JFrame {
     int playerTwoScore = 0;
     //TODO: Hur många ronder ska vara default?
     int amountOfRounds =  6;
+    int questionsAskedPerRound = 3;
 
     String[] categoryList = {"Sport & Fritid", "Djur & Natur", "Jorden runt", "Data- & tvspel"};
 
     JLabel namePlayerOne = new JLabel(playerOne);
     JLabel namePlayerTwo = new JLabel(playerTwo);
-    JLabel score = new JLabel(" " + playerOneScore + " - " + playerTwoScore + " ");
+    JLabel score = new JLabel();
+
 
     JPanel backgroundPanel = new JPanel();
 
     ResultPanel(){
-        score.setFont(new Font("", Font.BOLD, 22));
         namePlayerOne.setFont(new Font("", Font.BOLD, 18));
         namePlayerTwo.setFont(new Font("", Font.BOLD, 18));
 
@@ -61,6 +59,7 @@ public class ResultPanel extends JFrame {
         JLabel category = new JLabel(categoryTitle, SwingConstants.CENTER);
         rond.setFont(new Font("", Font.BOLD, 12));
         category.setFont(new Font("", Font.BOLD, 12));
+        score.setFont(new Font("", Font.BOLD, 22));
 
 
         JTextArea ruta2 = new JTextArea();
@@ -73,11 +72,11 @@ public class ResultPanel extends JFrame {
         category.setText(categoryTitle);
 
 
-        JPanel leftColumn = new JPanel(new GridLayout(0,3));
+        JPanel leftColumn = new JPanel(new GridLayout(0, questionsAskedPerRound));
 
         JPanel centerColumn = new JPanel(new GridLayout(2,0));
 
-        JPanel rightColumn = new JPanel(new GridLayout(0,3));
+        JPanel rightColumn = new JPanel(new GridLayout(0, questionsAskedPerRound));
 
 
         for (int i = 0; i < amountOfRounds; i++) {
@@ -87,22 +86,33 @@ public class ResultPanel extends JFrame {
             ruta.setBorder(BorderFactory.createLineBorder(Color.white, 2));
 
             Random r = new Random();
-            int testing = r.nextInt(10);
+            int testing = r.nextInt(11);
 
-            if(testing > 5)
-                ruta.setBackground(Color.green);
-            else if(testing < 5)
-                ruta.setBackground(Color.red);
-            else
-                ruta.setBackground(Color.gray);
-
-            int questionsAsked = amountOfRounds/2;
-
-            if(i < questionsAsked)
+            if(i < questionsAskedPerRound){
                 leftColumn.add(ruta);
-            else
+                if(testing >= 5){
+                    ruta.setBackground(Color.green);
+                    playerOneScore++;
+                }
+                else if(testing < 5)
+                    ruta.setBackground(Color.red);
+                else
+                    ruta.setBackground(Color.gray);
+            }
+            else{
                 rightColumn.add(ruta);
+                if(testing >= 5){
+                    ruta.setBackground(Color.green);
+                    playerTwoScore++;
+                }
+                else if(testing < 5)
+                    ruta.setBackground(Color.red);
+                else
+                    ruta.setBackground(Color.gray);
+            }
         }
+
+        score.setText(" " + playerOneScore + " - " + playerTwoScore + " ");
 
         backgroundPanel.add(leftColumn);
 //        leftColumn.add(new JLabel("HEJ"));

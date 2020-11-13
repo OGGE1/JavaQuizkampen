@@ -1,8 +1,6 @@
 package Panels;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,28 +14,26 @@ import java.util.List;
  */
 public class GamePanel {
 
-    JPanel groundPanel = new JPanel();
+    private JPanel groundPanel = new JPanel();
 
-    JPanel centerPanel = new JPanel();
-    JPanel questionPanel = new JPanel();
-    JPanel buttonPanel = new JPanel();
-    JPanel categoryPanel = new JPanel();
-    JLabel categoryLabel = new JLabel("Category",JLabel.CENTER);
-    JPanel questionLabelPanel = new JPanel();
-    JLabel questionLabel = new JLabel("Fråga",JLabel.CENTER);
-    JPanel topPanel = new JPanel();
-    JLabel roundNr = new JLabel("0",JLabel.CENTER);
-    JLabel name = new JLabel("Display of name",JLabel.RIGHT);
+    private JPanel centerPanel = new JPanel();
+    private JPanel questionPanel = new JPanel();
+    private JPanel buttonPanel = new JPanel();
+    private JPanel categoryPanel = new JPanel();
+    private JLabel categoryLabel = new JLabel("Category",JLabel.CENTER);
+    private JTextArea question = new JTextArea("Fråga");
+    private JPanel topPanel = new JPanel();
+    private JLabel roundNr = new JLabel("1",JLabel.CENTER);
+    private JLabel name = new JLabel("Display of name",JLabel.RIGHT);
+    private JLabel answerText = new JLabel("Antal rätt: ");
+    private JLabel result = new JLabel("0");
 
-    List<JButton> buttons = new ArrayList<>();
-    List<JLabel> result = new ArrayList<>();
+    private List<JButton> buttons = new ArrayList<>();
 
-    public GamePanel(){
-//        JFrame frame = new JFrame();
-        
+    public GamePanel(String clientName){
+        this.name.setText(clientName);
         groundPanel.setLayout(new BorderLayout());
         groundPanel.setPreferredSize(new Dimension(300,500));
-//        frame.add(groundPanel);
 
         centerPanel.setLayout(new GridLayout(2,1));
         groundPanel.add(centerPanel,BorderLayout.CENTER);
@@ -50,29 +46,30 @@ public class GamePanel {
         categoryPanel.setBackground(Color.MAGENTA);
         questionPanel.add(categoryPanel,BorderLayout.NORTH);
 
-        questionLabelPanel.setBackground(Color.WHITE);
-        questionLabelPanel.add(questionLabel);
-
-        questionPanel.add(questionLabelPanel,BorderLayout.CENTER);
+        question.setBackground(Color.WHITE);
+        question.setEditable(false);
+        question.setFont(new Font("SansSerif",Font.ITALIC,20));
+        question.setLineWrap(true);
+        question.setWrapStyleWord(true);
+        question.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
+        questionPanel.add(question,BorderLayout.CENTER);
 
         buttonPanel.setLayout(new GridLayout(2,2));
 
         for(int i = 0; i < 4; i++) {
-            buttons.add(new JButton("Svar"));
+            buttons.add(new JButton("Svar"+(i+1)));
             buttonPanel.add(buttons.get(i));
-        //    buttons.get(i).setMargin(new Insets(20, 20, 20, 20));
+            buttons.get(i).setBorder(BorderFactory.createLineBorder(Color.CYAN,10));
         }
         centerPanel.add(buttonPanel);
 
         topPanel.setBackground(new Color(99, 118, 239));
 
-        for(int i = 0; i < 4; i++){
-            result.add(new JLabel("Q "+(i+1),JLabel.CENTER));
-            result.get(i).setBorder(new EtchedBorder());
-            result.get(i).setBackground(Color.red);
-            result.get(i).setOpaque(true);
-            topPanel.add(result.get(i));
-        }
+        answerText.setPreferredSize(new Dimension(70,20));
+        topPanel.add(answerText);
+
+        result.setPreferredSize(new Dimension(30,20));
+        topPanel.add(result);
 
         roundNr.setBorder(new EtchedBorder());
         roundNr.setOpaque(true);
@@ -83,10 +80,6 @@ public class GamePanel {
         name.setPreferredSize(new Dimension(110,20));
         topPanel.add(name);
         groundPanel.add(topPanel,BorderLayout.NORTH);
-
-//        frame.setVisible(true);
-//        frame.setSize(300,500);
-//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public JPanel getGamePanel(){
@@ -97,15 +90,38 @@ public class GamePanel {
         return buttons;
     }
 
-    public List<JLabel> getGameResults(){
-        return result;
+    public int getGameResult(){
+        return Integer.parseInt(result.getText());
     }
 
-    public JLabel getRoundNr(){
-        return roundNr;
+    public void setGameResult(int score){
+        this.result.setText(String.valueOf(score));
+    }
+
+    public String getCategory(){
+        return categoryLabel.getText();
+    }
+
+    public void setCategory(String category){
+        this.categoryLabel.setText(category);
+    }
+
+    public String getQuestion(){
+        return question.getText();
+    }
+
+    public void setQuestion(String question){
+        this.question.setText(question);
+    }
+
+    public int getRoundNr(){
+        return Integer.parseInt(roundNr.getText());
+    }
+
+    public void setRoundNr(int roundNr){
+        this.roundNr.setText(String.valueOf(roundNr));
     }
 
     public static void main(String[] args) {
-        GamePanel start = new GamePanel();
     }
 }

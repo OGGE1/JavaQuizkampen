@@ -26,7 +26,6 @@ public class ResultPanel extends JFrame {
     JLabel namePlayerTwo = new JLabel(playerTwo);
     JLabel score = new JLabel();
 
-
     JPanel backgroundPanel = new JPanel();
 
     ResultPanel(){
@@ -61,16 +60,8 @@ public class ResultPanel extends JFrame {
         category.setFont(new Font("", Font.BOLD, 12));
         score.setFont(new Font("", Font.BOLD, 22));
 
-
-        JTextArea ruta2 = new JTextArea();
-        JTextArea ruta3 = new JTextArea();
-        JTextArea ruta4 = new JTextArea();
-        JTextArea ruta5 = new JTextArea();
-        JTextArea ruta6 = new JTextArea();
-
         rond.setText("ROND " + rondNr);
         category.setText(categoryTitle);
-
 
         JPanel leftColumn = new JPanel(new GridLayout(0, questionsAskedPerRound));
 
@@ -90,25 +81,21 @@ public class ResultPanel extends JFrame {
 
             if(i < questionsAskedPerRound){
                 leftColumn.add(ruta);
-                if(testing >= 5){
+                if(testing <= 5){
                     ruta.setBackground(Color.green);
                     playerOneScore++;
                 }
-                else if(testing < 5)
-                    ruta.setBackground(Color.red);
                 else
-                    ruta.setBackground(Color.gray);
+                    ruta.setBackground(Color.red);
             }
             else{
                 rightColumn.add(ruta);
-                if(testing >= 5){
+                if(testing <= 5){
                     ruta.setBackground(Color.green);
                     playerTwoScore++;
                 }
-                else if(testing < 5)
-                    ruta.setBackground(Color.red);
                 else
-                    ruta.setBackground(Color.gray);
+                    ruta.setBackground(Color.red);
             }
         }
 
@@ -116,7 +103,6 @@ public class ResultPanel extends JFrame {
 
         backgroundPanel.add(leftColumn);
 //        leftColumn.add(new JLabel("HEJ"));
-
 
         backgroundPanel.add(centerColumn);
         centerColumn.add(rond);

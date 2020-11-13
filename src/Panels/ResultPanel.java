@@ -62,7 +62,7 @@ public class ResultPanel extends JFrame {
         rond.setFont(new Font("", Font.BOLD, 12));
         category.setFont(new Font("", Font.BOLD, 12));
 
-        JTextArea ruta = new JTextArea();
+
         JTextArea ruta2 = new JTextArea();
         JTextArea ruta3 = new JTextArea();
         JTextArea ruta4 = new JTextArea();
@@ -72,26 +72,6 @@ public class ResultPanel extends JFrame {
         rond.setText("ROND " + rondNr);
         category.setText(categoryTitle);
 
-        ruta.setEditable(false);
-        ruta.setPreferredSize(new Dimension(30,20));
-        ruta.setBackground(Color.gray);
-        ruta2.setEditable(false);
-        ruta2.setPreferredSize(new Dimension(30,20));
-        ruta2.setBackground(Color.red);
-        ruta3.setEditable(false);
-        ruta3.setPreferredSize(new Dimension(30,20));
-        ruta3.setBackground(Color.green);
-
-        ruta4.setEditable(false);
-        ruta4.setPreferredSize(new Dimension(30,20));
-        ruta4.setBackground(Color.green);
-        ruta5.setEditable(false);
-        ruta5.setPreferredSize(new Dimension(30,20));
-        ruta5.setBackground(Color.gray);
-        ruta6.setEditable(false);
-        ruta6.setPreferredSize(new Dimension(30,20));
-        ruta6.setBackground(Color.red);
-
 
         JPanel leftColumn = new JPanel(new GridLayout(0,3));
 
@@ -99,11 +79,34 @@ public class ResultPanel extends JFrame {
 
         JPanel rightColumn = new JPanel(new GridLayout(0,3));
 
+
+        for (int i = 0; i < amountOfRounds; i++) {
+            JTextArea ruta = new JTextArea();
+            ruta.setEditable(false);
+            ruta.setPreferredSize(new Dimension(30,20));
+            ruta.setBorder(BorderFactory.createLineBorder(Color.white, 2));
+
+            Random r = new Random();
+            int testing = r.nextInt(10);
+
+            if(testing > 5)
+                ruta.setBackground(Color.green);
+            else if(testing < 5)
+                ruta.setBackground(Color.red);
+            else
+                ruta.setBackground(Color.gray);
+
+            int questionsAsked = amountOfRounds/2;
+
+            if(i < questionsAsked)
+                leftColumn.add(ruta);
+            else
+                rightColumn.add(ruta);
+        }
+
         backgroundPanel.add(leftColumn);
 //        leftColumn.add(new JLabel("HEJ"));
-        leftColumn.add(ruta);
-        leftColumn.add(ruta2);
-        leftColumn.add(ruta3);
+
 
         backgroundPanel.add(centerColumn);
         centerColumn.add(rond);
@@ -111,9 +114,7 @@ public class ResultPanel extends JFrame {
 
         backgroundPanel.add(rightColumn);
 //        rightColumn.add(new JLabel("DÅ"));
-        rightColumn.add(ruta4);
-        rightColumn.add(ruta5);
-        rightColumn.add(ruta6);
+
     }
 
     public static void main(String[] args) {

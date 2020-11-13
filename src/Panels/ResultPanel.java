@@ -40,6 +40,9 @@ public class ResultPanel extends JFrame {
         topPanel.add(score, BorderLayout.CENTER);
         topPanel.add(namePlayerTwo, BorderLayout.EAST);
 
+        /*
+                SÄTTER KATEGORIN FRÅN ARRAY OCH SÄTTER NUMMER TILL RONDEN
+         */
         for (int i = 1; i <= amountOfRounds ; i++) {
             Random r = new Random();
             int y = r.nextInt(4);
@@ -69,8 +72,10 @@ public class ResultPanel extends JFrame {
 
         JPanel rightColumn = new JPanel(new GridLayout(0, questionsAskedPerRound));
 
-
-        for (int i = 0; i < amountOfRounds; i++) {
+        /*
+                SKAPAR UPP BOXARNA EFTER HUR MÅNGA FRÅGOR SOM SKA STÄLLAS
+         */
+        for (int i = 0; i < (questionsAskedPerRound*2); i++) {
             JTextArea ruta = new JTextArea();
             ruta.setEditable(false);
             ruta.setPreferredSize(new Dimension(30,20));
@@ -79,6 +84,9 @@ public class ResultPanel extends JFrame {
             Random r = new Random();
             int testing = r.nextInt(11);
 
+            /*
+                SÄTTER FÄRGEN PÅ BOXEN BEROENDE PÅ SVARET OCH TILLDELAR POÄNG
+             */
             if(i < questionsAskedPerRound){
                 leftColumn.add(ruta);
                 if(testing <= 5){

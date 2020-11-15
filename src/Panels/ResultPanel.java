@@ -16,17 +16,16 @@ public class ResultPanel extends JFrame {
 
     int playerOneScore = 0;
     int playerTwoScore = 0;
-    //TODO: Hur många ronder ska vara default?
-    int amountOfRounds =  6;
-    int questionsAskedPerRound = 3;
+    int amountOfRounds =  10;
+    int questionsAskedPerRound = 6;
 
     String[] categoryList = {"Sport & Fritid", "Djur & Natur", "Jorden runt", "Data- & tvspel"};
 
     JLabel namePlayerOne = new JLabel(playerOne);
     JLabel namePlayerTwo = new JLabel(playerTwo);
-    JLabel score = new JLabel();
+    JLabel score = new JLabel("", SwingConstants.CENTER);
 
-    JPanel backgroundPanel = new JPanel();
+    JPanel backgroundPanel = new JPanel(new GridLayout(0,1));
 
     ResultPanel(){
         namePlayerOne.setFont(new Font("", Font.BOLD, 18));
@@ -35,7 +34,7 @@ public class ResultPanel extends JFrame {
         JPanel topPanel = new JPanel(new BorderLayout());
 
         add(backgroundPanel);
-        backgroundPanel.add(topPanel);
+        backgroundPanel.add(topPanel, 0, 0);
         topPanel.add(namePlayerOne, BorderLayout.WEST);
         topPanel.add(score, BorderLayout.CENTER);
         topPanel.add(namePlayerTwo, BorderLayout.EAST);
@@ -66,11 +65,17 @@ public class ResultPanel extends JFrame {
         rond.setText("ROND " + rondNr);
         category.setText(categoryTitle);
 
+        JPanel roundBoardPanel = new JPanel(new GridLayout(0,3));
+
+        JPanel leftPanel = new JPanel(new BorderLayout());
         JPanel leftColumn = new JPanel(new GridLayout(0, questionsAskedPerRound));
 
+        JPanel centerPanel = new JPanel(new BorderLayout());
         JPanel centerColumn = new JPanel(new GridLayout(2,0));
 
+        JPanel rightPanel = new JPanel(new BorderLayout());
         JPanel rightColumn = new JPanel(new GridLayout(0, questionsAskedPerRound));
+
 
         /*
                 SKAPAR UPP BOXARNA EFTER HUR MÅNGA FRÅGOR SOM SKA STÄLLAS
@@ -78,7 +83,7 @@ public class ResultPanel extends JFrame {
         for (int i = 0; i < (questionsAskedPerRound*2); i++) {
             JTextArea ruta = new JTextArea();
             ruta.setEditable(false);
-            ruta.setPreferredSize(new Dimension(30,20));
+            ruta.setPreferredSize(new Dimension((90/questionsAskedPerRound), 10));
             ruta.setBorder(BorderFactory.createLineBorder(Color.white, 2));
 
             Random r = new Random();
@@ -106,19 +111,21 @@ public class ResultPanel extends JFrame {
                     ruta.setBackground(Color.red);
             }
         }
-
-        score.setText(" " + playerOneScore + " - " + playerTwoScore + " ");
-
-        backgroundPanel.add(leftColumn);
+        leftPanel.add(leftColumn, BorderLayout.WEST);
 //        leftColumn.add(new JLabel("HEJ"));
 
-        backgroundPanel.add(centerColumn);
-        centerColumn.add(rond);
+        centerPanel.add(centerColumn, BorderLayout.CENTER);
+        centerColumn.add(rond, SwingConstants.CENTER);
         centerColumn.add(category);
 
-        backgroundPanel.add(rightColumn);
-//        rightColumn.add(new JLabel("DÅ"));
+        rightPanel.add(rightColumn, BorderLayout.EAST);
 
+        backgroundPanel.add(roundBoardPanel);
+        roundBoardPanel.add(leftPanel);
+        roundBoardPanel.add(centerPanel);
+        roundBoardPanel.add(rightPanel);
+
+        score.setText(" " + playerOneScore + " - " + playerTwoScore + " ");
     }
 
     public static void main(String[] args) {

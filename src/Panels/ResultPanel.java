@@ -34,6 +34,8 @@ public class ResultPanel extends JFrame {
     ResultPanel(){
         labelPlayerOne.setFont(new Font("", Font.BOLD, 18));
         labelPlayerTwo.setFont(new Font("", Font.BOLD, 18));
+        text.setFont(new Font("", Font.BOLD, 18));
+        button.setFont(new Font("", Font.BOLD, 16));
 
         JPanel topPanel = new JPanel(new BorderLayout());
 

@@ -2,6 +2,13 @@ package Panels;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -10,7 +17,7 @@ import java.util.Random;
  * Time: 15:44
  * Project: JavaQuizkampen
  */
-public class ResultPanel extends JFrame {
+public class ResultPanel extends JFrame implements ActionListener{
     String namePlayerOne = "Player one";
     String namePlayerTwo = "Player two";
 
@@ -23,17 +30,19 @@ public class ResultPanel extends JFrame {
 
     JLabel labelPlayerOne = new JLabel(namePlayerOne);
     JLabel labelPlayerTwo = new JLabel(namePlayerTwo);
-    JLabel score = new JLabel("", SwingConstants.CENTER);
+    JLabel score = new JLabel(" " + playerOneScore + " - " + playerTwoScore + " ", SwingConstants.CENTER);
 
     JLabel text = new JLabel("HÄR SKA VINNAREN STÅ", SwingConstants.CENTER);
     JButton button = new JButton("EN KNAPP");
 
-
     JPanel backgroundPanel = new JPanel(new GridLayout(0,1));
+
+    List<JTextArea> rutaList = new ArrayList<>();
 
     ResultPanel(){
         labelPlayerOne.setFont(new Font("", Font.BOLD, 18));
         labelPlayerTwo.setFont(new Font("", Font.BOLD, 18));
+        score.setFont(new Font("", Font.BOLD, 22));
         text.setFont(new Font("", Font.BOLD, 18));
         button.setFont(new Font("", Font.BOLD, 16));
 
@@ -46,33 +55,42 @@ public class ResultPanel extends JFrame {
         topPanel.add(labelPlayerTwo, BorderLayout.EAST);
 
         /*
-                SÄTTER KATEGORIN FRÅN ARRAY OCH SÄTTER NUMMER TILL RONDEN
+                SKAPAR UPP BOARDEN
          */
         for (int i = 1; i <= amountOfRounds ; i++) {
-            Random r = new Random();
-            int y = r.nextInt(4);
-            newRound(i, categoryList[y]);
+            createBoard(i);
         }
+
+        // TEST STARTA NYTT SPEL NÄR MAN KLICKAR PÅ KNAPP
+        button.setText("Starta spelet");
+        button.addActionListener(this);
+
 
         backgroundPanel.add(text);
         backgroundPanel.add(button);
 
-        //setResizable(false);
+//        if(text.getText().contains("spelet!"))
+//            button.setText("Nytt spel");
+//        else
+//            button.setText("Väntar...");
+
+//        button.setText("Starta runda");
+
+        setResizable(false);
         setVisible(true);
         setSize(300,500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public void newRound(int rondNr, String categoryTitle){
+    public void createBoard(int rondNr){
         JLabel rond = new JLabel("ROND", SwingConstants.CENTER);
-        JLabel category = new JLabel(categoryTitle, SwingConstants.CENTER);
         rond.setFont(new Font("", Font.BOLD, 12));
+        JLabel category = new JLabel("", SwingConstants.CENTER);
         category.setFont(new Font("", Font.BOLD, 12));
-        score.setFont(new Font("", Font.BOLD, 22));
 
         rond.setText("ROND " + rondNr);
-        category.setText(categoryTitle);
+        category.setText("En kategori");
 
         JPanel roundBoardPanel = new JPanel(new GridLayout(0,3));
 
@@ -91,37 +109,25 @@ public class ResultPanel extends JFrame {
          */
         for (int i = 0; i < (questionsAskedPerRound*2); i++) {
             JTextArea ruta = new JTextArea();
+            rutaList.add(ruta);
             ruta.setEditable(false);
             ruta.setPreferredSize(new Dimension((90/questionsAskedPerRound), 10));
             ruta.setBorder(BorderFactory.createLineBorder(Color.white, 2));
 
-            Random r = new Random();
-            int testing = r.nextInt(11);
-
             /*
-                SÄTTER FÄRGEN PÅ BOXEN BEROENDE PÅ SVARET OCH TILLDELAR POÄNG
+                PLACERAR RUTORNA ANTINGEN TILL HÖGER ELLER VÄNSTER KOLUMN
              */
             if(i < questionsAskedPerRound){
                 leftColumn.add(ruta);
-                if(testing <= 5){
-                    ruta.setBackground(Color.green);
-                    playerOneScore++;
-                }
-                else
-                    ruta.setBackground(Color.red);
+                ruta.setBackground(Color.gray);;
             }
             else{
                 rightColumn.add(ruta);
-                if(testing <= 5){
-                    ruta.setBackground(Color.green);
-                    playerTwoScore++;
-                }
-                else
-                    ruta.setBackground(Color.red);
+                ruta.setBackground(Color.gray);
             }
         }
+
         leftPanel.add(leftColumn, BorderLayout.WEST);
-//        leftColumn.add(new JLabel("HEJ"));
 
         centerPanel.add(centerColumn, BorderLayout.CENTER);
         centerColumn.add(rond, SwingConstants.CENTER);
@@ -133,6 +139,41 @@ public class ResultPanel extends JFrame {
         roundBoardPanel.add(leftPanel);
         roundBoardPanel.add(centerPanel);
         roundBoardPanel.add(rightPanel);
+
+    }
+
+    public void newRound(String categoryTitle){
+        /*
+                SKAPAR UPP BOXARNA EFTER HUR MÅNGA FRÅGOR SOM SKA STÄLLAS
+         */
+        for (int i = 0; i < (questionsAskedPerRound*2); i++) {
+
+            Random r = new Random();
+            int testing = r.nextInt(11);
+
+            /*
+                SÄTTER FÄRGEN PÅ BOXEN BEROENDE PÅ SVARET OCH TILLDELAR POÄNG
+             */
+            if(i < questionsAskedPerRound){
+                if(testing <= 5){
+                    rutaList.get(i).setBackground(Color.green);
+                    playerOneScore++;
+                }
+                else
+                    rutaList.get(i).setBackground(Color.red);
+            }
+            else{
+                if(testing <= 5){
+                    rutaList.get(i).setBackground(Color.green);
+                    playerTwoScore++;
+                }
+                else
+                    rutaList.get(i).setBackground(Color.red);
+            }
+        }
+//        if (!(playerOneScore == 0 && playerTwoScore == 0)){
+//            category.setText(categoryTitle);
+//        }
 
         score.setText(" " + playerOneScore + " - " + playerTwoScore + " ");
 
@@ -147,5 +188,21 @@ public class ResultPanel extends JFrame {
 
     public static void main(String[] args) {
         ResultPanel rp = new ResultPanel();
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == button){
+            //Om man klickar på Nytt spel-knappen
+            if (e.getSource() == button) {
+                for (int i = 1; i <= amountOfRounds ; i++) {
+                    newRound("TITLE");
+                }
+                button.setEnabled(false);
+                button.setText("Tom knapp");
+
+            }
+        }
     }
 }

@@ -11,33 +11,37 @@ import java.util.Random;
  * Project: JavaQuizkampen
  */
 public class ResultPanel extends JFrame {
-    String playerOne = "Player one";
-    String playerTwo = "Player two";
+    String namePlayerOne = "Player one";
+    String namePlayerTwo = "Player two";
 
     int playerOneScore = 0;
     int playerTwoScore = 0;
-    int amountOfRounds =  10;
-    int questionsAskedPerRound = 6;
+    int amountOfRounds =  6;
+    int questionsAskedPerRound = 3;
 
     String[] categoryList = {"Sport & Fritid", "Djur & Natur", "Jorden runt", "Data- & tvspel"};
 
-    JLabel namePlayerOne = new JLabel(playerOne);
-    JLabel namePlayerTwo = new JLabel(playerTwo);
+    JLabel labelPlayerOne = new JLabel(namePlayerOne);
+    JLabel labelPlayerTwo = new JLabel(namePlayerTwo);
     JLabel score = new JLabel("", SwingConstants.CENTER);
+
+    JLabel text = new JLabel("HÄR SKA VINNAREN STÅ", SwingConstants.CENTER);
+    JButton button = new JButton("EN KNAPP");
+
 
     JPanel backgroundPanel = new JPanel(new GridLayout(0,1));
 
     ResultPanel(){
-        namePlayerOne.setFont(new Font("", Font.BOLD, 18));
-        namePlayerTwo.setFont(new Font("", Font.BOLD, 18));
+        labelPlayerOne.setFont(new Font("", Font.BOLD, 18));
+        labelPlayerTwo.setFont(new Font("", Font.BOLD, 18));
 
         JPanel topPanel = new JPanel(new BorderLayout());
 
         add(backgroundPanel);
         backgroundPanel.add(topPanel, 0, 0);
-        topPanel.add(namePlayerOne, BorderLayout.WEST);
+        topPanel.add(labelPlayerOne, BorderLayout.WEST);
         topPanel.add(score, BorderLayout.CENTER);
-        topPanel.add(namePlayerTwo, BorderLayout.EAST);
+        topPanel.add(labelPlayerTwo, BorderLayout.EAST);
 
         /*
                 SÄTTER KATEGORIN FRÅN ARRAY OCH SÄTTER NUMMER TILL RONDEN
@@ -47,6 +51,9 @@ public class ResultPanel extends JFrame {
             int y = r.nextInt(4);
             newRound(i, categoryList[y]);
         }
+
+        backgroundPanel.add(text);
+        backgroundPanel.add(button);
 
         //setResizable(false);
         setVisible(true);
@@ -126,6 +133,14 @@ public class ResultPanel extends JFrame {
         roundBoardPanel.add(rightPanel);
 
         score.setText(" " + playerOneScore + " - " + playerTwoScore + " ");
+
+        if(playerOneScore > playerTwoScore)
+            text.setText(namePlayerOne + " vinner spelet!");
+        else if(playerTwoScore > playerOneScore)
+            text.setText(namePlayerTwo + " vinner spelet!");
+        else
+            text.setText("Det blev oavgjort!");
+
     }
 
     public static void main(String[] args) {

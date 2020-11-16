@@ -35,12 +35,6 @@ public class Panel extends JFrame {
                     score++;
                     gamePanel.setGameResult(score);
                 }
-                else if(text.equalsIgnoreCase("27")){
-                    GamePanel ny = new GamePanel("Torsen");
-                    revalidate();
-                    add(ny.getGamePanel());
-                    repaint();
-                }
             }
         };
         for(int i = 0; i < 4; i++){

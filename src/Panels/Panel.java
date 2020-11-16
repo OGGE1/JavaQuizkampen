@@ -1,6 +1,8 @@
 package Panels;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Oscar Norman <br>
@@ -10,9 +12,40 @@ import javax.swing.*;
  */
 public class Panel extends JFrame {
 
-    public Panel(){
-        GamePanel game = new GamePanel();
-        add(game.getGamePanel());
+    int score = 0;
+
+    public Panel(String name){
+        GamePanel gamePanel = new GamePanel(name);
+
+        gamePanel.setRoundNr(3);
+        gamePanel.setCategory("Sport och fritid");
+        gamePanel.setQuestion("Vad hade NHL spelaren Peter Forsberg för tröjnummer?");
+        gamePanel.getGameButtons().get(0).setText("21");
+        gamePanel.getGameButtons().get(1).setText("27");
+        gamePanel.getGameButtons().get(2).setText("12");
+        gamePanel.getGameButtons().get(3).setText("72");
+
+        add(gamePanel.getGamePanel());
+
+        ActionListener answer = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = e.getActionCommand();
+                if(text.equalsIgnoreCase("21")){
+                    score++;
+                    gamePanel.setGameResult(score);
+                }
+                else if(text.equalsIgnoreCase("27")){
+                    GamePanel ny = new GamePanel("Torsen");
+                    revalidate();
+                    add(ny.getGamePanel());
+                    repaint();
+                }
+            }
+        };
+        for(int i = 0; i < 4; i++){
+            gamePanel.getGameButtons().get(i).addActionListener(answer);
+        }
 
         setResizable(false);
         setVisible(true);
@@ -21,6 +54,7 @@ public class Panel extends JFrame {
     }
 
     public static void main(String[] args) {
-        Panel start = new Panel();
+        String name = "Nicke Boi";
+        Panel start = new Panel(name);
     }
 }

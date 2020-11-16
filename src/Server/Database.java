@@ -1,13 +1,10 @@
 package Server;
 
-import javax.xml.crypto.Data;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by Tomas Dahlander <br>
@@ -71,11 +68,11 @@ public class Database {
         }
         System.out.println();
 
-        for(int i = 0; i < d.category0.size(); i++){
-            System.out.println(d.category0.get(i).getQuestion());
-            System.out.println(d.category0.get(i).getCorrectAnswer());
+        for(int i = 0; i < d.getQA_List(0).size(); i++){
+            System.out.println(d.getQA_List(0).get(i).getQuestion());
+            System.out.println(d.getQA_List(0).get(i).getCorrectAnswer());
             for (int j = 0; j < 4; j++){
-                System.out.println(d.category0.get(i).getOptions()[j]);
+                System.out.println(d.getQA_List(0).get(i).getOptions()[j]);
             }
         }
 

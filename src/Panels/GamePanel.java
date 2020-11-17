@@ -12,9 +12,7 @@ import java.util.List;
  * Time: 15:34 <br>
  * Project: JavaQuizkampen <br>
  */
-public class GamePanel {
-
-    private JPanel groundPanel = new JPanel();
+public class GamePanel extends JPanel {
 
     private JPanel centerPanel = new JPanel();
     private JPanel questionPanel = new JPanel();
@@ -32,11 +30,11 @@ public class GamePanel {
 
     public GamePanel(String clientName){
         this.name.setText(clientName);
-        groundPanel.setLayout(new BorderLayout());
-        groundPanel.setPreferredSize(new Dimension(300,500));
+        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(300,500));
 
         centerPanel.setLayout(new GridLayout(2,1));
-        groundPanel.add(centerPanel,BorderLayout.CENTER);
+        add(centerPanel,BorderLayout.CENTER);
 
         questionPanel.setLayout(new BorderLayout());
         centerPanel.add(questionPanel);
@@ -79,11 +77,7 @@ public class GamePanel {
         name.setForeground(Color.WHITE);
         name.setPreferredSize(new Dimension(110,20));
         topPanel.add(name);
-        groundPanel.add(topPanel,BorderLayout.NORTH);
-    }
-
-    public JPanel getGamePanel(){
-        return groundPanel;
+        add(topPanel,BorderLayout.NORTH);
     }
 
     public List<JButton> getGameButtons(){

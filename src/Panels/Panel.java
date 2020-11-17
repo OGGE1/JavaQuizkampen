@@ -25,7 +25,7 @@ public class Panel extends JFrame {
         gamePanel.getGameButtons().get(2).setText("12");
         gamePanel.getGameButtons().get(3).setText("72");
 
-        add(gamePanel.getGamePanel());
+        add(gamePanel);
 
         ActionListener answer = new ActionListener() {
             @Override

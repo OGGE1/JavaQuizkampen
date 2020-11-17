@@ -43,7 +43,7 @@ public class Connection extends Thread implements Serializable {
 
             while ((fromClient = objectIn.readObject()) != null) {
                 for (var e : clientList.getObjectOut()){
-                    e.writeObject(new JButton("Hej"));
+                    e.writeObject(fromClient);
                 }
             }
 

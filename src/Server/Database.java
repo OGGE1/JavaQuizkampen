@@ -14,15 +14,15 @@ import java.util.List;
  */
 public class Database {
 
-    private String[]categories = {"Sport och Fritid","Jorden runt","Djur och Natur","Data & TV-spel"};
+    private final String[]categories = {"Djur och Natur","Sport och Fritid","Jorden runt","Data & TV-spel"};
 
-    List<QA> category0 = new ArrayList<>();
-    List<QA> category1 = new ArrayList<>();
-    List<QA> category2 = new ArrayList<>();
-    List<QA> category3 = new ArrayList<>();
+    List<QA> category0 = new ArrayList<>(); // Djur och Natur
+    List<QA> category1 = new ArrayList<>(); // Sport och Fritid
+    List<QA> category2 = new ArrayList<>(); // Jorden Runt
+    List<QA> category3 = new ArrayList<>(); // Data & TV-spel
 
     public Database(){
-        loadData(0,"Sport och Fritid.txt");
+        loadData(1,"Sport och Fritid.txt");
     }
 
     public void loadData(int categoryIndex, String fileName){
@@ -31,19 +31,17 @@ public class Database {
 
             while((question = in.readLine()) != null){
                 String correctAnswer = in.readLine();
-                String option0 = in.readLine();
-                String option1 = in.readLine();
-                String option2 = in.readLine();
-                String option3 = in.readLine();
-                String[]optionsArray = {option0,option1,option2,option3};
+                String[]optionsArray = new String[4];
+
+                for(int i = 0; i < 4; i++){
+                    optionsArray[i] = in.readLine();
+                }
 
                 if(categoryIndex == 0) category0.add(new QA(question,correctAnswer,optionsArray));
                 else if(categoryIndex == 1) category1.add(new QA(question,correctAnswer,optionsArray));
                 else if(categoryIndex == 2) category2.add(new QA(question,correctAnswer,optionsArray));
                 else category3.add(new QA(question,correctAnswer,optionsArray));
-
             }
-
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -68,11 +66,11 @@ public class Database {
         }
         System.out.println();
 
-        for(int i = 0; i < d.getQA_List(0).size(); i++){
-            System.out.println(d.getQA_List(0).get(i).getQuestion());
-            System.out.println(d.getQA_List(0).get(i).getCorrectAnswer());
+        for(int i = 0; i < d.getQA_List(1).size(); i++){
+            System.out.println(d.getQA_List(1).get(i).getQuestion());
+            System.out.println(d.getQA_List(1).get(i).getCorrectAnswer());
             for (int j = 0; j < 4; j++){
-                System.out.println(d.getQA_List(0).get(i).getOptions()[j]);
+                System.out.println(d.getQA_List(1).get(i).getOptions()[j]);
             }
         }
 

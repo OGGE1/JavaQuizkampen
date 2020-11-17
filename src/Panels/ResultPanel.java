@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Created by Hanna Edlund
@@ -15,24 +16,27 @@ import java.util.Random;
  * Project: JavaQuizkampen
  */
 public class ResultPanel extends JFrame implements ActionListener{
+    //TODO: Denna information ska importeras från uppstarten av programmet
     String namePlayerOne = "Player one";
     String namePlayerTwo = "Player two";
-
-    int playerOneScore = 0;
-    int playerTwoScore = 0;
 
     //TODO: Denna information ska importeras från en Properties-fil
     int amountOfRounds =  6;
     int questionsAskedPerRound = 3;
 
+    //TODO: Denna ska bort och ersättas med att importeras från val av kategori
     String[] categoryList = {"Sport & Fritid", "Djur & Natur", "Jorden runt", "Data- & tvspel"};
+
+    int playerOneScore = 0;
+    int playerTwoScore = 0;
 
     JLabel labelPlayerOne = new JLabel(namePlayerOne);
     JLabel labelPlayerTwo = new JLabel(namePlayerTwo);
     JLabel score = new JLabel(" " + playerOneScore + " - " + playerTwoScore + " ", SwingConstants.CENTER);
-
     JLabel text = new JLabel("HÄR SKA VINNAREN STÅ", SwingConstants.CENTER);
+
     JButton button = new JButton("EN KNAPP");
+
     JPanel backgroundPanel = new JPanel(new GridLayout(0,1));
 
     List<Round> roundList = new ArrayList<>();
@@ -52,16 +56,7 @@ public class ResultPanel extends JFrame implements ActionListener{
         topPanel.add(score, BorderLayout.CENTER);
         topPanel.add(labelPlayerTwo, BorderLayout.EAST);
 
-        /*
-                SKAPAR UPP BOARDEN
-         */
-
-        for (int i = 0; i < amountOfRounds; i++) {
-            Round runda = new Round(questionsAskedPerRound);
-            roundList.add(runda);
-            runda.setRondNr(i+1);
-            backgroundPanel.add(roundList.get(i).getRoundPanel());
-        }
+        createBlankBoard();
 
         // TEST STARTA NYTT SPEL NÄR MAN KLICKAR PÅ KNAPP
         button.setText("Starta spelet");
@@ -70,18 +65,20 @@ public class ResultPanel extends JFrame implements ActionListener{
         backgroundPanel.add(text);
         backgroundPanel.add(button);
 
-//        if(text.getText().contains("spelet!"))
-//            button.setText("Nytt spel");
-//        else
-//            button.setText("Väntar...");
-
-//        button.setText("Starta runda");
-
         setResizable(false);
         setVisible(true);
         setSize(300,500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public void createBlankBoard(){
+        for (int i = 0; i < amountOfRounds; i++) {
+            Round runda = new Round(questionsAskedPerRound);
+            roundList.add(runda);
+            runda.setRondNr(i+1);
+            backgroundPanel.add(roundList.get(i).getRoundPanel());
+        }
     }
 
     public void newRound(String categoryTitle, int rondNr){
@@ -113,7 +110,6 @@ public class ResultPanel extends JFrame implements ActionListener{
                     roundList.get(rondNr).getRuta(i).setBackground(Color.red);
             }
         }
-
         score.setText(" " + playerOneScore + " - " + playerTwoScore + " ");
     }
 
@@ -130,23 +126,28 @@ public class ResultPanel extends JFrame implements ActionListener{
         ResultPanel rp = new ResultPanel();
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == button){
+        if (e.getSource() == button) {
             //Om man klickar på Nytt spel-knappen
-            if (e.getSource() == button) {
-                for (int i = 0; i < amountOfRounds ; i++) {
-                    Random r = new Random();
-                    int testing = r.nextInt(categoryList.length);
-                    newRound(categoryList[testing], i);
 
-                    if(i == amountOfRounds-1)
-                        countTheScore();
+            for (int i = 0; i < 3; i++) {
+                Random r = new Random();
+                int testing = r.nextInt(categoryList.length);
+                newRound(categoryList[testing], i);
+
+                if (i == amountOfRounds - 1) {
+                    countTheScore();
+                    button.setText("Nytt spel");
+                    button.setEnabled(false);
+                    text.setVisible(true);
                 }
-                button.setEnabled(false);
-                button.setText("Tom knapp");
 
+                if (i != amountOfRounds - 1) {
+                    button.setText("Nästa rond");
+                    button.setEnabled(true);
+                    text.setVisible(false);
+                }
             }
         }
     }

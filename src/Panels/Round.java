@@ -13,14 +13,18 @@ import java.util.List;
  */
 public class Round {
     JLabel rond = new JLabel("ROND", SwingConstants.CENTER);
-    JPanel roundBoardPanel = new JPanel(new GridLayout(0,3));
-    List<JTextArea> rutaList = new ArrayList<>();
-    JTextArea ruta;
     JLabel category;
+
+    JPanel roundBoardPanel = new JPanel(new GridLayout(0,3));
+
+    List<JTextArea> rutaList = new ArrayList<>();
+
+    JTextArea ruta;
 
     public Round(int questionsAskedPerRound){
         category = new JLabel("", SwingConstants.CENTER);
         category.setFont(new Font("", Font.BOLD, 12));
+        rond.setFont(new Font("", Font.BOLD, 12));
 
         JPanel leftPanel = new JPanel(new BorderLayout());
         JPanel leftColumn = new JPanel(new GridLayout(0, questionsAskedPerRound));
@@ -63,16 +67,12 @@ public class Round {
 
         rightPanel.add(rightColumn, BorderLayout.EAST);
 
-
         roundBoardPanel.add(leftPanel);
         roundBoardPanel.add(centerPanel);
         roundBoardPanel.add(rightPanel);
     }
 
     public void setRondNr(int rondNr){
-
-        rond.setFont(new Font("", Font.BOLD, 12));
-
         rond.setText("ROND " + rondNr);
     }
 

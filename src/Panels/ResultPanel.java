@@ -85,16 +85,18 @@ public class ResultPanel extends JFrame implements ActionListener{
         roundList.get(rondNr).setCategory(categoryTitle);
 
         for (int i = 0; i < (questionsAskedPerRound*2); i++) {
-
             //TODO: Byt ut mot en boolean, true = rättsvar = grönt, false = felsvar = rött
             Random r = new Random();
             int testing = r.nextInt(11);
+            boolean bool = false;
+            if(testing <= 5)
+                bool = true;
 
             /*
                 SÄTTER FÄRGEN PÅ BOXEN BEROENDE PÅ SVARET OCH TILLDELAR POÄNG
              */
             if(i < questionsAskedPerRound){
-                if(testing <= 5){
+                if(bool == true){
                     roundList.get(rondNr).getRuta(i).setBackground(Color.green);
                     playerOneScore++;
                 }
@@ -102,7 +104,7 @@ public class ResultPanel extends JFrame implements ActionListener{
                     roundList.get(rondNr).getRuta(i).setBackground(Color.red);
             }
             else{
-                if(testing <= 5){
+                if(bool == true){
                     roundList.get(rondNr).getRuta(i).setBackground(Color.green);
                     playerTwoScore++;
                 }
@@ -110,6 +112,8 @@ public class ResultPanel extends JFrame implements ActionListener{
                     roundList.get(rondNr).getRuta(i).setBackground(Color.red);
             }
         }
+
+        //TODO: Importera antal rätt från SPEL panelen
         score.setText(" " + playerOneScore + " - " + playerTwoScore + " ");
     }
 

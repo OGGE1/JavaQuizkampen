@@ -4,10 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -23,6 +20,8 @@ public class ResultPanel extends JFrame implements ActionListener{
 
     int playerOneScore = 0;
     int playerTwoScore = 0;
+
+    //TODO: Denna information ska importeras från en Properties-fil
     int amountOfRounds =  6;
     int questionsAskedPerRound = 3;
 
@@ -34,11 +33,10 @@ public class ResultPanel extends JFrame implements ActionListener{
 
     JLabel text = new JLabel("HÄR SKA VINNAREN STÅ", SwingConstants.CENTER);
     JButton button = new JButton("EN KNAPP");
-
     JPanel backgroundPanel = new JPanel(new GridLayout(0,1));
 
-    List<JTextArea> rutaList = new ArrayList<>();
-
+    List<Round> roundList = new ArrayList<>();
+    
     ResultPanel(){
         labelPlayerOne.setFont(new Font("", Font.BOLD, 18));
         labelPlayerTwo.setFont(new Font("", Font.BOLD, 18));
@@ -57,14 +55,17 @@ public class ResultPanel extends JFrame implements ActionListener{
         /*
                 SKAPAR UPP BOARDEN
          */
-        for (int i = 1; i <= amountOfRounds ; i++) {
-            createBoard(i);
+
+        for (int i = 0; i < amountOfRounds; i++) {
+            Round runda = new Round(questionsAskedPerRound);
+            roundList.add(runda);
+            runda.setRondNr(i+1);
+            backgroundPanel.add(roundList.get(i).getRoundPanel());
         }
 
         // TEST STARTA NYTT SPEL NÄR MAN KLICKAR PÅ KNAPP
         button.setText("Starta spelet");
         button.addActionListener(this);
-
 
         backgroundPanel.add(text);
         backgroundPanel.add(button);
@@ -83,71 +84,12 @@ public class ResultPanel extends JFrame implements ActionListener{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public void createBoard(int rondNr){
-        JLabel rond = new JLabel("ROND", SwingConstants.CENTER);
-        rond.setFont(new Font("", Font.BOLD, 12));
-        JLabel category = new JLabel("", SwingConstants.CENTER);
-        category.setFont(new Font("", Font.BOLD, 12));
+    public void newRound(String categoryTitle, int rondNr){
+        roundList.get(rondNr).setCategory(categoryTitle);
 
-        rond.setText("ROND " + rondNr);
-        category.setText("En kategori");
-
-        JPanel roundBoardPanel = new JPanel(new GridLayout(0,3));
-
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        JPanel leftColumn = new JPanel(new GridLayout(0, questionsAskedPerRound));
-
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        JPanel centerColumn = new JPanel(new GridLayout(2,0));
-
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        JPanel rightColumn = new JPanel(new GridLayout(0, questionsAskedPerRound));
-
-
-        /*
-                SKAPAR UPP BOXARNA EFTER HUR MÅNGA FRÅGOR SOM SKA STÄLLAS
-         */
-        for (int i = 0; i < (questionsAskedPerRound*2); i++) {
-            JTextArea ruta = new JTextArea();
-            rutaList.add(ruta);
-            ruta.setEditable(false);
-            ruta.setPreferredSize(new Dimension((90/questionsAskedPerRound), 10));
-            ruta.setBorder(BorderFactory.createLineBorder(Color.white, 2));
-
-            /*
-                PLACERAR RUTORNA ANTINGEN TILL HÖGER ELLER VÄNSTER KOLUMN
-             */
-            if(i < questionsAskedPerRound){
-                leftColumn.add(ruta);
-                ruta.setBackground(Color.gray);;
-            }
-            else{
-                rightColumn.add(ruta);
-                ruta.setBackground(Color.gray);
-            }
-        }
-
-        leftPanel.add(leftColumn, BorderLayout.WEST);
-
-        centerPanel.add(centerColumn, BorderLayout.CENTER);
-        centerColumn.add(rond, SwingConstants.CENTER);
-        centerColumn.add(category);
-
-        rightPanel.add(rightColumn, BorderLayout.EAST);
-
-        backgroundPanel.add(roundBoardPanel);
-        roundBoardPanel.add(leftPanel);
-        roundBoardPanel.add(centerPanel);
-        roundBoardPanel.add(rightPanel);
-
-    }
-
-    public void newRound(String categoryTitle){
-        /*
-                SKAPAR UPP BOXARNA EFTER HUR MÅNGA FRÅGOR SOM SKA STÄLLAS
-         */
         for (int i = 0; i < (questionsAskedPerRound*2); i++) {
 
+            //TODO: Byt ut mot en boolean, true = rättsvar = grönt, false = felsvar = rött
             Random r = new Random();
             int testing = r.nextInt(11);
 
@@ -156,34 +98,32 @@ public class ResultPanel extends JFrame implements ActionListener{
              */
             if(i < questionsAskedPerRound){
                 if(testing <= 5){
-                    rutaList.get(i).setBackground(Color.green);
+                    roundList.get(rondNr).getRuta(i).setBackground(Color.green);
                     playerOneScore++;
                 }
                 else
-                    rutaList.get(i).setBackground(Color.red);
+                    roundList.get(rondNr).getRuta(i).setBackground(Color.red);
             }
             else{
                 if(testing <= 5){
-                    rutaList.get(i).setBackground(Color.green);
+                    roundList.get(rondNr).getRuta(i).setBackground(Color.green);
                     playerTwoScore++;
                 }
                 else
-                    rutaList.get(i).setBackground(Color.red);
+                    roundList.get(rondNr).getRuta(i).setBackground(Color.red);
             }
         }
-//        if (!(playerOneScore == 0 && playerTwoScore == 0)){
-//            category.setText(categoryTitle);
-//        }
 
         score.setText(" " + playerOneScore + " - " + playerTwoScore + " ");
+    }
 
+    public void countTheScore(){
         if(playerOneScore > playerTwoScore)
             text.setText(namePlayerOne + " vinner spelet!");
         else if(playerTwoScore > playerOneScore)
             text.setText(namePlayerTwo + " vinner spelet!");
         else
             text.setText("Det blev oavgjort!");
-
     }
 
     public static void main(String[] args) {
@@ -196,8 +136,13 @@ public class ResultPanel extends JFrame implements ActionListener{
         if(e.getSource() == button){
             //Om man klickar på Nytt spel-knappen
             if (e.getSource() == button) {
-                for (int i = 1; i <= amountOfRounds ; i++) {
-                    newRound("TITLE");
+                for (int i = 0; i < amountOfRounds ; i++) {
+                    Random r = new Random();
+                    int testing = r.nextInt(categoryList.length);
+                    newRound(categoryList[testing], i);
+
+                    if(i == amountOfRounds-1)
+                        countTheScore();
                 }
                 button.setEnabled(false);
                 button.setText("Tom knapp");

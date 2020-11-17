@@ -1,5 +1,6 @@
 package Server;
 
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -11,16 +12,18 @@ import java.net.Socket;
  * Time: 14:03   <br>
  * Project: JavaQuizkampen <br>
  */
-public class Server {
+public class ServerListener {
+
+    private static ClientList clientList = new ClientList();
 
     public static void main(String[] args) throws Exception {
-        ServerSocket serverSocket = new ServerSocket(8818);
+        int port = 27015;
+        ServerSocket serverSocket = new ServerSocket(port);
+        System.out.println("Server running...");
 
         while (true) {
             try {
-                Socket clientSocket = serverSocket.accept();
-                new Connection(clientSocket).start();
-
+                new Connection(serverSocket.accept(), clientList).start();
             } catch (Exception e) {
                 e.printStackTrace();
             }

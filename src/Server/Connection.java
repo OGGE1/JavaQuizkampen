@@ -13,12 +13,16 @@ import java.util.Dictionary;
  * Time: 09:27   <br>
  * Project: JavaQuizkampen <br>
  */
-public class Connection extends Thread {
+public class Connection extends Thread implements Serializable {
 
-    private final Socket clientSocket;
+    ClientList clientList;
+    Socket clientSocket;
+    ObjectOutputStream objectOut;
+    ObjectInputStream objectIn;
 
-    public Connection(Socket clientSocket) {
+    public Connection(Socket clientSocket, ClientList clientList) {
         this.clientSocket = clientSocket;
+        this.clientList = clientList;
     }
 
     @Override
@@ -29,12 +33,21 @@ public class Connection extends Thread {
 
     public void testConnection() {
         try {
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            objectOut = new ObjectOutputStream(clientSocket.getOutputStream());
+            objectIn = new ObjectInputStream(clientSocket.getInputStream());
 
-            for (int i = 0; i <= 3; i++) {
-                out.println(i);
-                Thread.sleep(500);
+            clientList.addObjectOutPutStream(objectOut);
+
+            objectOut.writeObject(new Initiator());
+            Object fromClient;
+
+            while ((fromClient = objectIn.readObject()) != null) {
+                for (var e : clientList.getObjectOut()){
+                    e.writeObject(new JButton("Hej"));
+                }
             }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();

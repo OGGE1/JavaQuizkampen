@@ -1,5 +1,6 @@
 package Server;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  * Created by Oscar Norman <br>
@@ -9,8 +10,6 @@ import java.net.ServerSocket;
  */
 public class ServerListener {
 
-    private static ClientList clientList = new ClientList();
-
     public static void main(String[] args) throws Exception {
         int port = 27015;
         ServerSocket serverSocket = new ServerSocket(port);
@@ -18,7 +17,12 @@ public class ServerListener {
 
         while (true) {
             try {
-                new Connection(serverSocket.accept(), clientList).start();
+                Socket p1 = serverSocket.accept();
+                Socket p2 = serverSocket.accept();
+
+                ClientHandler ch = new ClientHandler(p1, p2);
+                ch.start();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

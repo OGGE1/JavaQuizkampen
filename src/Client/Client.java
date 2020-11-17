@@ -1,7 +1,6 @@
 package Client;
 
 import Server.Initiator;
-import Server.Response;
 
 import static Client.Utility.*;
 import javax.swing.*;
@@ -18,24 +17,39 @@ import java.net.Socket;
  * Project: JavaQuizkampen <br>
  */
 public class Client extends JFrame implements Serializable {
-
-
+    InetAddress address = InetAddress.getLoopbackAddress();
     int port = 27015;
-
 
     public Client() {
 
         try {
             Socket clientSocket = new Socket(address, port);
+            ObjectOutputStream objectOut = new ObjectOutputStream(clientSocket.getOutputStream());
+            ObjectInputStream objectIn = new ObjectInputStream(clientSocket.getInputStream());
 
             Object fromServer;
-            String fromClient;
+            String message;
+            BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
 
+            while (true) {
+                while ((fromServer = objectIn.readObject()) != null) {
+                    if (fromServer instanceof Initiator) {
+                        System.out.println("connected");
+                    }
+
+                    message = stdin.readLine();
+                    if (message != null) {
+                        objectOut.writeObject(message);
+                    }
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
+    public static void main(String[] args) {
+        new Client();
+    }
 }
 

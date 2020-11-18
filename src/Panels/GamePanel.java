@@ -28,10 +28,9 @@ public class GamePanel extends JPanel {
 
     private List<JButton> buttons = new ArrayList<>();
 
-    public GamePanel(String clientName){
-        this.name.setText(clientName);
+    public GamePanel(){
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(300,500));
+        setPreferredSize(new Dimension(280,460));
 
         centerPanel.setLayout(new GridLayout(2,1));
         add(centerPanel,BorderLayout.CENTER);

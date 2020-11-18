@@ -22,9 +22,9 @@ import static java.awt.BorderLayout.CENTER;
 public class Client extends JFrame implements Runnable {
 
     private final String host;
-    private Scanner input; // input from server
-    private Formatter output; // output to server
-    private Socket connection; // connection to server
+    private Scanner input; // input från server
+    private Formatter output; // output till server
+    private Socket connection; // connection till server
 
     private LobbyScreen lobbyScreen;
     private CategoryScreen categoryScreen;
@@ -73,7 +73,7 @@ public class Client extends JFrame implements Runnable {
             ioException.printStackTrace();
         }
 
-        // create and start worker thread for this client
+        // skapar och startar en arbetartråd för den här klienten
         ExecutorService worker = Executors.newFixedThreadPool( 1 );
         worker.execute( this );
     }
@@ -83,9 +83,11 @@ public class Client extends JFrame implements Runnable {
         while (true) {
             if (input.hasNextLine()) {
                 String fromServer = input.nextLine();
-                System.out.println("Received: " + fromServer + " from server");
+                System.out.println("Received: \"" + fromServer + "\" from server");
+
+                // Temporär start-signal. Vi behöver hitta en bättre lösning för det här.
                 if (fromServer.startsWith("Player")) {
-                    lobbyScreen.setButtonEnabled(true);
+                    startGame();
                 } else {
                     lobbyScreen.setMessage(fromServer);
                 }
@@ -93,8 +95,9 @@ public class Client extends JFrame implements Runnable {
         }
     }
 
-    private void showCategoriesPage() {
-
+    private void startGame() {
+        // TEMPORÄRT
+        lobbyScreen.setButtonEnabled(true);
     }
 
     public static void main(String[] args) {

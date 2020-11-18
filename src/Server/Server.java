@@ -34,16 +34,16 @@ public class Server extends JFrame {
     private final Condition otherPlayerTurn;
 
     public Server() {
-        super("Quizkampen server"); // set title of window
+        super("Quizkampen server"); // titel för fönster
 
-        // create ExecutorService with a thread for each player
+        // skapar ExecutorService med en tråd för varje spelare
         runGame = Executors.newFixedThreadPool(2);
-        gameLock = new ReentrantLock(); // create lock for game
+        gameLock = new ReentrantLock(); // skapa trådlås för spelet
 
-        // condition variable for both players being connected
+        // villkor för att båda spelarna ska vara uppkopplade
         otherPlayerConnected = gameLock.newCondition();
 
-        // condition variable for the other player's turn
+        // villkor för motståndarens tur i spelet
         otherPlayerTurn = gameLock.newCondition();
 
         players = new Player[2];
@@ -65,16 +65,16 @@ public class Server extends JFrame {
         setVisible(true);
     }
 
-    // wait for two connections so game can be played
+    // väntar på två anslutningar så att spelet kan köras
     public void execute() {
         waitForPlayers();
-        gameLock.lock(); // lock game to signal player 1's thread
+        gameLock.lock(); // lås-signal till spelare 1s tråd
 
         try {
-            players[PLAYER_1].setSuspended(false); // resume player 1
-            otherPlayerConnected.signal(); // wake up player 1's thread
+            players[PLAYER_1].setSuspended(false); // återuppta spelare 1
+            otherPlayerConnected.signal(); // sänd signal till spelare 1 att den kan fortsätta exekvering
         } finally {
-            gameLock.unlock(); // unlock game after signalling player 1
+            gameLock.unlock(); // låser upp spelet när spelare 1 får signal om motståndare
         }
     }
 
@@ -82,8 +82,8 @@ public class Server extends JFrame {
         for (int i = 0; i < players.length; i++) {
             try {
                 players[i] = new Player(server.accept(), i);
-                System.out.println("New player connected");
-                runGame.execute(players[i]); // execute player runnable
+                System.out.println("Player " + i+1 + " connected");
+                runGame.execute(players[i]); // starta spelartråden
             }
             catch (IOException ioException) {
                 ioException.printStackTrace();
@@ -95,7 +95,8 @@ public class Server extends JFrame {
     // display message in outputArea
     private void displayMessage(final String messageToDisplay) {
         // display message from event-dispatch thread of execution
-        // updates outputArea
+        // visar meddelande från
+        // uppdaterar "outputArea"
         SwingUtilities.invokeLater(() -> { outputArea.append(messageToDisplay); });
     }
 
@@ -114,6 +115,7 @@ public class Server extends JFrame {
     }
 
     // private inner class Player manages each Player as a runnable
+    // Privat inre klass som hanterar varje spelare som "körbar"
     private class Player implements Runnable {
         private final Socket connection;
         private Scanner input;
@@ -138,15 +140,15 @@ public class Server extends JFrame {
         public void run() {
             try {
                 displayMessage("Player " + playerNumber + " connected\n");
-                output.format("%s\n", playerNumber); // send player's mark
+                output.format("%s\n", playerNumber); // skickar spelares "märkning"
                 output.flush(); // flush output
 
-                // if player 1, wait for another player to arrive
+                // Om spelare 1 väntar på en motståndare
                 if (playerNumber == PLAYER_1) {
                     output.format("%s\n", "Waiting for another player");
                     output.flush();
 
-                    gameLock.lock(); // lock game to  wait for second player
+                    gameLock.lock(); // "låser" spelet i väntan på spelare nr. 2 (motståndare)
 
                     try {
                         while (suspended) {
@@ -167,9 +169,9 @@ public class Server extends JFrame {
                         answer = input.nextInt();
 
                     if (isAnswerCorrect(answer)) {
-                        // Mark as correct answer
+                        // Markera korrekt svar
                     } else {
-                        // Mark as wrong answer
+                        // Markera om svaret är felaktigt
                     }
                 }
             } finally {
@@ -190,7 +192,6 @@ public class Server extends JFrame {
             output.flush();
         }
 
-        // set whether or not thread is suspended
         public void setSuspended(boolean status) {
             suspended = status;
         }

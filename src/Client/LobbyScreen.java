@@ -1,4 +1,4 @@
-package UserInterface;
+package Client;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
  */
 public class LobbyScreen {
 
+    private JButton startNewGame;
+    private JLabel messageLabel;
     private ActionListener newGameListener;
 
     public LobbyScreen(ActionListener newGameListener) {
@@ -22,14 +24,33 @@ public class LobbyScreen {
     public void setupLobby(JPanel controlPanel) {
         controlPanel.setLayout(new BorderLayout());
         controlPanel.setOpaque(false);
+        createMessageLabel(controlPanel);
         createButton(controlPanel);
+    }
+
+    public void setMessage(String message) {
+        messageLabel.setText(message);
+    }
+
+    private void createMessageLabel(JPanel container) {
+        messageLabel = new JLabel();
+        messageLabel.setOpaque(false);
+        messageLabel.setHorizontalAlignment(SwingConstants.HORIZONTAL);
+        Font titleFont = new Font("Andale Mono", Font.BOLD, 16);
+        messageLabel.setFont(titleFont);
+        container.add(messageLabel, BorderLayout.CENTER);
+    }
+
+    public void setButtonEnabled(boolean enabled) {
+        startNewGame.setEnabled(enabled);
     }
 
     private void createButton(JPanel container) {
         JPanel buttonPanel = new JPanel();
 
-        JButton startNewGame = new JButton(new ImageIcon("resources/lobbybutton.png"));
+        startNewGame = new JButton(new ImageIcon("resources/lobbybutton.png"));
         startNewGame.setOpaque(false);
+        startNewGame.setEnabled(false);
         startNewGame.setBorderPainted(false);
         startNewGame.addActionListener(newGameListener);
 

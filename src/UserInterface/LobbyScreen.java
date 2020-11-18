@@ -11,12 +11,14 @@ import java.awt.event.ActionListener;
  * Project: JavaQuizkampen
  * Copyright: MIT
  */
-public class LobbyScreen {
+public class LobbyScreen extends JPanel {
 
-    private ActionListener newGameListener;
+    JPanel controlPanel;
+    JPanel container;
 
-    public LobbyScreen(ActionListener newGameListener) {
-        this.newGameListener = newGameListener;
+    public LobbyScreen() {
+        setupLobby(controlPanel);
+        createButton(container);
     }
 
     public void setupLobby(JPanel controlPanel) {
@@ -31,7 +33,6 @@ public class LobbyScreen {
         JButton startNewGame = new JButton(new ImageIcon("resources/lobbybutton.png"));
         startNewGame.setOpaque(false);
         startNewGame.setBorderPainted(false);
-        startNewGame.addActionListener(newGameListener);
 
         buttonPanel.add(startNewGame);
         buttonPanel.setOpaque(false);

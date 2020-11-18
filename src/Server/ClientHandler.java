@@ -1,4 +1,6 @@
 package Server;
+import Client.Utility;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -16,6 +18,9 @@ public class ClientHandler extends Thread implements Serializable {
     ObjectInputStream p1ois;
     ObjectOutputStream p2oos;
     ObjectInputStream p2ois;
+    Message message = new Message();
+    Utility util = new Utility();
+    
 
     boolean p1Turn = true;
 
@@ -35,6 +40,14 @@ public class ClientHandler extends Thread implements Serializable {
             p2ois = new ObjectInputStream(p2.getInputStream());
 
             Object obj;
+            String player1Name = (String) p1ois.readObject();
+            String player2Name = (String) p2ois.readObject();
+
+
+            p1oos.writeObject(new Message(player2Name, 1));
+            p2oos.writeObject(new Message(player1Name, 2));
+
+
 
             p1oos.writeObject(new Initiator());
             p2oos.writeObject(new Initiator());
@@ -42,8 +55,9 @@ public class ClientHandler extends Thread implements Serializable {
             while (true) {
                 while (p1Turn) {
                     while ((obj = p1ois.readObject()) != null) {
-                        System.out.println("Player one");
-                        p1oos.writeObject(new Initiator());
+                        message = (Message) obj;
+                        util.setCategory(message.getCategory());
+
                         p1Turn = false;
                         break;
                     }
@@ -51,8 +65,8 @@ public class ClientHandler extends Thread implements Serializable {
 
                 while (!p1Turn) {
                     while ((obj = p2ois.readObject()) != null) {
-                        System.out.println("Player two");
-                        p2oos.writeObject(new Initiator());
+
+
                         p1Turn = true;
                         break;
                     }

@@ -65,7 +65,7 @@ public class ResultPanel extends JPanel implements ActionListener{
         backgroundPanel.add(text);
         backgroundPanel.add(button);
 
-        this.setPreferredSize(new Dimension(280,460));
+        setPreferredSize(new Dimension(300,500));
     }
 
     public void createBlankBoard(){

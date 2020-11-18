@@ -15,7 +15,7 @@ import java.util.Scanner;
  * Time: 15:44
  * Project: JavaQuizkampen
  */
-public class ResultPanel extends JFrame implements ActionListener{
+public class ResultPanel extends JPanel implements ActionListener{
     //TODO: Denna information ska importeras från uppstarten av programmet
     String namePlayerOne = "Player one";
     String namePlayerTwo = "Player two";
@@ -65,11 +65,7 @@ public class ResultPanel extends JFrame implements ActionListener{
         backgroundPanel.add(text);
         backgroundPanel.add(button);
 
-        setResizable(false);
-        setVisible(true);
-        setSize(300,500);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setPreferredSize(new Dimension(280,460));
     }
 
     public void createBlankBoard(){
@@ -126,8 +122,8 @@ public class ResultPanel extends JFrame implements ActionListener{
             text.setText("Det blev oavgjort!");
     }
 
-    public static void main(String[] args) {
-        ResultPanel rp = new ResultPanel();
+    public JButton getButton(){
+        return button;
     }
 
     @Override

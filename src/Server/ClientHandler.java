@@ -20,7 +20,7 @@ public class ClientHandler extends Thread implements Serializable {
     ObjectInputStream p2ois;
     Message message = new Message();
     Utility util = new Utility();
-    
+
 
     boolean p1Turn = true;
 

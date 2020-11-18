@@ -79,6 +79,14 @@ public class GamePanel extends JPanel {
         add(topPanel,BorderLayout.NORTH);
     }
 
+    public void setName(String name) {
+        this.name.setText(name);
+    }
+
+    public String getName() {
+        return name.getText();
+    }
+
     public List<JButton> getGameButtons(){
         return buttons;
     }
@@ -113,6 +121,12 @@ public class GamePanel extends JPanel {
 
     public void setRoundNr(int roundNr){
         this.roundNr.setText(String.valueOf(roundNr));
+    }
+
+    public void addOneScore(){
+        int score = Integer.parseInt(result.getText());
+        score++;
+        result.setText(String.valueOf(score));
     }
 
     public static void main(String[] args) {

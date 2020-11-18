@@ -8,11 +8,11 @@ import javax.swing.*;
  * Time: 15:29   <br>
  * Project: JavaQuizkampen <br>
  */
-public class Panel extends JFrame{
+public class PanelForTestingResultPanel extends JFrame{
     ResultPanel rp = new ResultPanel();
     JPanel panel = new JPanel();
 
-    Panel(){
+    PanelForTestingResultPanel(){
         add(panel);
         panel.add(rp);
         setSize(300,500);
@@ -24,7 +24,7 @@ public class Panel extends JFrame{
 
 
     public static void main(String[] args) {
-        Panel p = new Panel();
+        PanelForTestingResultPanel p = new PanelForTestingResultPanel();
 
     }
 }

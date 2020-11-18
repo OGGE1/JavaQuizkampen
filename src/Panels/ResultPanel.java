@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  * Created by Hanna Edlund
@@ -39,7 +38,7 @@ public class ResultPanel extends JPanel implements ActionListener{
 
     JPanel backgroundPanel = new JPanel(new GridLayout(0,1));
 
-    List<Round> roundList = new ArrayList<>();
+    List<RoundResultPanel> roundResultPanelList = new ArrayList<>();
     
     ResultPanel(){
         labelPlayerOne.setFont(new Font("", Font.BOLD, 18));
@@ -70,15 +69,15 @@ public class ResultPanel extends JPanel implements ActionListener{
 
     public void createBlankBoard(){
         for (int i = 0; i < amountOfRounds; i++) {
-            Round runda = new Round(questionsAskedPerRound);
-            roundList.add(runda);
+            RoundResultPanel runda = new RoundResultPanel(questionsAskedPerRound);
+            roundResultPanelList.add(runda);
             runda.setRondNr(i+1);
-            backgroundPanel.add(roundList.get(i).getRoundPanel());
+            backgroundPanel.add(roundResultPanelList.get(i).getRoundPanel());
         }
     }
 
     public void newRound(String categoryTitle, int rondNr){
-        roundList.get(rondNr).setCategory(categoryTitle);
+        roundResultPanelList.get(rondNr).setCategory(categoryTitle);
 
         for (int i = 0; i < (questionsAskedPerRound*2); i++) {
             //TODO: Byt ut mot en boolean, true = rättsvar = grönt, false = felsvar = rött
@@ -93,19 +92,19 @@ public class ResultPanel extends JPanel implements ActionListener{
              */
             if(i < questionsAskedPerRound){
                 if(bool == true){
-                    roundList.get(rondNr).getRuta(i).setBackground(Color.green);
+                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(Color.green);
                     playerOneScore++;
                 }
                 else
-                    roundList.get(rondNr).getRuta(i).setBackground(Color.red);
+                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(Color.red);
             }
             else{
                 if(bool == true){
-                    roundList.get(rondNr).getRuta(i).setBackground(Color.green);
+                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(Color.green);
                     playerTwoScore++;
                 }
                 else
-                    roundList.get(rondNr).getRuta(i).setBackground(Color.red);
+                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(Color.red);
             }
         }
 

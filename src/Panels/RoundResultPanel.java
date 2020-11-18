@@ -11,7 +11,7 @@ import java.util.List;
  * Time: 11:19
  * Project: JavaQuizkampen
  */
-public class Round {
+public class RoundResultPanel {
     JLabel rond = new JLabel("ROND", SwingConstants.CENTER);
     JLabel category;
 
@@ -21,7 +21,7 @@ public class Round {
 
     JTextArea ruta;
 
-    public Round(int questionsAskedPerRound){
+    public RoundResultPanel(int questionsAskedPerRound){
         category = new JLabel("", SwingConstants.CENTER);
         category.setFont(new Font("", Font.BOLD, 12));
         rond.setFont(new Font("", Font.BOLD, 12));

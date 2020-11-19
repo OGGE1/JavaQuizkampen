@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Database {
 
-    private int nrOfQuestions = 3;
+    private int nrOfQuestions = 3; // Läses in från properties fil som sätter antalet frågor per runda
 
     private final String[]categories = {"Djur & natur","Sport & fritid","Jorden runt","Data- & TVspel"};
 
@@ -52,22 +52,22 @@ public class Database {
         }
     }
 
-    public List<QA> get3Questions(String category){
+    public List<QA> getQuestions(String category){
         int i;
         for(i = 0; i < 4; i++){
             if(category.equalsIgnoreCase(categories[i])) break;
         }
 
-        List<QA> list = get3Questions(i);
+        List<QA> list = getQuestions(i);
         return list;
     }
 
-    public List<QA> get3Questions(int category){
+    public List<QA> getQuestions(int categoryIndex){
         List<QA> list = new ArrayList<>();
         for(int i = 0; i < nrOfQuestions; i++){
-            if(category == 0) list.add(category0.remove(0));
-            else if(category == 1) list.add(category1.remove(0));
-            else if(category == 2) list.add(category2.remove(0));
+            if(categoryIndex == 0) list.add(category0.remove(0));
+            else if(categoryIndex == 1) list.add(category1.remove(0));
+            else if(categoryIndex == 2) list.add(category2.remove(0));
             else list.add(category3.remove(0));
         }
         return list;
@@ -97,13 +97,13 @@ public class Database {
         }
         System.out.println();
 
-        List<QA> list = d.get3Questions("Djur & natur");
+        List<QA> list = d.getQuestions("Djur & natur");
 
         for(int i = 0; i < 3; i++){
             System.out.println(list.get(i).getQuestion());
         }
 
-        list = d.get3Questions("Djur & natur");
+        list = d.getQuestions("Djur & natur");
 
         for(int i = 0; i < 3; i++){
             System.out.println(list.get(i).getQuestion());

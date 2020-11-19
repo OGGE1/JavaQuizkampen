@@ -127,7 +127,7 @@ public class GamePanel extends JPanel {
         int score = Integer.parseInt(result.getText());
         score++;
         result.setText(String.valueOf(score));
-    }
+    }   // Tillägg
 
     public static void main(String[] args) {
     }

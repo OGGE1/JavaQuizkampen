@@ -5,7 +5,6 @@ import Panels.FakeWaiting;
 import Panels.GamePanel;
 import Server.Initiator;
 import Server.Message;
-
 import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
@@ -60,7 +59,6 @@ public class Client extends JFrame implements Serializable {
                         util.setCategory(text);
                         message = new Message(text);
                         sendObject(message);
-
                 });
             }
 

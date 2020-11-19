@@ -40,6 +40,7 @@ public class ClientHandler extends Thread implements Serializable {
             p2ois = new ObjectInputStream(p2.getInputStream());
 
             Object obj;
+
             String player1Name = (String) p1ois.readObject();
             String player2Name = (String) p2ois.readObject();
 

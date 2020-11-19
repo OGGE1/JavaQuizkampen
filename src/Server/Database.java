@@ -52,6 +52,16 @@ public class Database {
         }
     }
 
+    public List<QA> get3Questions(String category){
+        int i;
+        for(i = 0; i < 4; i++){
+            if(category.equalsIgnoreCase(categories[i])) break;
+        }
+
+        List<QA> list = get3Questions(i);
+        return list;
+    }
+
     public List<QA> get3Questions(int category){
         List<QA> list = new ArrayList<>();
         for(int i = 0; i < nrOfQuestions; i++){
@@ -74,11 +84,29 @@ public class Database {
         else return category3;
     }
 
-    public static void main(String[] args) {
+
+
+
+
+
+    public static void main(String[] args) {    // För testsyften
         Database d = new Database();
 
         for(var i : d.getCategories()){
             System.out.println(i);
+        }
+        System.out.println();
+
+        List<QA> list = d.get3Questions("Djur & natur");
+
+        for(int i = 0; i < 3; i++){
+            System.out.println(list.get(i).getQuestion());
+        }
+
+        list = d.get3Questions("Djur & natur");
+
+        for(int i = 0; i < 3; i++){
+            System.out.println(list.get(i).getQuestion());
         }
 
     }

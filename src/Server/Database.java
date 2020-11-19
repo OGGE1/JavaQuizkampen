@@ -14,15 +14,20 @@ import java.util.List;
  */
 public class Database {
 
-    private final String[]categories = {"Djur och Natur","Sport och Fritid","Jorden runt","Data & TV-spel"};
+    private int nrOfQuestions = 3;
 
-    List<QA> category0 = new ArrayList<>(); // Djur och Natur
-    List<QA> category1 = new ArrayList<>(); // Sport och Fritid
-    List<QA> category2 = new ArrayList<>(); // Jorden Runt
-    List<QA> category3 = new ArrayList<>(); // Data & TV-spel
+    private final String[]categories = {"Djur & natur","Sport & fritid","Jorden runt","Data- & TVspel"};
+
+    List<QA> category0 = new ArrayList<>(); // Djur & natur.txt
+    List<QA> category1 = new ArrayList<>(); // Sport & fritid.txt
+    List<QA> category2 = new ArrayList<>(); // Jorden runt.txt
+    List<QA> category3 = new ArrayList<>(); // Data- & TVspel.txt
 
     public Database(){
-        loadData(1,"Sport och Fritid.txt");
+        loadData(0,"Djur & natur.txt");
+        loadData(1,"Sport & fritid.txt");
+        loadData(2,"Jorden runt.txt");
+        loadData(3,"Data- & TVspel.txt");
     }
 
     public void loadData(int categoryIndex, String fileName){
@@ -47,11 +52,22 @@ public class Database {
         }
     }
 
+    public List<QA> get3Questions(int category){
+        List<QA> list = new ArrayList<>();
+        for(int i = 0; i < nrOfQuestions; i++){
+            if(category == 0) list.add(category0.remove(0));
+            else if(category == 1) list.add(category1.remove(0));
+            else if(category == 2) list.add(category2.remove(0));
+            else list.add(category3.remove(0));
+        }
+        return list;
+    }
+
     public String[] getCategories(){
         return categories;
     }
 
-    public List<QA> getQA_List(int categoryIndex){
+    public List<QA> getQA_List(int categoryIndex){  // Denna metod behövs troligen inte
         if(categoryIndex == 0) return category0;
         else if(categoryIndex == 1) return category1;
         else if(categoryIndex == 3) return category2;
@@ -64,16 +80,6 @@ public class Database {
         for(var i : d.getCategories()){
             System.out.println(i);
         }
-        System.out.println();
-
-        for(int i = 0; i < d.getQA_List(1).size(); i++){
-            System.out.println(d.getQA_List(1).get(i).getQuestion());
-            System.out.println(d.getQA_List(1).get(i).getCorrectAnswer());
-            for (int j = 0; j < 4; j++){
-                System.out.println(d.getQA_List(1).get(i).getOptions()[j]);
-            }
-        }
-
 
     }
 }

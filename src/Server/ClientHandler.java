@@ -64,9 +64,9 @@ public class ClientHandler extends Thread implements Serializable {
                 while (p1Turn) {
                     while ((obj = p1ois.readObject()) != null) {
                         message = (Message) obj;
-                        Message out = p.getResponse(message);
-//                        message = p.getResponse(message);
-                        p1oos.writeObject(out);
+//                        Message out = p.getResponse(message);
+                        message = p.getResponse(message);
+                        p1oos.writeObject(message);
 
                         //p1Turn = false;
                         //break;

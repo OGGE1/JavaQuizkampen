@@ -25,7 +25,7 @@ public class GamePanel extends JPanel {
     private JLabel categoryLabel = new JLabel("Category",JLabel.CENTER);
     private JTextArea question = new JTextArea("Fråga");
     private JPanel topPanel = new JPanel();
-    private JLabel roundNr = new JLabel("1",JLabel.CENTER);
+    private JLabel roundNr = new JLabel("0",JLabel.CENTER);
     private JLabel name = new JLabel("Display of name",JLabel.RIGHT);
     private JLabel answerText = new JLabel("Antal rätt: ");
     private JLabel result = new JLabel("0");
@@ -138,7 +138,7 @@ public class GamePanel extends JPanel {
         question.setText(qa.getQuestion());
         for(int i = 0; i < 4; i++){
             buttons.get(i).setText(qa.getOptions()[i]);
+            buttons.get(i).setBackground(null);
         }
     }
-
 }

@@ -41,13 +41,13 @@ public class Protocol {
             message.setPerform("ANSWER QUESTION");
 
 
-            for (int i = 0; i < 3; i++) {
-                System.out.println(message.getQaList().get(i).getQuestion());
-                System.out.println(message.getQaList().get(i).getOptions()[0]);
-                System.out.println(message.getQaList().get(i).getOptions()[1]);
-                System.out.println(message.getQaList().get(i).getOptions()[2]);
-                System.out.println(message.getQaList().get(i).getOptions()[3]);
-            }
+//            for (int i = 0; i < 3; i++) {
+//                System.out.println(message.getQaList().get(i).getQuestion());
+//                System.out.println(message.getQaList().get(i).getOptions()[0]);
+//                System.out.println(message.getQaList().get(i).getOptions()[1]);
+//                System.out.println(message.getQaList().get(i).getOptions()[2]);
+//                System.out.println(message.getQaList().get(i).getOptions()[3]);
+//            }
 
             CURRENT_STATE = PLAYING_FIRST;
             return message;

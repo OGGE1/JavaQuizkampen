@@ -55,12 +55,10 @@ public class Database {
     }
 
     public List<QA> getQuestions(String category){
-        category +=  ".txt";
         int i;
         for(i = 0; i < 4; i++){
             if(category.equalsIgnoreCase(categories[i])) break;
         }
-
         List<QA> list = getQuestions(i);
         return list;
     }
@@ -87,30 +85,4 @@ public class Database {
         else return category3;
     }
 
-
-
-
-
-
-    public static void main(String[] args) {    // För testsyften
-        Database d = new Database();
-
-        for(var i : d.getCategories()){
-            System.out.println(i);
-        }
-        System.out.println();
-
-        List<QA> list = d.getQuestions("Djur & natur");
-
-        for(int i = 0; i < 3; i++){
-            System.out.println(list.get(i).getQuestion());
-        }
-
-        list = d.getQuestions("Djur & natur");
-
-        for(int i = 0; i < 3; i++){
-            System.out.println(list.get(i).getQuestion());
-        }
-
-    }
 }

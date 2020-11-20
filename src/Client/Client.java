@@ -8,6 +8,7 @@ import Server.Message;
 import Server.QA;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -35,8 +36,11 @@ public class Client extends JFrame implements Serializable {
     FakeWaiting fw = new FakeWaiting();
     Message message = new Message();
     Properties p = new Properties();
+    String answer = "";
+    boolean hasAnswered;
     int rounds;
     int numQuestions;
+    int currentQuestion;
 
     public Client() throws IOException {
 
@@ -92,29 +96,33 @@ public class Client extends JFrame implements Serializable {
                     }
 
                     else if (fromServer instanceof Message && ((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
+                        message = (Message)fromServer;
                         changePanel(gp);
+                        currentQuestion = 0;
                         for (var e : gp.getGameButtons()) {
                             e.addActionListener(l -> {
-
+                                answer = e.getText();
+                                if(e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())){
+                                    e.setBackground(Color.GREEN);
+                                    gp.addPoint();
+                                }
+                                else e.setBackground(Color.RED);
+                                currentQuestion++;
+                                hasAnswered = true;
                             });
                         }
 
                         gp.setCategory(message.getCategory());
-//                        String[] array = {"Hejhej", "Tja", "Funka", "Please"};
-//                        QA qa1 = new QA("Hej?", "Asdf", array);
 
-                        QA qa2 = message.getQaList().get(0);
+                        for (int i = 0; i < numQuestions; i++) {
+                            gp.setUpQuestion(message.getQaList().get(i));
+                            hasAnswered = false;
+                            while(!hasAnswered){ Thread.sleep(1);}
+                            Thread.sleep(2000);
 
-
-                        gp.setUpQuestion(qa2);
-                        //gp.setQuestion(message.getQaList().get(0).getQuestion());
-
-                        //for (int i = 0; i < numQuestions; i++) {
-
-                            //gp.setUpQuestion(message.getQaList().get(0));
-                        //}
-
-
+                            // plussa på svar boolean på lista
+                        }
+                            // Skicka till clienthanterare
 
                     }
 
@@ -133,9 +141,7 @@ public class Client extends JFrame implements Serializable {
             e.printStackTrace();
         }
         rounds = Integer.parseInt(p.getProperty("rounds", "6"));
-        System.out.println(rounds);
         numQuestions = Integer.parseInt(p.getProperty("questionsPerRound", "3"));
-        System.out.println(numQuestions);
     }
 
     public void sendObject(Object object) {

@@ -11,10 +11,10 @@ import java.util.List;
  * Project: JavaQuizkampen <br>
  */
 public class FakeCategory extends JPanel {
-    private JButton button1 = new JButton("Djur och natur");
+    private JButton button1 = new JButton("Djur & natur");
     private JButton button2 = new JButton("Jorden runt");
-    private JButton button3 = new JButton("Sport och fritid");
-    private JButton button4 = new JButton("SPEL");
+    private JButton button3 = new JButton("Sport & fritid");
+    private JButton button4 = new JButton("Data- & TVspel");
     private List<JButton> buttonList = new ArrayList<>();
 
     public FakeCategory() {

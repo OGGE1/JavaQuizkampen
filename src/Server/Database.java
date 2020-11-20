@@ -1,5 +1,7 @@
 package Server;
 
+import jdk.jfr.Category;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -53,6 +55,7 @@ public class Database {
     }
 
     public List<QA> getQuestions(String category){
+        category +=  ".txt";
         int i;
         for(i = 0; i < 4; i++){
             if(category.equalsIgnoreCase(categories[i])) break;

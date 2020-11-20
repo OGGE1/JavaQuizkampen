@@ -1,12 +1,14 @@
 package Server;
 
+import java.io.Serializable;
+
 /**
  * Created by Tomas Dahlander <br>
  * Date: 2020-11-16 <br>
  * Time: 08:44 <br>
  * Project: JavaQuizkampen <br>
  */
-public class QA{
+public class QA implements Serializable {
 
     private String question;
     private String correctAnswer;

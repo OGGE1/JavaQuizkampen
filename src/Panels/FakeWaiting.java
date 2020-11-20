@@ -14,6 +14,7 @@ public class FakeWaiting extends JPanel {
     private JLabel label = new JLabel("Waiting for opponent to choose category");
 
     public FakeWaiting() {
+        label.setFont(new Font("Sans serif", Font.BOLD, 24));
         this.add(label);
         setPreferredSize(new Dimension(280, 460));
     }

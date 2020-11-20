@@ -5,10 +5,15 @@ import Panels.FakeWaiting;
 import Panels.GamePanel;
 import Server.Initiator;
 import Server.Message;
+import Server.QA;
+
 import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.sql.SQLOutput;
+import java.util.Arrays;
+import java.util.Properties;
 
 
 /**
@@ -29,8 +34,15 @@ public class Client extends JFrame implements Serializable {
     FakeCategory fc = new FakeCategory();
     FakeWaiting fw = new FakeWaiting();
     Message message = new Message();
+    Properties p = new Properties();
+    int rounds;
+    int numQuestions;
 
     public Client() throws IOException {
+
+        setSettings();
+        setUpFakeCategory();
+
         //util.setPlayerName(JOptionPane.showInputDialog("Enter name")); TODO GLÖM EJ ATT TA BORT KOMMENTAREN
         util.setPlayerName("Oscar");
         gp.setName(util.getPlayerName());
@@ -53,14 +65,6 @@ public class Client extends JFrame implements Serializable {
             objectOut = new ObjectOutputStream(clientSocket.getOutputStream());
             objectIn = new ObjectInputStream(clientSocket.getInputStream());
 
-            for (var e : fc.getButtonList()) {
-                e.addActionListener(l -> {
-                        String text = e.getText();
-                        util.setCategory(text);
-                        message = new Message(text);
-                        sendObject(message);
-                });
-            }
 
             Object fromServer;
 
@@ -70,17 +74,48 @@ public class Client extends JFrame implements Serializable {
             System.out.println("Du är spelare #" + util.getPlayerID());
             System.out.println("Motståndare: " + util.getEnemyName());
 
-            if (util.getPlayerID() == 1) {
-                changePanel(fc);
-            } else {
-                changePanel(fw);
-            }
+//            if (util.getPlayerID() == 1) {
+//                changePanel(fc);
+//            } else {
+//                changePanel(fw);
+//            }
 
             while (true) {
                 while ((fromServer = objectIn.readObject()) != null) {
                     if (fromServer instanceof Initiator) {
                         System.out.println("connected");
                         fl.getButton().setEnabled(true);
+                    }
+
+                    else if (fromServer instanceof Message && ((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
+                        changePanel(fc);
+                    }
+
+                    else if (fromServer instanceof Message && ((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
+                        changePanel(gp);
+                        for (var e : gp.getGameButtons()) {
+                            e.addActionListener(l -> {
+
+                            });
+                        }
+
+                        gp.setCategory(message.getCategory());
+//                        String[] array = {"Hejhej", "Tja", "Funka", "Please"};
+//                        QA qa1 = new QA("Hej?", "Asdf", array);
+
+                        QA qa2 = message.getQaList().get(0);
+
+
+                        gp.setUpQuestion(qa2);
+                        //gp.setQuestion(message.getQaList().get(0).getQuestion());
+
+                        //for (int i = 0; i < numQuestions; i++) {
+
+                            //gp.setUpQuestion(message.getQaList().get(0));
+                        //}
+
+
+
                     }
 
                 }
@@ -90,11 +125,35 @@ public class Client extends JFrame implements Serializable {
         }
     }
 
+    public void setSettings() {
+        try {
+            p.load(new FileInputStream("src/Properties.properties"));
+        } catch (Exception e) {
+            System.out.println("Could not load properties file");
+            e.printStackTrace();
+        }
+        rounds = Integer.parseInt(p.getProperty("rounds", "6"));
+        System.out.println(rounds);
+        numQuestions = Integer.parseInt(p.getProperty("questionsPerRound", "3"));
+        System.out.println(numQuestions);
+    }
+
     public void sendObject(Object object) {
         try {
             objectOut.writeObject(object);
         } catch (IOException ioException) {
             ioException.printStackTrace();
+        }
+    }
+
+    public void setUpFakeCategory() {
+        for (var e : fc.getButtonList()) {
+            e.addActionListener(l -> {
+                String text = e.getText();
+                util.setCategory(text);
+                message.setCategory(text);
+                sendObject(message);
+            });
         }
     }
 

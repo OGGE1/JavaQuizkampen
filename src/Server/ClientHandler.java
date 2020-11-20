@@ -3,6 +3,7 @@ import Client.Utility;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Properties;
 
 /**
  * Created by Oscar Norman <br>
@@ -20,7 +21,8 @@ public class ClientHandler extends Thread implements Serializable {
     ObjectInputStream p2ois;
     Message message = new Message();
     Utility util = new Utility();
-
+    Properties properties = new Properties();
+    Protocol p = new Protocol();
 
     boolean p1Turn = true;
 
@@ -54,13 +56,20 @@ public class ClientHandler extends Thread implements Serializable {
             p2oos.writeObject(new Initiator());
 
             while (true) {
+                if (p.getPlayer() == 1) {
+                    p1Turn = true;
+                    message = p.getResponse(message);
+                    p1oos.writeObject(message);
+                }
                 while (p1Turn) {
                     while ((obj = p1ois.readObject()) != null) {
                         message = (Message) obj;
-                        util.setCategory(message.getCategory());
+                        Message out = p.getResponse(message);
+//                        message = p.getResponse(message);
+                        p1oos.writeObject(out);
 
-                        p1Turn = false;
-                        break;
+                        //p1Turn = false;
+                        //break;
                     }
                 }
 

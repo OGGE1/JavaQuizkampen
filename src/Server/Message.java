@@ -1,6 +1,8 @@
 package Server;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Oscar Norman <br>
@@ -10,21 +12,35 @@ import java.io.Serializable;
  */
 public class Message implements Serializable {
 
+    private List<QA> qaList = new ArrayList<>();
     private String name;
     private int playerID;
     private String category;
+    private String perform;
 
     public Message(String name, int playerID) {
         this.name = name;
         this.playerID = playerID;
     }
 
-    public Message(String category) {
-        this.category = category;
-    }
-
     public Message() {
 
+    }
+
+    public List<QA> getQaList() {
+        return qaList;
+    }
+
+    public void setQaList(List<QA> qaList) {
+        this.qaList = qaList;
+    }
+
+    public String getPerform() {
+        return perform;
+    }
+
+    public void setPerform(String perform) {
+        this.perform = perform;
     }
 
     public String getName() {

@@ -127,6 +127,7 @@ public class GamePanel extends JPanel {
         this.roundNr.setText(String.valueOf(roundNr));
     }
 
+
     public void addPoint(){
         int score = Integer.parseInt(result.getText());
         score++;

@@ -69,7 +69,6 @@ public class Client extends JFrame implements Serializable {
             objectOut = new ObjectOutputStream(clientSocket.getOutputStream());
             objectIn = new ObjectInputStream(clientSocket.getInputStream());
 
-
             Object fromServer;
 
             startUp();
@@ -78,57 +77,25 @@ public class Client extends JFrame implements Serializable {
             System.out.println("Du är spelare #" + util.getPlayerID());
             System.out.println("Motståndare: " + util.getEnemyName());
 
-//            if (util.getPlayerID() == 1) {
-//                changePanel(fc);
-//            } else {
-//                changePanel(fw);
-//            }
-
             while (true) {
                 while ((fromServer = objectIn.readObject()) != null) {
                     if (fromServer instanceof Initiator) {
                         System.out.println("connected");
                         fl.getButton().setEnabled(true);
                     }
-
-                    else if (fromServer instanceof Message && ((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
+                    // fromServer instanceof Message &&
+                    else if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
                         changePanel(fc);
                     }
 
-                    else if (fromServer instanceof Message && ((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
+                    else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
                         message = (Message)fromServer;
-                        changePanel(gp);
-                        currentQuestion = 0;
-                        for (var e : gp.getGameButtons()) {
-                            e.addActionListener(l -> {
-                                answer = e.getText();
-                                if(e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())){
-                                    e.setBackground(Color.GREEN);
-                                    gp.addPoint();
-                                    util.addAnswers(true);
-                                }
-                                else {
-                                    e.setBackground(Color.RED);
-                                    util.addAnswers(false);
-                                }
-                                currentQuestion++;
-                                hasAnswered = true;
-                            });
-                        }
-
-                        gp.setCategory(message.getCategory());
-
-                        for (int i = 0; i < numQuestions; i++) {
-                            gp.setUpQuestion(message.getQaList().get(i));
-                            hasAnswered = false;
-                            while(!hasAnswered){ Thread.sleep(1);}
-                            Thread.sleep(2000);
-
-                            System.out.println(util.getRoundAnswers().get(i));
-                        }
-                            // Skicka till clienthanterare
-
+                        playRound();
+                        sendObject(message);
+                        changePanel(fw);
                     }
+
+
 
                 }
             }
@@ -146,6 +113,41 @@ public class Client extends JFrame implements Serializable {
         }
         rounds = Integer.parseInt(p.getProperty("rounds", "6"));
         numQuestions = Integer.parseInt(p.getProperty("questionsPerRound", "3"));
+    }
+
+    public void setUpGpListener(){
+        for (var e : gp.getGameButtons()) {
+            e.addActionListener(l -> {
+                answer = e.getText();
+                if(e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())){
+                    e.setBackground(Color.GREEN);
+                    gp.addPoint();
+                    util.addAnswers(true);
+                }
+                else {
+                    e.setBackground(Color.RED);
+                    util.addAnswers(false);
+                }
+                currentQuestion++;
+                hasAnswered = true;
+            });
+        }
+    }
+
+    public void playRound() throws InterruptedException {
+        changePanel(gp);
+        currentQuestion = 0;
+        setUpGpListener();
+
+        gp.setCategory(message.getCategory());
+        for (int i = 0; i < numQuestions; i++) {
+            gp.setUpQuestion(message.getQaList().get(i));
+            hasAnswered = false;
+            while(!hasAnswered){Thread.sleep(10);}
+            Thread.sleep(2000);
+        }
+        message.setResultsFromAnswers(util.getRoundAnswers());
+        message.setPlayerID(util.getPlayerID());
     }
 
     public void sendObject(Object object) {

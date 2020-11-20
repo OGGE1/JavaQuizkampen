@@ -13,6 +13,7 @@ import java.util.List;
 public class Message implements Serializable {
 
     private List<QA> qaList = new ArrayList<>();
+    private List<Boolean> resultsFromAnswers = new ArrayList<>();
     private String name;
     private int playerID;
     private String category;
@@ -25,6 +26,14 @@ public class Message implements Serializable {
 
     public Message() {
 
+    }
+
+    public List<Boolean> getResultsFromAnswers() {
+        return resultsFromAnswers;
+    }
+
+    public void setResultsFromAnswers(List<Boolean> resultsFromAnswers) {
+        this.resultsFromAnswers = resultsFromAnswers;
     }
 
     public List<QA> getQaList() {

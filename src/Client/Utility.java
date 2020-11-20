@@ -1,5 +1,8 @@
 package Client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Oscar Norman <br>
  * Date: 2020-11-18   <br>
@@ -14,6 +17,15 @@ public class Utility {
     private String enemyName;
     private int score;
     private int rounds;
+    private List<Boolean> roundAnswers = new ArrayList<>();
+
+    public List<Boolean> getRoundAnswers() {
+        return roundAnswers;
+    }
+
+    public void addAnswers(boolean answer){
+        this.roundAnswers.add(answer);
+    }
 
     public String getCategory() {
         return category;

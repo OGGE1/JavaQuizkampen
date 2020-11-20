@@ -12,7 +12,10 @@ import java.util.List;
 public class Protocol {
 
     List<QA> qaList = new ArrayList<>();
+    List<Boolean> player1Results = new ArrayList<>();
+    List<Boolean> player2Results = new ArrayList<>();
     Database database = new Database();
+
     private int player = 1;
 
     private final int CHOOSE_CATEGORY = 0;
@@ -40,20 +43,21 @@ public class Protocol {
             message.setQaList(qaList);
             message.setPerform("ANSWER QUESTION");
 
-
-//            for (int i = 0; i < 3; i++) {
-//                System.out.println(message.getQaList().get(i).getQuestion());
-//                System.out.println(message.getQaList().get(i).getOptions()[0]);
-//                System.out.println(message.getQaList().get(i).getOptions()[1]);
-//                System.out.println(message.getQaList().get(i).getOptions()[2]);
-//                System.out.println(message.getQaList().get(i).getOptions()[3]);
-//            }
-
             CURRENT_STATE = PLAYING_FIRST;
             return message;
         }
 
         else if (CURRENT_STATE == PLAYING_FIRST) {
+            if(message.getPlayerID() == 1){
+                player1Results = message.getResultsFromAnswers();
+            }
+            else player2Results = message.getResultsFromAnswers();
+
+            // Fortsätt
+
+        }
+
+        else if (CURRENT_STATE == PLAYING_SECOND){
 
         }
 

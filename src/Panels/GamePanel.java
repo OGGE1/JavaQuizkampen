@@ -1,6 +1,7 @@
 package Panels;
 
 import Client.Utility;
+import Server.QA;
 import jdk.jshell.execution.Util;
 
 import javax.swing.*;
@@ -126,6 +127,17 @@ public class GamePanel extends JPanel {
         this.roundNr.setText(String.valueOf(roundNr));
     }
 
-    public static void main(String[] args) {
+    public void addPoint(){
+        int score = Integer.parseInt(result.getText());
+        score++;
+        result.setText(String.valueOf(score));
     }
+
+    public void setUpQuestion(QA qa){
+        question.setText(qa.getQuestion());
+        for(int i = 0; i < 4; i++){
+            buttons.get(i).setText(qa.getOptions()[i]);
+        }
+    }
+
 }

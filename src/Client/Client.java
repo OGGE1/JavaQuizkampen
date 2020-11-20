@@ -105,8 +105,12 @@ public class Client extends JFrame implements Serializable {
                                 if(e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())){
                                     e.setBackground(Color.GREEN);
                                     gp.addPoint();
+                                    util.addAnswers(true);
                                 }
-                                else e.setBackground(Color.RED);
+                                else {
+                                    e.setBackground(Color.RED);
+                                    util.addAnswers(false);
+                                }
                                 currentQuestion++;
                                 hasAnswered = true;
                             });
@@ -120,7 +124,7 @@ public class Client extends JFrame implements Serializable {
                             while(!hasAnswered){ Thread.sleep(1);}
                             Thread.sleep(2000);
 
-                            // plussa på svar boolean på lista
+                            System.out.println(util.getRoundAnswers().get(i));
                         }
                             // Skicka till clienthanterare
 

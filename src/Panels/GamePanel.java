@@ -129,6 +129,11 @@ public class GamePanel extends JPanel {
         result.setText(String.valueOf(score));
     }   // Tillägg
 
-    public static void main(String[] args) {
-    }
+    public void setUpQuestion(String category){ // Parameter ska vara ett QA samt vilken kategori
+        categoryLabel.setText(category);
+        question.setText("");  // sätt text till frågan
+        for(int i = 0; i < 4; i++){
+            buttons.get(i).setText(""); // sätt text för första alternativ i QA listan
+        }
+    }   // Tillägg
 }

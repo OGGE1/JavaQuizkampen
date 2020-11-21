@@ -54,7 +54,7 @@ public class Client extends JFrame implements Serializable {
         fl.getButton().addActionListener(l -> {
             changePanel(gp);
         });
-
+        
         mainPanel.add(fl);
 
         this.add(mainPanel);

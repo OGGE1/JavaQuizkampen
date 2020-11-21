@@ -6,12 +6,14 @@ import Panels.LobbyPanel;
 import Panels.WaitingPanel;
 import Server.Initiator;
 import Server.Message;
+import Server.QA;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.List;
 import java.util.Properties;
 
 
@@ -91,12 +93,7 @@ public class Client extends JFrame implements Serializable {
                     else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
                         message = (Message)fromServer;
                         playRound();
-                        sendObject(message);
-                        changePanel(wp);
                     }
-
-
-
                 }
             }
         } catch (Exception e) {
@@ -128,26 +125,44 @@ public class Client extends JFrame implements Serializable {
                     e.setBackground(Color.RED);
                     util.addAnswers(false);
                 }
-                currentQuestion++;
-                hasAnswered = true;
+                handleAnsweredQuestion();
             });
         }
     }
 
-    public void playRound() throws InterruptedException {
+    private void handleAnsweredQuestion() {
+        currentQuestion++;
+        QA nextQuestion = getNextQuestion();
+        if (nextQuestion != null) {
+            gp.setUpQuestion(nextQuestion);
+        } else {
+            message.setResultsFromAnswers(util.getRoundAnswers());
+            message.setPlayerID(util.getPlayerID());
+            sendObject(message);
+            changePanel(wp);
+        }
+    }
+
+    private QA getNextQuestion() {
+        List<QA> qaList = message.getQaList();
+
+        if (currentQuestion < qaList.size()) {
+            return qaList.get(currentQuestion);
+        }
+        return null;
+    }
+
+    public void playRound() {
         changePanel(gp);
         currentQuestion = 0;
         setUpGpListener();
 
         gp.setCategory(message.getCategory());
-        for (int i = 0; i < numQuestions; i++) {
-            gp.setUpQuestion(message.getQaList().get(i));
-            hasAnswered = false;
-            while(!hasAnswered){Thread.sleep(10);}
-            Thread.sleep(2000);
+
+        QA nextQuestion = getNextQuestion();
+        if (nextQuestion != null) {
+            gp.setUpQuestion(nextQuestion);
         }
-        message.setResultsFromAnswers(util.getRoundAnswers());
-        message.setPlayerID(util.getPlayerID());
     }
 
     public void sendObject(Object object) {

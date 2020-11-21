@@ -15,7 +15,7 @@ public class WaitingPanel extends JPanel {
     private JLabel label = new JLabel("Waiting for opponent to choose category");
 
     public WaitingPanel() {
-        label.setFont(new Font("Sans serif", Font.BOLD, 24));
+        label.setFont(new Font("Sans serif", Font.BOLD, 12));
         this.add(label);
         setPreferredSize(new Dimension(280, 460));
     }

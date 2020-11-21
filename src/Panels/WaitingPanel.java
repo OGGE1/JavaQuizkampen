@@ -4,16 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Oscar Norman <br>
- * Date: 2020-11-18   <br>
- * Time: 11:55   <br>
- * Project: JavaQuizkampen <br>
+ * Created by Sana Eneroth Boukchana
+ * Date: 2020-11-21
+ * Time: 15:05
+ * Project: JavaQuizkampen
+ * Copyright: MIT
  */
-public class FakeWaiting extends JPanel {
+public class WaitingPanel extends JPanel {
 
     private JLabel label = new JLabel("Waiting for opponent to choose category");
 
-    public FakeWaiting() {
+    public WaitingPanel() {
         label.setFont(new Font("Sans serif", Font.BOLD, 24));
         this.add(label);
         setPreferredSize(new Dimension(280, 460));

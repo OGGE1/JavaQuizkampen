@@ -1,19 +1,17 @@
 package Client;
-import Panels.FakeCategory;
-import Panels.FakeLobby;
-import Panels.FakeWaiting;
+
+import Panels.CategoryPanel;
 import Panels.GamePanel;
+import Panels.LobbyPanel;
+import Panels.WaitingPanel;
 import Server.Initiator;
 import Server.Message;
-import Server.QA;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.sql.SQLOutput;
-import java.util.Arrays;
 import java.util.Properties;
 
 
@@ -24,16 +22,17 @@ import java.util.Properties;
  * Project: JavaQuizkampen <br>
  */
 public class Client extends JFrame implements Serializable {
+
     InetAddress address = InetAddress.getLoopbackAddress();
     int port = 27015;
     private JPanel mainPanel = new JPanel();
     ObjectOutputStream objectOut;
     ObjectInputStream objectIn;
     GamePanel gp = new GamePanel();
-    FakeLobby fl = new FakeLobby();
+    LobbyPanel lp = new LobbyPanel();
     Utility util = new Utility();
-    FakeCategory fc = new FakeCategory();
-    FakeWaiting fw = new FakeWaiting();
+    CategoryPanel cp = new CategoryPanel();
+    WaitingPanel wp = new WaitingPanel();
     Message message = new Message();
     Properties p = new Properties();
     String answer = "";
@@ -51,11 +50,12 @@ public class Client extends JFrame implements Serializable {
         util.setPlayerName("Oscar");
         gp.setName(util.getPlayerName());
 
-        fl.getButton().addActionListener(l -> {
+        lp.getButton().addActionListener(l -> {
             changePanel(gp);
         });
-        
-        mainPanel.add(fl);
+
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(lp);
 
         this.add(mainPanel);
         this.setSize(300, 500);
@@ -81,18 +81,18 @@ public class Client extends JFrame implements Serializable {
                 while ((fromServer = objectIn.readObject()) != null) {
                     if (fromServer instanceof Initiator) {
                         System.out.println("connected");
-                        fl.getButton().setEnabled(true);
+                        lp.getButton().setEnabled(true);
                     }
                     // fromServer instanceof Message &&
                     else if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
-                        changePanel(fc);
+                        changePanel(cp);
                     }
 
                     else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
                         message = (Message)fromServer;
                         playRound();
                         sendObject(message);
-                        changePanel(fw);
+                        changePanel(wp);
                     }
 
 
@@ -159,7 +159,7 @@ public class Client extends JFrame implements Serializable {
     }
 
     public void setUpFakeCategory() {
-        for (var e : fc.getButtonList()) {
+        for (var e : cp.getButtonList()) {
             e.addActionListener(l -> {
                 String text = e.getText();
                 util.setCategory(text);

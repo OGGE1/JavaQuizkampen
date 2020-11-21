@@ -56,7 +56,7 @@
 //        imageIcon.setImage(scaledInstance);
 //        JLabel iconLogo = new JLabel(imageIcon);
 //
-//        GradientPanel topPanel = new GradientPanel(GradientPanel.HEADER_COLOR_START, GradientPanel.HEADER_COLOR_END, GradientPanel.DIRECTION_LEFT_RIGHT);
+//        GradientTopPanel topPanel = new GradientTopPanel(GradientTopPanel.HEADER_COLOR_START, GradientTopPanel.HEADER_COLOR_END, GradientTopPanel.DIRECTION_LEFT_RIGHT);
 //        topPanel.setPreferredSize(new Dimension(300, 80));
 //        topPanel.add(iconLogo);
 //

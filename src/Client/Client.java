@@ -83,6 +83,7 @@ public class Client extends JFrame implements Serializable {
 
             while (true) {
                 while ((fromServer = objectIn.readObject()) != null) {
+                    System.out.println(((Message)fromServer).getPerform());
                     if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
                         changePanel(fc);
                     }

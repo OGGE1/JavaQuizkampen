@@ -18,7 +18,7 @@ public class Message implements Serializable {
     private String name;
     private String category;
     private String perform;
-    private int switchToPlayer = 1;
+    private int switchToPlayer = 0;
 
     private int playerID;
 

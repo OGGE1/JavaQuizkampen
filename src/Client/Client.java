@@ -22,22 +22,20 @@ import java.util.Properties;
  * Project: JavaQuizkampen <br>
  */
 public class Client extends JFrame implements Serializable {
+
     InetAddress address = InetAddress.getLoopbackAddress();
     int port = 27015;
+    private JPanel mainPanel = new JPanel();
     ObjectOutputStream objectOut;
     ObjectInputStream objectIn;
-
-    Utility util = new Utility();
-    Message message = new Message();
-    Properties p = new Properties();
-
-    private JPanel mainPanel = new JPanel();
     GamePanel gp = new GamePanel();
     ResultPanel rp = new ResultPanel();
-    FakeLobby fl = new FakeLobby();
-    FakeCategory fc = new FakeCategory();
-    FakeWaiting fw = new FakeWaiting();
-
+    LobbyPanel lp = new LobbyPanel();
+    Utility util = new Utility();
+    CategoryPanel cp = new CategoryPanel();
+    FakeWaiting wp = new FakeWaiting();
+    Message message = new Message();
+    Properties p = new Properties();
     String answer = "";
     boolean hasAnswered;
     int rounds;
@@ -56,7 +54,8 @@ public class Client extends JFrame implements Serializable {
         util.setPlayerName("Oscar");
         gp.setName(util.getPlayerName());
 
-        mainPanel.add(fl);
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(lp);
 
         this.add(mainPanel);
         this.setSize(300, 500);
@@ -84,14 +83,14 @@ public class Client extends JFrame implements Serializable {
             while (true) {
                 while ((fromServer = objectIn.readObject()) != null) {
                     if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
-                        changePanel(fc);
+                        changePanel(cp);
                     }
 
                     else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
                         message = (Message)fromServer;
                         playRound();
                         sendObject(message);
-                        changePanel(fw);
+                        changePanel(wp);
                     }
 
                     else if (((Message) fromServer).getPerform().equalsIgnoreCase("SEE RESULT")) {
@@ -146,7 +145,7 @@ public class Client extends JFrame implements Serializable {
     }
 
     public void setUpLobbyButtonListener(){
-        fl.getButton().addActionListener(l -> {
+        lp.getButton().addActionListener(l -> {
             sendObject(message);
         });
     }
@@ -176,7 +175,7 @@ public class Client extends JFrame implements Serializable {
     }
 
     public void setUpFakeCategory() {
-        for (var e : fc.getButtonList()) {
+        for (var e : cp.getButtonList()) {
             e.addActionListener(l -> {
                 String text = e.getText();
 //                util.setCategory(text);   // Kan tas bort

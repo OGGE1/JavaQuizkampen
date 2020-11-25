@@ -94,7 +94,7 @@ public class Protocol {
             CURRENT_STATE = CHOOSE_CATEGORY;
             return message;
         }
-            // Behöver nog ett till mellan stadie här för att båda ska få upp sina resultat och sedan kunna gå vidare
+
 
 
         return null;

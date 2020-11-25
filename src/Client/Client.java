@@ -51,6 +51,7 @@ public class Client extends JFrame implements Serializable {
         setUpFakeCategory();
         setUpResultButtonListener();
         setUpLobbyButtonListener();
+        setUpGpListener();
 
         //util.setPlayerName(JOptionPane.showInputDialog("Enter name")); TODO GLÖM EJ ATT TA BORT KOMMENTAREN (hårdkodade namnet)
         util.setPlayerName("Oscar");
@@ -125,6 +126,8 @@ public class Client extends JFrame implements Serializable {
         for (var e : gp.getGameButtons()) {
             e.addActionListener(l -> {
                 answer = e.getText();
+                System.out.println("Tryckt på: "+answer);
+                System.out.println("Rätt svar: "+message.getQaList().get(currentQuestion).getCorrectAnswer());
                 if(e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())){
                     e.setBackground(Color.GREEN);
                     gp.addPoint();
@@ -154,10 +157,10 @@ public class Client extends JFrame implements Serializable {
 
     public void playRound() throws InterruptedException {
         changePanel(gp);
-        gp.setGameResult(0);
-        gp.setRoundNr(currentRound+1);
+        gp.setGameResult(0);   // nollställer poängen mellann ronderna
+        gp.setRoundNr(currentRound+1);  // detta så att gp visar rätt rond
         currentQuestion = 0;
-        setUpGpListener();
+//        setUpGpListener();  // Flyttat upp denna till dom andra då den skapar dubble lyssnare
 
         gp.setCategory(message.getCategory());
         for (int i = 0; i < numQuestions; i++) {

@@ -54,11 +54,10 @@ public class ClientHandler extends Thread implements Serializable {
             p2oos.writeObject(new Initiator());
 
             while (true) {
-                if (p.getPlayer() == 1) {
-//                    p1Turn = true;
-                    message = p.getResponse(message);
-                    p1oos.writeObject(message);
-                }
+//                if (p.getPlayer() == 1) {
+//                    message = p.getResponse(message);
+//                    p1oos.writeObject(message);
+//                }
                 while (participant == 1) {
                     while ((obj = p1ois.readObject()) != null) {
                         message = (Message) obj;

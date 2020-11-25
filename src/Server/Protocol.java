@@ -27,7 +27,6 @@ public class Protocol {
 
     private int CURRENT_STATE;
 
-
     public Protocol() {
         CURRENT_STATE = CHOOSE_CATEGORY;
     }

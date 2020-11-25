@@ -15,9 +15,6 @@ import java.util.Random;
  * Project: JavaQuizkampen
  */
 public class ResultPanel extends JPanel implements ActionListener{
-    //TODO: Denna information ska importeras från uppstarten av programmet
-    String namePlayerOne = "Player one";
-    String namePlayerTwo = "Player two";
 
     //TODO: Denna information ska importeras från en Properties-fil
     int amountOfRounds =  6;
@@ -29,8 +26,8 @@ public class ResultPanel extends JPanel implements ActionListener{
     int playerOneScore = 0;
     int playerTwoScore = 0;
 
-    JLabel labelPlayerOne = new JLabel(namePlayerOne);
-    JLabel labelPlayerTwo = new JLabel(namePlayerTwo);
+    JLabel labelPlayerOne = new JLabel();
+    JLabel labelPlayerTwo = new JLabel();
     JLabel score = new JLabel(" " + playerOneScore + " - " + playerTwoScore + " ", SwingConstants.CENTER);
     JLabel text = new JLabel("HÄR SKA VINNAREN STÅ", SwingConstants.CENTER);
 
@@ -58,8 +55,8 @@ public class ResultPanel extends JPanel implements ActionListener{
         createBlankBoard();
 
         // TEST STARTA NYTT SPEL NÄR MAN KLICKAR PÅ KNAPP
-        button.setText("Starta spelet");
-        button.addActionListener(this);
+//        button.setText("Starta spelet");
+//        button.addActionListener(this);
 
         backgroundPanel.add(text);
         backgroundPanel.add(button);
@@ -76,22 +73,16 @@ public class ResultPanel extends JPanel implements ActionListener{
         }
     }
 
-    public void newRound(String categoryTitle, int rondNr){
+    public void newRound(String categoryTitle, int rondNr, List<Boolean> listOfAnswers){
         roundResultPanelList.get(rondNr).setCategory(categoryTitle);
 
-        for (int i = 0; i < (questionsAskedPerRound*2); i++) {
-            //TODO: Byt ut mot en boolean, true = rättsvar = grönt, false = felsvar = rött
-            Random r = new Random();
-            int testing = r.nextInt(11);
-            boolean bool = false;
-            if(testing <= 5)
-                bool = true;
+        for (int i = 0; i < listOfAnswers.size(); i++) {
 
             /*
                 SÄTTER FÄRGEN PÅ BOXEN BEROENDE PÅ SVARET OCH TILLDELAR POÄNG
              */
             if(i < questionsAskedPerRound){
-                if(bool == true){
+                if(listOfAnswers.get(i)){
                     roundResultPanelList.get(rondNr).getRuta(i).setBackground(Color.green);
                     playerOneScore++;
                 }
@@ -99,7 +90,7 @@ public class ResultPanel extends JPanel implements ActionListener{
                     roundResultPanelList.get(rondNr).getRuta(i).setBackground(Color.red);
             }
             else{
-                if(bool == true){
+                if(listOfAnswers.get(i)){
                     roundResultPanelList.get(rondNr).getRuta(i).setBackground(Color.green);
                     playerTwoScore++;
                 }
@@ -114,9 +105,9 @@ public class ResultPanel extends JPanel implements ActionListener{
 
     public void countTheScore(){
         if(playerOneScore > playerTwoScore)
-            text.setText(namePlayerOne + " vinner spelet!");
+            text.setText(getNamePlayerOne() + " vinner spelet!");
         else if(playerTwoScore > playerOneScore)
-            text.setText(namePlayerTwo + " vinner spelet!");
+            text.setText(getNamePlayerTwo() + " vinner spelet!");
         else
             text.setText("Det blev oavgjort!");
     }
@@ -130,24 +121,40 @@ public class ResultPanel extends JPanel implements ActionListener{
         if (e.getSource() == button) {
             //Om man klickar på Nytt spel-knappen
 
-            for (int i = 0; i < 3; i++) {
-                Random r = new Random();
-                int testing = r.nextInt(categoryList.length);
-                newRound(categoryList[testing], i);
-
-                if (i == amountOfRounds - 1) {
-                    countTheScore();
-                    button.setText("Nytt spel");
-                    button.setEnabled(false);
-                    text.setVisible(true);
-                }
-
-                if (i != amountOfRounds - 1) {
-                    button.setText("Nästa rond");
-                    button.setEnabled(true);
-                    text.setVisible(false);
-                }
-            }
+//            for (int i = 0; i < 3; i++) {
+//                Random r = new Random();
+//                int testing = r.nextInt(categoryList.length);
+//                newRound(categoryList[testing], i);
+//
+//                if (i == amountOfRounds - 1) {
+//                    countTheScore();
+//                    button.setText("Nytt spel");
+//                    button.setEnabled(false);
+//                    text.setVisible(true);
+//                }
+//
+//                if (i != amountOfRounds - 1) {
+//                    button.setText("Nästa rond");
+//                    button.setEnabled(true);
+//                    text.setVisible(false);
+//                }
+//            }
         }
+    }
+
+    public String getNamePlayerOne() {
+        return labelPlayerOne.getText();
+    }
+
+    public String getNamePlayerTwo() {
+        return labelPlayerTwo.getText();
+    }
+
+    public void setNamePlayerOne(String namePlayerOne) {
+        this.labelPlayerOne.setText(namePlayerOne);
+    }
+
+    public void setNamePlayerTwo(String namePlayerTwo) {
+        this.labelPlayerTwo.setText(namePlayerTwo);
     }
 }

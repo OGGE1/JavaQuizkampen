@@ -31,17 +31,4 @@ public class QA implements Serializable {
     public String[] getOptions(){
         return options;
     }
-
-    public static void main(String[] args) {
-        String[] array = {"Kalle","John","Anders","Viktor"};
-        QA qa = new QA("Vad heter du?","John",array);
-
-        System.out.println(qa.getQuestion());
-
-        System.out.println(qa.getCorrectAnswer());
-
-        for(int i = 0; i < qa.getOptions().length; i++){
-            System.out.println(qa.getOptions()[i]);
-        }
-    }
 }

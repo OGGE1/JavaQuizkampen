@@ -11,13 +11,16 @@ import java.util.List;
  */
 public class Utility {
 
-    private String category;
-    private int playerID;
     private String playerName;
     private String enemyName;
+    private String category;
+
+    private int playerID;
     private int score;
     private int rounds;
+
     private List<Boolean> roundAnswers = new ArrayList<>();
+
 
     public List<Boolean> getRoundAnswers() {
         return roundAnswers;

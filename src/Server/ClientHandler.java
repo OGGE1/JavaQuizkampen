@@ -14,11 +14,13 @@ import java.util.Properties;
 public class ClientHandler extends Thread implements Serializable {
 
     Socket p1;
-    Socket p2;
     ObjectOutputStream p1oos;
     ObjectInputStream p1ois;
+
+    Socket p2;
     ObjectOutputStream p2oos;
     ObjectInputStream p2ois;
+
     Message message = new Message();
     Utility util = new Utility();
     Properties properties = new Properties();
@@ -30,7 +32,6 @@ public class ClientHandler extends Thread implements Serializable {
     public ClientHandler(Socket p1, Socket p2) {
         this.p1 = p1;
         this.p2 = p2;
-
     }
 
     @Override
@@ -46,11 +47,8 @@ public class ClientHandler extends Thread implements Serializable {
             String player1Name = (String) p1ois.readObject();
             String player2Name = (String) p2ois.readObject();
 
-
             p1oos.writeObject(new Message(player2Name, 1));
             p2oos.writeObject(new Message(player1Name, 2));
-
-
 
             p1oos.writeObject(new Initiator());
             p2oos.writeObject(new Initiator());
@@ -85,8 +83,6 @@ public class ClientHandler extends Thread implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 }
 

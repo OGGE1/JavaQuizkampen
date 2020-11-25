@@ -26,16 +26,19 @@ import java.util.Properties;
 public class Client extends JFrame implements Serializable {
     InetAddress address = InetAddress.getLoopbackAddress();
     int port = 27015;
-    private JPanel mainPanel = new JPanel();
     ObjectOutputStream objectOut;
     ObjectInputStream objectIn;
-    GamePanel gp = new GamePanel();
-    FakeLobby fl = new FakeLobby();
+
     Utility util = new Utility();
-    FakeCategory fc = new FakeCategory();
-    FakeWaiting fw = new FakeWaiting();
     Message message = new Message();
     Properties p = new Properties();
+
+    private JPanel mainPanel = new JPanel();
+    GamePanel gp = new GamePanel();
+    FakeLobby fl = new FakeLobby();
+    FakeCategory fc = new FakeCategory();
+    FakeWaiting fw = new FakeWaiting();
+
     String answer = "";
     boolean hasAnswered;
     int rounds;
@@ -47,7 +50,7 @@ public class Client extends JFrame implements Serializable {
         setSettings();
         setUpFakeCategory();
 
-        //util.setPlayerName(JOptionPane.showInputDialog("Enter name")); TODO GLÖM EJ ATT TA BORT KOMMENTAREN
+        //util.setPlayerName(JOptionPane.showInputDialog("Enter name")); TODO GLÖM EJ ATT TA BORT KOMMENTAREN (hårdkodade namnet)
         util.setPlayerName("Oscar");
         gp.setName(util.getPlayerName());
 

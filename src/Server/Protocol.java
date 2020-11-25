@@ -14,6 +14,7 @@ public class Protocol {
     List<QA> qaList = new ArrayList<>();
     List<Boolean> player1Results = new ArrayList<>();
     List<Boolean> player2Results = new ArrayList<>();
+
     Database database = new Database();
 
     private int player = 1;

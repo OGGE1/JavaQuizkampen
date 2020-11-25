@@ -14,10 +14,13 @@ public class Message implements Serializable {
 
     private List<QA> qaList = new ArrayList<>();
     private List<Boolean> resultsFromAnswers = new ArrayList<>();
+
     private String name;
-    private int playerID;
     private String category;
     private String perform;
+
+    private int playerID;
+
 
     public Message(String name, int playerID) {
         this.name = name;

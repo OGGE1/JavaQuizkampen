@@ -22,7 +22,7 @@ public class ClientHandler extends Thread implements Serializable {
     ObjectOutputStream p2oos;
     ObjectInputStream p2ois;
 
-    Message message = new Message();
+    Message message;
     Utility util = new Utility();
     Properties properties = new Properties();
     Protocol p = new Protocol();

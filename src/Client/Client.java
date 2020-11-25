@@ -6,6 +6,7 @@ import Server.QA;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -42,19 +43,18 @@ public class Client extends JFrame implements Serializable {
     int rounds;
     int numQuestions;
     int currentQuestion;
+    int currentRound = 0;
 
     public Client() throws IOException {
 
         setSettings();
         setUpFakeCategory();
+        setUpResultButtonListener();
+        setUpLobbyButtonListener();
 
         //util.setPlayerName(JOptionPane.showInputDialog("Enter name")); TODO GLÖM EJ ATT TA BORT KOMMENTAREN (hårdkodade namnet)
         util.setPlayerName("Oscar");
         gp.setName(util.getPlayerName());
-
-        fl.getButton().addActionListener(l -> {
-            changePanel(gp);
-        });
 
         mainPanel.add(fl);
 
@@ -78,14 +78,12 @@ public class Client extends JFrame implements Serializable {
             System.out.println("Du är spelare #" + util.getPlayerID());
             System.out.println("Motståndare: " + util.getEnemyName());
 
+            rp.setNamePlayerOne(util.getPlayerName());
+            rp.setNamePlayerTwo(util.getEnemyName());
+
             while (true) {
                 while ((fromServer = objectIn.readObject()) != null) {
-                    if (fromServer instanceof Initiator) {
-                        System.out.println("connected");
-                        fl.getButton().setEnabled(true);
-                    }
-                    // fromServer instanceof Message &&
-                    else if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
+                    if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
                         changePanel(fc);
                     }
 
@@ -100,9 +98,9 @@ public class Client extends JFrame implements Serializable {
                         message = (Message)fromServer;
                         changePanel(rp);
                         util.addEnemyAnswers(message.getResultsFromAnswers());
-
+                        rp.newRound(message.getCategory(), currentRound, util.getRoundAnswers());
+                        currentRound++;
                     }
-
 
                 }
             }
@@ -141,6 +139,18 @@ public class Client extends JFrame implements Serializable {
         }
     }
 
+    public void setUpResultButtonListener(){
+        rp.getButton().addActionListener(l -> {
+            sendObject(message);
+        });
+    }
+
+    public void setUpLobbyButtonListener(){
+        fl.getButton().addActionListener(l -> {
+            sendObject(message);
+        });
+    }
+
     public void playRound() throws InterruptedException {
         changePanel(gp);
         currentQuestion = 0;
@@ -157,9 +167,9 @@ public class Client extends JFrame implements Serializable {
         message.setPlayerID(util.getPlayerID());
     }
 
-    public void sendObject(Object object) {
+    public void sendObject(Message out) {
         try {
-            objectOut.writeObject(object);
+            objectOut.writeObject(out);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -169,9 +179,14 @@ public class Client extends JFrame implements Serializable {
         for (var e : fc.getButtonList()) {
             e.addActionListener(l -> {
                 String text = e.getText();
-                util.setCategory(text);
-                message.setCategory(text);
-                sendObject(message);
+//                util.setCategory(text);   // Kan tas bort
+
+
+               // message.setCategory(text);
+                Message temp = new Message();
+                temp.setCategory(text);
+
+                sendObject(temp);
             });
         }
     }
@@ -198,3 +213,4 @@ public class Client extends JFrame implements Serializable {
         new Client();
     }
 }
+

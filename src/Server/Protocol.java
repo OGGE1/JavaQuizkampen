@@ -40,7 +40,6 @@ public class Protocol {
         }
 
         else  if (CURRENT_STATE == SEND_QUESTIONS) {
-            System.out.println(message.getCategory());
             qaList = database.getQuestions(message.getCategory());
             message.setQaList(qaList);
             message.setPerform("ANSWER QUESTION");
@@ -87,11 +86,12 @@ public class Protocol {
                 player = 1;
                 message.setSwitchToPlayer(1);
             }
+
             message.setPerform("CHOOSE CATEGORY");
             CURRENT_STATE = CHOOSE_CATEGORY;
             return message;
         }
-
+            // Behöver nog ett till mellan stadie här för att båda ska få upp sina resultat och sedan kunna gå vidare
 
 
         return null;

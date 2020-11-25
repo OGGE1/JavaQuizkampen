@@ -91,7 +91,7 @@ public class Client extends JFrame implements Serializable {
                         message = (Message)fromServer;
                         playRound();
                         sendObject(message);
-                        changePanel(fw);
+                        changePanel(rp);
                     }
 
                     else if (((Message) fromServer).getPerform().equalsIgnoreCase("SEE RESULT")) {
@@ -153,6 +153,7 @@ public class Client extends JFrame implements Serializable {
 
     public void playRound() throws InterruptedException {
         changePanel(gp);
+        gp.setGameResult(0);
         gp.setRoundNr(currentRound+1);
         currentQuestion = 0;
         setUpGpListener();

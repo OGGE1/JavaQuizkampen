@@ -40,7 +40,7 @@ public class Protocol {
         }
 
         else  if (CURRENT_STATE == SEND_QUESTIONS) {
-
+            System.out.println(message.getCategory());
             qaList = database.getQuestions(message.getCategory());
             message.setQaList(qaList);
             message.setPerform("ANSWER QUESTION");

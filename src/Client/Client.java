@@ -179,11 +179,14 @@ public class Client extends JFrame implements Serializable {
         for (var e : fc.getButtonList()) {
             e.addActionListener(l -> {
                 String text = e.getText();
-                util.setCategory(text);   // Kan tas bort
-                message.setCategory(text);
-                System.out.println(message.getCategory());
+//                util.setCategory(text);   // Kan tas bort
 
-                sendObject(message);
+
+               // message.setCategory(text);
+                Message temp = new Message();
+                temp.setCategory(text);
+
+                sendObject(temp);
             });
         }
     }

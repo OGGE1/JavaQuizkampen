@@ -85,6 +85,8 @@ public class Protocol {
                 player = 1;
                 message.setSwitchToPlayer(1);
             }
+            message.setPerform("CHOOSE CATEGORY");
+            CURRENT_STATE = CHOOSE_CATEGORY;
             return message;
         }
 

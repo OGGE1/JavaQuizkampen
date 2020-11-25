@@ -13,7 +13,7 @@ public class Utility {
 
     private String playerName;
     private String enemyName;
-    private String category;
+//    private String category; // Kan tas bort
 
     private int playerID;
     private int score;
@@ -36,13 +36,13 @@ public class Utility {
         }
     }
 
-    public String getCategory() {
-        return category;
-    }
+//    public String getCategory() {
+//        return category;
+//    }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+//    public void setCategory(String category) {
+//        this.category = category;
+//    }
 
     public int getScore() {
         return score;

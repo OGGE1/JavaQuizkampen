@@ -1,5 +1,6 @@
 package Server;
 import Client.Utility;
+import Client.Client;
 
 import java.io.*;
 import java.net.Socket;
@@ -50,8 +51,6 @@ public class ClientHandler extends Thread implements Serializable {
             p1oos.writeObject(new Message(player2Name, 1));
             p2oos.writeObject(new Message(player1Name, 2));
 
-            p1oos.writeObject(new Initiator());
-            p2oos.writeObject(new Initiator());
 
             while (true) {
                 if (p.getPlayer() == 1) {
@@ -81,7 +80,7 @@ public class ClientHandler extends Thread implements Serializable {
                         message = (Message) obj;
                         message = p.getResponse(message);
                         if(message.getSwitchToPlayer() == 1){
-                            p2oos.writeObject(message);
+                            p1oos.writeObject(message);
                             participant = 1;
                             break;
                         }
@@ -89,7 +88,7 @@ public class ClientHandler extends Thread implements Serializable {
                             participant = 3;
                             break;
                         }
-                        p1oos.writeObject(message);
+                        p2oos.writeObject(message);
                     }
                 }
 

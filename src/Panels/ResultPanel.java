@@ -31,7 +31,7 @@ public class ResultPanel extends JPanel implements ActionListener{
     JLabel score = new JLabel(" " + playerOneScore + " - " + playerTwoScore + " ", SwingConstants.CENTER);
     JLabel text = new JLabel("HÄR SKA VINNAREN STÅ", SwingConstants.CENTER);
 
-    JButton button = new JButton("EN KNAPP");
+    JButton button = new JButton("Nästa runda");
 
     JPanel backgroundPanel = new JPanel(new GridLayout(0,1));
 

@@ -6,6 +6,7 @@ import Server.QA;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -48,6 +49,7 @@ public class Client extends JFrame implements Serializable {
 
         setSettings();
         setUpFakeCategory();
+        setUpResultButtonListener();
 
         //util.setPlayerName(JOptionPane.showInputDialog("Enter name")); TODO GLÖM EJ ATT TA BORT KOMMENTAREN (hårdkodade namnet)
         util.setPlayerName("Oscar");
@@ -84,15 +86,7 @@ public class Client extends JFrame implements Serializable {
 
             while (true) {
                 while ((fromServer = objectIn.readObject()) != null) {
-                    if (fromServer instanceof Initiator) {
-                        System.out.println("connected");
-                        fl.getButton().setEnabled(true);
-                    }
-
-                    if(){
-
-                    }
-                    else if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
+                    if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
                         changePanel(fc);
                     }
 
@@ -111,13 +105,14 @@ public class Client extends JFrame implements Serializable {
                         currentRound++;
                     }
 
-
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 
     public void setSettings() {
         try {
@@ -149,6 +144,18 @@ public class Client extends JFrame implements Serializable {
         }
     }
 
+    public void setUpResultButtonListener(){
+        rp.getButton().addActionListener(l -> {
+            try {
+                objectOut.writeObject(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        });
+    }
+
     public void playRound() throws InterruptedException {
         changePanel(gp);
         currentQuestion = 0;
@@ -177,7 +184,7 @@ public class Client extends JFrame implements Serializable {
         for (var e : fc.getButtonList()) {
             e.addActionListener(l -> {
                 String text = e.getText();
-                util.setCategory(text);
+//                util.setCategory(text);   // Kan tas bort
                 message.setCategory(text);
                 sendObject(message);
             });

@@ -42,7 +42,6 @@ public class Client extends JFrame implements Serializable {
     int rounds;
     int numQuestions;
     int currentQuestion;
-    int currentRound = 0;
 
     public Client() throws IOException {
 
@@ -79,19 +78,13 @@ public class Client extends JFrame implements Serializable {
             System.out.println("Du är spelare #" + util.getPlayerID());
             System.out.println("Motståndare: " + util.getEnemyName());
 
-            rp.setNamePlayerOne(util.getPlayerName());
-            rp.setNamePlayerTwo(util.getEnemyName());
-
             while (true) {
                 while ((fromServer = objectIn.readObject()) != null) {
                     if (fromServer instanceof Initiator) {
                         System.out.println("connected");
                         fl.getButton().setEnabled(true);
                     }
-
-                    if(){
-
-                    }
+                    // fromServer instanceof Message &&
                     else if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
                         changePanel(fc);
                     }
@@ -107,8 +100,7 @@ public class Client extends JFrame implements Serializable {
                         message = (Message)fromServer;
                         changePanel(rp);
                         util.addEnemyAnswers(message.getResultsFromAnswers());
-                        rp.newRound(message.getCategory(), currentRound, util.getRoundAnswers());
-                        currentRound++;
+
                     }
 
 
@@ -206,4 +198,3 @@ public class Client extends JFrame implements Serializable {
         new Client();
     }
 }
-

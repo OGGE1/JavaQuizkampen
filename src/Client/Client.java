@@ -1,17 +1,13 @@
 package Client;
+
 import Panels.*;
-import Server.Initiator;
 import Server.Message;
-import Server.QA;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.sql.SQLOutput;
-import java.util.Arrays;
 import java.util.Properties;
 
 
@@ -84,17 +80,13 @@ public class Client extends JFrame implements Serializable {
                 while ((fromServer = objectIn.readObject()) != null) {
                     if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
                         changePanel(cp);
-                    }
-
-                    else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
-                        message = (Message)fromServer;
+                    } else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
+                        message = (Message) fromServer;
                         playRound();
                         sendObject(message);
                         changePanel(wp);
-                    }
-
-                    else if (((Message) fromServer).getPerform().equalsIgnoreCase("SEE RESULT")) {
-                        message = (Message)fromServer;
+                    } else if (((Message) fromServer).getPerform().equalsIgnoreCase("SEE RESULT")) {
+                        message = (Message) fromServer;
                         changePanel(rp);
                         util.addEnemyAnswers(message.getResultsFromAnswers());
                         rp.newRound(message.getCategory(), currentRound, util.getRoundAnswers());
@@ -119,16 +111,15 @@ public class Client extends JFrame implements Serializable {
         numQuestions = Integer.parseInt(p.getProperty("questionsPerRound", "3"));
     }
 
-    public void setUpGpListener(){
+    public void setUpGpListener() {
         for (var e : gp.getGameButtons()) {
             e.addActionListener(l -> {
                 answer = e.getText();
-                if(e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())){
+                if (e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())) {
                     e.setBackground(Color.GREEN);
                     gp.addPoint();
                     util.addAnswers(true);
-                }
-                else {
+                } else {
                     e.setBackground(Color.RED);
                     util.addAnswers(false);
                 }
@@ -138,13 +129,13 @@ public class Client extends JFrame implements Serializable {
         }
     }
 
-    public void setUpResultButtonListener(){
+    public void setUpResultButtonListener() {
         rp.getButton().addActionListener(l -> {
             sendObject(message);
         });
     }
 
-    public void setUpLobbyButtonListener(){
+    public void setUpLobbyButtonListener() {
         lp.getButton().addActionListener(l -> {
             sendObject(message);
         });
@@ -159,7 +150,9 @@ public class Client extends JFrame implements Serializable {
         for (int i = 0; i < numQuestions; i++) {
             gp.setUpQuestion(message.getQaList().get(i));
             hasAnswered = false;
-            while(!hasAnswered){Thread.sleep(10);}
+            while (!hasAnswered) {
+                Thread.sleep(10);
+            }
             Thread.sleep(2000);
         }
         message.setResultsFromAnswers(util.getRoundAnswers());
@@ -175,19 +168,14 @@ public class Client extends JFrame implements Serializable {
     }
 
     public void setUpFakeCategory() {
-        for (var e : cp.getButtonList()) {
-            e.addActionListener(l -> {
-                String text = e.getText();
-//                util.setCategory(text);   // Kan tas bort
-
-
-               // message.setCategory(text);
-                Message temp = new Message();
-                temp.setCategory(text);
-
-                sendObject(temp);
-            });
-        }
+        cp.getButtonMap().forEach((button, category) -> {
+            button.addActionListener(l -> {
+                        Message temp = new Message();
+                        temp.setCategory(category);
+                        sendObject(temp);
+                    }
+            );
+        });
     }
 
     public void startUp() {

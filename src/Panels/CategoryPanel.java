@@ -3,7 +3,9 @@ package Panels;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.awt.BorderLayout.CENTER;
 
@@ -16,7 +18,7 @@ import static java.awt.BorderLayout.CENTER;
  */
 public class CategoryPanel extends JPanel {
 
-    private final List<JButton> buttonList = new ArrayList<>();
+    private final Map<JButton, String> buttonMap = new HashMap<>();
 
     public CategoryPanel() {
         setLayout(new BorderLayout());
@@ -34,22 +36,22 @@ public class CategoryPanel extends JPanel {
         JButton categoryOneButton = new JButton(new ImageIcon("resources/djurnaturbutton.png"));
         categoryOneButton.setOpaque(false);
         categoryOneButton.setBorderPainted(false);
-        buttonList.add(categoryOneButton);
+        buttonMap.put(categoryOneButton, "Djur & Natur");
 
         JButton categoryTwoButton = new JButton(new ImageIcon("resources/sportfritidbutton.png"));
         categoryTwoButton.setOpaque(false);
         categoryTwoButton.setBorderPainted(false);
-        buttonList.add(categoryTwoButton);
+        buttonMap.put(categoryTwoButton, "Sport & fritid");
 
         JButton categoryThreeButton = new JButton(new ImageIcon("resources/jordenruntbutton.png"));
         categoryThreeButton.setOpaque(false);
         categoryThreeButton.setBorderPainted(false);
-        buttonList.add(categoryThreeButton);
+        buttonMap.put(categoryThreeButton, "Jorden runt");
 
         JButton categoryFourButton = new JButton(new ImageIcon("resources/datatvspelbutton.png"));
         categoryFourButton.setOpaque(false);
         categoryFourButton.setBorderPainted(false);
-        buttonList.add(categoryFourButton);
+        buttonMap.put(categoryFourButton, "Data- & TVspel");
 
         buttonPanel.add(title);
         buttonPanel.add(categoryOneButton);
@@ -61,7 +63,7 @@ public class CategoryPanel extends JPanel {
         add(buttonPanel,CENTER);
     }
 
-    public List<JButton> getButtonList() {
-        return buttonList;
+    public Map<JButton, String> getButtonMap() {
+        return buttonMap;
     }
 }

@@ -153,6 +153,7 @@ public class Client extends JFrame implements Serializable {
 
     public void playRound() throws InterruptedException {
         changePanel(gp);
+        gp.setRoundNr(currentRound+1);
         currentQuestion = 0;
         setUpGpListener();
 
@@ -161,7 +162,7 @@ public class Client extends JFrame implements Serializable {
             gp.setUpQuestion(message.getQaList().get(i));
             hasAnswered = false;
             while(!hasAnswered){Thread.sleep(10);}
-            Thread.sleep(2000);
+            Thread.sleep(500);
         }
         message.setResultsFromAnswers(util.getRoundAnswers());
         message.setPlayerID(util.getPlayerID());

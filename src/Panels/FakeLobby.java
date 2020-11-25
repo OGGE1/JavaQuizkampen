@@ -15,7 +15,7 @@ public class FakeLobby extends JPanel {
     private JLabel label = new JLabel("Waiting for player");
 
     public FakeLobby() {
-        button.setEnabled(false);
+//        button.setEnabled(false);
         this.add(label);
         this.add(button);
         this.setBackground(Color.BLUE);

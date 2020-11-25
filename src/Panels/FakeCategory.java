@@ -35,19 +35,4 @@ public class FakeCategory extends JPanel {
         return buttonList;
     }
 
-    public JButton getButton1() {
-        return button1;
-    }
-
-    public JButton getButton2() {
-        return button2;
-    }
-
-    public JButton getButton3() {
-        return button3;
-    }
-
-    public JButton getButton4() {
-        return button4;
-    }
 }

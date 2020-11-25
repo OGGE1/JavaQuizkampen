@@ -50,14 +50,11 @@ public class Client extends JFrame implements Serializable {
         setSettings();
         setUpFakeCategory();
         setUpResultButtonListener();
+        setUpLobbyButtonListener();
 
         //util.setPlayerName(JOptionPane.showInputDialog("Enter name")); TODO GLÖM EJ ATT TA BORT KOMMENTAREN (hårdkodade namnet)
         util.setPlayerName("Oscar");
         gp.setName(util.getPlayerName());
-
-        fl.getButton().addActionListener(l -> {
-            changePanel(gp);
-        });
 
         mainPanel.add(fl);
 
@@ -144,13 +141,13 @@ public class Client extends JFrame implements Serializable {
 
     public void setUpResultButtonListener(){
         rp.getButton().addActionListener(l -> {
-            try {
-                objectOut.writeObject(message);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            sendObject(message);
+        });
+    }
 
-
+    public void setUpLobbyButtonListener(){
+        fl.getButton().addActionListener(l -> {
+            sendObject(message);
         });
     }
 
@@ -170,9 +167,9 @@ public class Client extends JFrame implements Serializable {
         message.setPlayerID(util.getPlayerID());
     }
 
-    public void sendObject(Object object) {
+    public void sendObject(Message out) {
         try {
-            objectOut.writeObject(object);
+            objectOut.writeObject(out);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -182,8 +179,10 @@ public class Client extends JFrame implements Serializable {
         for (var e : fc.getButtonList()) {
             e.addActionListener(l -> {
                 String text = e.getText();
-//                util.setCategory(text);   // Kan tas bort
+                util.setCategory(text);   // Kan tas bort
                 message.setCategory(text);
+                System.out.println(message.getCategory());
+
                 sendObject(message);
             });
         }

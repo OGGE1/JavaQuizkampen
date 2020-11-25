@@ -22,12 +22,12 @@ public class ClientHandler extends Thread implements Serializable {
     ObjectOutputStream p2oos;
     ObjectInputStream p2ois;
 
-    Message message = new Message();
+    Message message;
     Utility util = new Utility();
     Properties properties = new Properties();
     Protocol p = new Protocol();
 
-//    boolean p1Turn = true;
+    //    boolean p1Turn = true;
     int participant = 1;
 
     public ClientHandler(Socket p1, Socket p2) {
@@ -59,7 +59,9 @@ public class ClientHandler extends Thread implements Serializable {
 //                }
                 while (participant == 1) {
                     while ((obj = p1ois.readObject()) != null) {
+                        System.out.println("received messeges from client 1");
                         message = (Message) obj;
+                        System.out.println(message.getCategory());
                         message = p.getResponse(message);
                         if(message.getSwitchToPlayer() == 2){
                             p2oos.writeObject(message);
@@ -71,6 +73,7 @@ public class ClientHandler extends Thread implements Serializable {
                             break;
                         }
                         p1oos.writeObject(message);
+                        System.out.println("Sent message to client 1");
                     }
                 }
 

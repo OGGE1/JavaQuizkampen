@@ -18,6 +18,7 @@ public class Message implements Serializable {
     private String name;
     private String category;
     private String perform;
+    private int switchToPlayer = 1;
 
     private int playerID;
 
@@ -77,5 +78,13 @@ public class Message implements Serializable {
 
     public void setPlayerID(int playerID) {
         this.playerID = playerID;
+    }
+
+    public int getSwitchToPlayer() {
+        return switchToPlayer;
+    }
+
+    public void setSwitchToPlayer(int switchToPlayer) {
+        this.switchToPlayer = switchToPlayer;
     }
 }

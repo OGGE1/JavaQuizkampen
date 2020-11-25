@@ -10,12 +10,12 @@ Level 5
 Retro Studios
 tri-Ace
 Intelligent Systems
-Vilken undertitel användes till betaversionen av spelet League of Legends?
-Clash of Fates
-The Legends Tournament
-Battle of the Legends
-Fantasy League Unlimited
-Clash of Fates
+Vilken av följande är en spelbar karaktär i Diablo 2?
+Paladin
+Warrior
+Paladin
+Knight
+Fighter
 Vem av följande har en särskild betydelse i spelserien Mass Effect?
 Commander Shepard
 Admiral Fieldman
@@ -28,18 +28,18 @@ Final Fantasy VII
 Final Fantasy VI
 Final Fantasy V
 Final Fantasy IV
-Vad står förkortningen BIOS för?
-Basic Input Output System
-Basic Inward Outward Stream
-Basic Initial Output System
-Basic Input Output System
-Better Inside Output System
-Vad står förkortningen CPU för?
-Central Processing Unit
-Central Productive User
-Central Processor Universal
-Central Processing Unit
-Central Processing User-interface
+Vilken av dessa är ett datormärke?
+Dell
+Hoit
+Dell
+Legacy
+Dryspell
+Vad heter karaktären man vanligtvis spelar som i spelserien Zelda?
+Link
+Zelda
+Bowser
+Link
+Mario
 Vem uppfann programerings-språket JAVA
 James A Gosling
 Thomas Edison

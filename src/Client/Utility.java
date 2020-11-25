@@ -30,6 +30,12 @@ public class Utility {
         this.roundAnswers.add(answer);
     }
 
+    public void addEnemyAnswers(List<Boolean> list){
+        for(var bool : list){
+            roundAnswers.add(bool);
+        }
+    }
+
     public String getCategory() {
         return category;
     }

@@ -40,7 +40,7 @@ public class ResultPanel extends JPanel implements ActionListener{
 
     List<RoundResultPanel> roundResultPanelList = new ArrayList<>();
     
-    ResultPanel(){
+    public ResultPanel(){
         labelPlayerOne.setFont(new Font("", Font.BOLD, 18));
         labelPlayerTwo.setFont(new Font("", Font.BOLD, 18));
         score.setFont(new Font("", Font.BOLD, 22));

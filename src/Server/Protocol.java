@@ -54,13 +54,41 @@ public class Protocol {
             }
             else player2Results = message.getResultsFromAnswers();
 
-            // Fortsätt
+            if(message.getPlayerID() == 1){
+                message.setSwitchToPlayer(2);
+            }
+            else message.setSwitchToPlayer(1);
 
+            CURRENT_STATE = PLAYING_SECOND;
+            return message;
         }
 
         else if (CURRENT_STATE == PLAYING_SECOND){
+            if(message.getPlayerID() == 1){
+                player1Results = message.getResultsFromAnswers();
+            }
+            else player2Results = message.getResultsFromAnswers();
 
+            message.setSwitchToPlayer(3);
+            message.setPerform("SEE RESULT");
+            CURRENT_STATE = SEE_RESULT;
+            message.setResultsFromAnswers(player2Results);
+            return message;
         }
+
+        else if (CURRENT_STATE == SEE_RESULT){
+            message.setResultsFromAnswers(player1Results);
+            if (player == 1) {
+                player = 2;
+                message.setSwitchToPlayer(2);
+            }
+            else {
+                player = 1;
+                message.setSwitchToPlayer(1);
+            }
+            return message;
+        }
+
 
 
         return null;

@@ -26,8 +26,8 @@ public class ClientHandler extends Thread implements Serializable {
     Properties properties = new Properties();
     Protocol p = new Protocol();
 
-    boolean p1Turn = true;
-
+//    boolean p1Turn = true;
+    int participant = 1;
 
     public ClientHandler(Socket p1, Socket p2) {
         this.p1 = p1;
@@ -55,29 +55,49 @@ public class ClientHandler extends Thread implements Serializable {
 
             while (true) {
                 if (p.getPlayer() == 1) {
-                    p1Turn = true;
+//                    p1Turn = true;
                     message = p.getResponse(message);
                     p1oos.writeObject(message);
                 }
-                while (p1Turn) {
+                while (participant == 1) {
                     while ((obj = p1ois.readObject()) != null) {
                         message = (Message) obj;
-//                        Message out = p.getResponse(message);
                         message = p.getResponse(message);
+                        if(message.getSwitchToPlayer() == 2){
+                            p2oos.writeObject(message);
+                            participant = 2;
+                            break;
+                        }
+                        if(message.getSwitchToPlayer() == 3){
+                            participant = 3;
+                            break;
+                        }
                         p1oos.writeObject(message);
-
-                        //p1Turn = false;
-                        //break;
                     }
                 }
 
-                while (!p1Turn) {
+                while (participant == 2) {
                     while ((obj = p2ois.readObject()) != null) {
-
-
-                        p1Turn = true;
-                        break;
+                        message = (Message) obj;
+                        message = p.getResponse(message);
+                        if(message.getSwitchToPlayer() == 1){
+                            p2oos.writeObject(message);
+                            participant = 1;
+                            break;
+                        }
+                        if(message.getSwitchToPlayer() == 3){
+                            participant = 3;
+                            break;
+                        }
+                        p1oos.writeObject(message);
                     }
+                }
+
+                if(participant == 3){
+                    p1oos.writeObject(message);
+                    message = p.getResponse(message);
+                    p2oos.writeObject(message);
+                    participant = message.getSwitchToPlayer();
                 }
             }
         } catch (Exception e) {

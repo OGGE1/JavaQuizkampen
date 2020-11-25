@@ -1,8 +1,5 @@
 package Client;
-import Panels.FakeCategory;
-import Panels.FakeLobby;
-import Panels.FakeWaiting;
-import Panels.GamePanel;
+import Panels.*;
 import Server.Initiator;
 import Server.Message;
 import Server.QA;
@@ -35,6 +32,7 @@ public class Client extends JFrame implements Serializable {
 
     private JPanel mainPanel = new JPanel();
     GamePanel gp = new GamePanel();
+    ResultPanel rp = new ResultPanel();
     FakeLobby fl = new FakeLobby();
     FakeCategory fc = new FakeCategory();
     FakeWaiting fw = new FakeWaiting();
@@ -57,7 +55,7 @@ public class Client extends JFrame implements Serializable {
         fl.getButton().addActionListener(l -> {
             changePanel(gp);
         });
-        
+
         mainPanel.add(fl);
 
         this.add(mainPanel);
@@ -98,6 +96,12 @@ public class Client extends JFrame implements Serializable {
                         changePanel(fw);
                     }
 
+                    else if (((Message) fromServer).getPerform().equalsIgnoreCase("SEE RESULT")) {
+                        message = (Message)fromServer;
+                        changePanel(rp);
+                        util.addEnemyAnswers(message.getResultsFromAnswers());
+
+                    }
 
 
                 }

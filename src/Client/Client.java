@@ -112,8 +112,6 @@ public class Client extends JFrame implements Serializable {
         }
     }
 
-
-
     public void setSettings() {
         try {
             p.load(new FileInputStream("src/Properties.properties"));

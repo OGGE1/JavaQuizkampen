@@ -190,6 +190,10 @@ public class Client extends JFrame implements Serializable {
             Thread.sleep(500);
         }
         message.setResultsFromAnswers(util.getRoundAnswers());
+
+        System.out.println("Mina sparade svar till util: " +util.getRoundAnswers().toString());
+        System.out.println("Skickade svar till servern:  " +message.getResultsFromAnswers().toString());
+
         message.setPlayerID(util.getPlayerID());
     }
 

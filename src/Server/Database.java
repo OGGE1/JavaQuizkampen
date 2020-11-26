@@ -3,6 +3,7 @@ package Server;
 import jdk.jfr.Category;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +18,9 @@ import java.util.Properties;
  */
 public class Database {
 
-    private int nrOfQuestions = 3; // Läses in från properties fil som sätter antalet frågor per runda
+    private int nrOfQuestions; // Läses in från properties fil som sätter antalet frågor per runda
+
+    Properties properties = new Properties();
 
     private final String[]categories = {"Djur & natur","Sport & fritid","Jorden runt","Data- & TVspel"};
 
@@ -27,6 +30,7 @@ public class Database {
     List<QA> category3 = new ArrayList<>(); // Data- & TVspel.txt
 
     public Database(){
+        setSettings();
         loadData(0,"Djur & natur.txt");
         loadData(1,"Sport & fritid.txt");
         loadData(2,"Jorden runt.txt");
@@ -84,6 +88,16 @@ public class Database {
         else if(categoryIndex == 1) return category1;
         else if(categoryIndex == 3) return category2;
         else return category3;
+    }
+
+    public void setSettings() {
+        try {
+            properties.load(new FileInputStream("src/Properties.properties"));
+        } catch (Exception e) {
+            System.out.println("Could not load properties file");
+            e.printStackTrace();
+        }
+        nrOfQuestions = Integer.parseInt(properties.getProperty("questionsPerRound", "3"));
     }
 
 }

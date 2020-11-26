@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 
 /**
@@ -17,8 +19,9 @@ import java.util.Random;
 public class ResultPanel extends JPanel{
 
     //TODO: Denna information ska importeras från en Properties-fil
-    int amountOfRounds =  6;
-    int questionsAskedPerRound = 3;
+    int amountOfRounds;
+    int questionsAskedPerRound;
+    Properties properties = new Properties();
 
     //TODO: Denna ska bort och ersättas med att importeras från val av kategori
     String[] categoryList = {"Sport & Fritid", "Djur & Natur", "Jorden runt", "Data- & tvspel"};
@@ -38,6 +41,7 @@ public class ResultPanel extends JPanel{
     List<RoundResultPanel> roundResultPanelList = new ArrayList<>();
     
     public ResultPanel(){
+        setSettings();
         labelPlayerOne.setFont(new Font("", Font.BOLD, 18));
         labelPlayerTwo.setFont(new Font("", Font.BOLD, 18));
         score.setFont(new Font("", Font.BOLD, 22));
@@ -135,5 +139,16 @@ public class ResultPanel extends JPanel{
 
     public void setNamePlayerTwo(String namePlayerTwo) {
         this.labelPlayerTwo.setText(namePlayerTwo);
+    }
+
+    public void setSettings() {
+        try {
+            properties.load(new FileInputStream("src/Properties.properties"));
+        } catch (Exception e) {
+            System.out.println("Could not load properties file");
+            e.printStackTrace();
+        }
+        amountOfRounds = Integer.parseInt(properties.getProperty("rounds", "6"));
+        questionsAskedPerRound = Integer.parseInt(properties.getProperty("questionsPerRound", "3"));
     }
 }

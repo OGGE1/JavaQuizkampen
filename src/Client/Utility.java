@@ -13,11 +13,8 @@ public class Utility {
 
     private String playerName;
     private String enemyName;
-//    private String category; // Kan tas bort
 
     private int playerID;
-    private int score;
-    private int rounds;
 
     private List<Boolean> roundAnswers = new ArrayList<>();
 
@@ -38,30 +35,6 @@ public class Utility {
 
     public void clearAnswersList(){
         roundAnswers.clear();
-    }
-
-//    public String getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(String category) {
-//        this.category = category;
-//    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getRounds() {
-        return rounds;
-    }
-
-    public void setRounds(int rounds) {
-        this.rounds = rounds;
     }
 
     public String getPlayerName() {

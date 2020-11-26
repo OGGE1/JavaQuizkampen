@@ -44,6 +44,7 @@ public class Client extends JFrame implements Serializable {
     int numQuestions;
     int currentQuestion;
     int currentRound = 0;
+    boolean turn = false;
 
     public Client() throws IOException {
 
@@ -84,8 +85,10 @@ public class Client extends JFrame implements Serializable {
 
             while (true) {
                 while ((fromServer = objectIn.readObject()) != null) {
-                    System.out.println(((Message)fromServer).getPerform());
+//                    System.out.println(((Message)fromServer).getPerform());
                     if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
+                        turn = true;
+                        enableButtons(true);
                         changePanel(fc);
                     }
 
@@ -93,13 +96,17 @@ public class Client extends JFrame implements Serializable {
                         message = (Message)fromServer;
                         util.clearAnswersList();
                         playRound();
-                        sendObject(message);
                         changePanel(rp);
+                        sendObject(message);
                     }
 
                     else if (((Message) fromServer).getPerform().equalsIgnoreCase("SEE RESULT")) {
                         message = (Message)fromServer;
                         changePanel(rp);
+                        if (!turn){
+                            enableButtons(true);
+                        } else turn = false;
+
                         util.addEnemyAnswers(message.getResultsFromAnswers()); // Här blir det fel. Får gamla svaren för motståndaren
                         rp.newRound(message.getCategory(), currentRound, util.getRoundAnswers());
                         currentRound++;
@@ -110,6 +117,10 @@ public class Client extends JFrame implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void enableButtons(Boolean setTo){
+        rp.getButton().setEnabled(setTo);
     }
 
     public void setSettings() {
@@ -179,6 +190,7 @@ public class Client extends JFrame implements Serializable {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+        enableButtons(false);
     }
 
     public void setUpFakeCategory() {
@@ -206,6 +218,7 @@ public class Client extends JFrame implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if(util.getPlayerID() == 2) fl.getButton().setEnabled(false);
     }
 
     public void changePanel(JPanel panel) {

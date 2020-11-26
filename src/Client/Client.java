@@ -1,19 +1,13 @@
 package Client;
 import Panels.*;
-import Server.Initiator;
 import Server.Message;
-import Server.QA;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.sql.SQLOutput;
-import java.util.Arrays;
 import java.util.Properties;
-
 
 /**
  * Created by Oscar Norman <br>
@@ -34,8 +28,8 @@ public class Client extends JFrame implements Serializable {
     private JPanel mainPanel = new JPanel();
     GamePanel gp = new GamePanel();
     ResultPanel rp = new ResultPanel();
-    FakeLobby fl = new FakeLobby();
-    FakeCategory fc = new FakeCategory();
+    LobbyPanel lp = new LobbyPanel();
+    CategoryPanel cp = new CategoryPanel();
 
     String answer = "";
     boolean hasAnswered;
@@ -48,16 +42,17 @@ public class Client extends JFrame implements Serializable {
     public Client() throws IOException {
 
         setSettings();
-        setUpFakeCategory();
+        setUpCategoryButtonListener();
         setUpResultButtonListener();
         setUpLobbyButtonListener();
-        setUpGpListener();
+        setUpGpButtonListener();
 
         //util.setPlayerName(JOptionPane.showInputDialog("Enter name")); TODO GLÖM EJ ATT TA BORT KOMMENTAREN (hårdkodade namnet)
         util.setPlayerName("Oscar");
         gp.setName(util.getPlayerName());
 
-        mainPanel.add(fl);
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(lp);
 
         this.add(mainPanel);
         this.setSize(300, 500);
@@ -88,7 +83,7 @@ public class Client extends JFrame implements Serializable {
                     if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
                         turn = true;
                         enableButtons(true);
-                        changePanel(fc);
+                        changePanel(cp);
                     }
 
                     else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
@@ -133,12 +128,10 @@ public class Client extends JFrame implements Serializable {
         numQuestions = Integer.parseInt(p.getProperty("questionsPerRound", "3"));
     }
 
-    public void setUpGpListener(){
+    public void setUpGpButtonListener(){
         for (var e : gp.getGameButtons()) {
             e.addActionListener(l -> {
                 answer = e.getText();
-                System.out.println("Tryckt på: "+answer);
-                System.out.println("Rätt svar: "+message.getQaList().get(currentQuestion).getCorrectAnswer());
                 if(e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())){
                     e.setBackground(Color.GREEN);
                     gp.addPoint();
@@ -161,8 +154,19 @@ public class Client extends JFrame implements Serializable {
     }
 
     public void setUpLobbyButtonListener(){
-        fl.getButton().addActionListener(l -> {
+        lp.getButton().addActionListener(l -> {
             sendObject(message);
+        });
+    }
+
+    public void setUpCategoryButtonListener() {
+        cp.getButtonMap().forEach((button, category) -> {
+            button.addActionListener(l -> {
+                        Message temp = new Message();
+                        temp.setCategory(category);
+                        sendObject(temp);
+                    }
+            );
         });
     }
 
@@ -192,22 +196,6 @@ public class Client extends JFrame implements Serializable {
         enableButtons(false);
     }
 
-    public void setUpFakeCategory() {
-        for (var e : fc.getButtonList()) {
-            e.addActionListener(l -> {
-                String text = e.getText();
-//                util.setCategory(text);   // Kan tas bort
-
-
-               // message.setCategory(text);
-                Message temp = new Message();
-                temp.setCategory(text);
-
-                sendObject(temp);
-            });
-        }
-    }
-
     public void startUp() {
         try {
             objectOut.writeObject(util.getPlayerName());
@@ -217,7 +205,7 @@ public class Client extends JFrame implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(util.getPlayerID() == 2) fl.getButton().setEnabled(false);
+        if(util.getPlayerID() == 2) lp.getButton().setEnabled(false);
     }
 
     public void changePanel(JPanel panel) {

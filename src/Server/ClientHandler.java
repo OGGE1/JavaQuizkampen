@@ -63,6 +63,7 @@ public class ClientHandler extends Thread implements Serializable {
                         message = p.getResponse(message);
                         if(message.getSwitchToPlayer() == 2){
                             p2oos.writeObject(message);
+                            p2oos.reset();
                             participant = 2;
                             break;
                         }
@@ -71,6 +72,7 @@ public class ClientHandler extends Thread implements Serializable {
                             break;
                         }
                         p1oos.writeObject(message);
+                        p1oos.reset();
                     }
                 }
 
@@ -80,6 +82,7 @@ public class ClientHandler extends Thread implements Serializable {
                         message = p.getResponse(message);
                         if(message.getSwitchToPlayer() == 1){
                             p1oos.writeObject(message);
+                            p1oos.reset();
                             participant = 1;
                             break;
                         }
@@ -88,14 +91,17 @@ public class ClientHandler extends Thread implements Serializable {
                             break;
                         }
                         p2oos.writeObject(message);
+                        p2oos.reset();
                     }
                 }
 
                 if(participant == 3){
                     message.setSwitchToPlayer(p.getPlayer());
                     p1oos.writeObject(message);
+                    p1oos.reset();
                     message = p.getResponse(message);
                     p2oos.writeObject(message);
+                    p2oos.reset();
                     participant = message.getSwitchToPlayer();
                 }
             }

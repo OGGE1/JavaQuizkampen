@@ -200,6 +200,7 @@ public class Client extends JFrame implements Serializable {
     public void sendObject(Message out) {
         try {
             objectOut.writeObject(out);
+            objectOut.reset();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }

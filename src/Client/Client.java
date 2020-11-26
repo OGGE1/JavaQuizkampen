@@ -36,7 +36,6 @@ public class Client extends JFrame implements Serializable {
     ResultPanel rp = new ResultPanel();
     FakeLobby fl = new FakeLobby();
     FakeCategory fc = new FakeCategory();
-    FakeWaiting fw = new FakeWaiting();
 
     String answer = "";
     boolean hasAnswered;

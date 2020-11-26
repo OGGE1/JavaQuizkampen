@@ -34,13 +34,15 @@ public class Protocol {
 
     public Message getResponse(Message message) {
         if (CURRENT_STATE == CHOOSE_CATEGORY) {
-            message.setPerform("CHOOSE CATEGORY");
+            Message outgoing = new Message();
+            outgoing.setPerform("CHOOSE CATEGORY");
+//            message.setPerform("CHOOSE CATEGORY");
             CURRENT_STATE = SEND_QUESTIONS;
-            return message;
+//            return message;
+            return outgoing;
         }
 
         else  if (CURRENT_STATE == SEND_QUESTIONS) {
-            System.out.println(message.getCategory());
             qaList = database.getQuestions(message.getCategory());
             message.setQaList(qaList);
             message.setPerform("ANSWER QUESTION");
@@ -87,7 +89,8 @@ public class Protocol {
                 player = 1;
                 message.setSwitchToPlayer(1);
             }
-            message.setPerform("CHOOSE CATEGORY");
+
+            message.setPerform("SEE RESULT");
             CURRENT_STATE = CHOOSE_CATEGORY;
             return message;
         }

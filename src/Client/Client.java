@@ -1,5 +1,4 @@
 package Client;
-
 import Panels.*;
 import Server.Message;
 
@@ -10,7 +9,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Properties;
 
-
 /**
  * Created by Oscar Norman <br>
  * Date: 2020-11-12   <br>
@@ -18,33 +16,36 @@ import java.util.Properties;
  * Project: JavaQuizkampen <br>
  */
 public class Client extends JFrame implements Serializable {
-
     InetAddress address = InetAddress.getLoopbackAddress();
     int port = 27015;
-    private JPanel mainPanel = new JPanel();
     ObjectOutputStream objectOut;
     ObjectInputStream objectIn;
+
+    Utility util = new Utility();
+    Message message = new Message();
+    Properties p = new Properties();
+
+    private JPanel mainPanel = new JPanel();
     GamePanel gp = new GamePanel();
     ResultPanel rp = new ResultPanel();
     LobbyPanel lp = new LobbyPanel();
-    Utility util = new Utility();
     CategoryPanel cp = new CategoryPanel();
-    FakeWaiting wp = new FakeWaiting();
-    Message message = new Message();
-    Properties p = new Properties();
+
     String answer = "";
     boolean hasAnswered;
     int rounds;
     int numQuestions;
     int currentQuestion;
     int currentRound = 0;
+    boolean turn = false;
 
     public Client() throws IOException {
 
         setSettings();
-        setUpFakeCategory();
+        setUpCategoryButtonListener();
         setUpResultButtonListener();
         setUpLobbyButtonListener();
+        setUpGpButtonListener();
 
         //util.setPlayerName(JOptionPane.showInputDialog("Enter name")); TODO GLÖM EJ ATT TA BORT KOMMENTAREN (hårdkodade namnet)
         util.setPlayerName("Oscar");
@@ -78,17 +79,29 @@ public class Client extends JFrame implements Serializable {
 
             while (true) {
                 while ((fromServer = objectIn.readObject()) != null) {
+//                    System.out.println(((Message)fromServer).getPerform());
                     if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
+                        turn = true;
+                        enableButtons(true);
                         changePanel(cp);
-                    } else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
-                        message = (Message) fromServer;
+                    }
+
+                    else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
+                        message = (Message)fromServer;
+                        util.clearAnswersList();
                         playRound();
-                        sendObject(message);
-                        changePanel(wp);
-                    } else if (((Message) fromServer).getPerform().equalsIgnoreCase("SEE RESULT")) {
-                        message = (Message) fromServer;
                         changePanel(rp);
-                        util.addEnemyAnswers(message.getResultsFromAnswers());
+                        sendObject(message);
+                    }
+
+                    else if (((Message) fromServer).getPerform().equalsIgnoreCase("SEE RESULT")) {
+                        message = (Message)fromServer;
+                        changePanel(rp);
+                        if (!turn){
+                            enableButtons(true);
+                        } else turn = false;
+
+                        util.addEnemyAnswers(message.getResultsFromAnswers()); // Här blir det fel. Får gamla svaren för motståndaren
                         rp.newRound(message.getCategory(), currentRound, util.getRoundAnswers());
                         currentRound++;
                     }
@@ -98,6 +111,10 @@ public class Client extends JFrame implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void enableButtons(Boolean setTo){
+        rp.getButton().setEnabled(setTo);
     }
 
     public void setSettings() {
@@ -111,15 +128,16 @@ public class Client extends JFrame implements Serializable {
         numQuestions = Integer.parseInt(p.getProperty("questionsPerRound", "3"));
     }
 
-    public void setUpGpListener() {
+    public void setUpGpButtonListener(){
         for (var e : gp.getGameButtons()) {
             e.addActionListener(l -> {
                 answer = e.getText();
-                if (e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())) {
+                if(e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())){
                     e.setBackground(Color.GREEN);
                     gp.addPoint();
                     util.addAnswers(true);
-                } else {
+                }
+                else {
                     e.setBackground(Color.RED);
                     util.addAnswers(false);
                 }
@@ -129,31 +147,41 @@ public class Client extends JFrame implements Serializable {
         }
     }
 
-    public void setUpResultButtonListener() {
+    public void setUpResultButtonListener(){
         rp.getButton().addActionListener(l -> {
             sendObject(message);
         });
     }
 
-    public void setUpLobbyButtonListener() {
+    public void setUpLobbyButtonListener(){
         lp.getButton().addActionListener(l -> {
             sendObject(message);
         });
     }
 
+    public void setUpCategoryButtonListener() {
+        cp.getButtonMap().forEach((button, category) -> {
+            button.addActionListener(l -> {
+                        Message temp = new Message();
+                        temp.setCategory(category);
+                        sendObject(temp);
+                    }
+            );
+        });
+    }
+
     public void playRound() throws InterruptedException {
         changePanel(gp);
+        gp.setGameResult(0);
+        gp.setRoundNr(currentRound+1);
         currentQuestion = 0;
-        setUpGpListener();
 
         gp.setCategory(message.getCategory());
         for (int i = 0; i < numQuestions; i++) {
             gp.setUpQuestion(message.getQaList().get(i));
             hasAnswered = false;
-            while (!hasAnswered) {
-                Thread.sleep(10);
-            }
-            Thread.sleep(2000);
+            while(!hasAnswered){Thread.sleep(10);}
+            Thread.sleep(500);
         }
         message.setResultsFromAnswers(util.getRoundAnswers());
         message.setPlayerID(util.getPlayerID());
@@ -165,17 +193,7 @@ public class Client extends JFrame implements Serializable {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-    }
-
-    public void setUpFakeCategory() {
-        cp.getButtonMap().forEach((button, category) -> {
-            button.addActionListener(l -> {
-                        Message temp = new Message();
-                        temp.setCategory(category);
-                        sendObject(temp);
-                    }
-            );
-        });
+        enableButtons(false);
     }
 
     public void startUp() {
@@ -187,6 +205,7 @@ public class Client extends JFrame implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if(util.getPlayerID() == 2) lp.getButton().setEnabled(false);
     }
 
     public void changePanel(JPanel panel) {

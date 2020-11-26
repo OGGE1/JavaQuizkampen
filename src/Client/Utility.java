@@ -36,6 +36,10 @@ public class Utility {
         }
     }
 
+    public void clearAnswersList(){
+        roundAnswers.clear();
+    }
+
 //    public String getCategory() {
 //        return category;
 //    }

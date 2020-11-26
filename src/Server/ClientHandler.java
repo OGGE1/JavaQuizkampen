@@ -92,6 +92,7 @@ public class ClientHandler extends Thread implements Serializable {
                 }
 
                 if(participant == 3){
+                    message.setSwitchToPlayer(p.getPlayer());
                     p1oos.writeObject(message);
                     message = p.getResponse(message);
                     p2oos.writeObject(message);

@@ -14,7 +14,7 @@ import java.util.Random;
  * Time: 15:44
  * Project: JavaQuizkampen
  */
-public class ResultPanel extends JPanel implements ActionListener{
+public class ResultPanel extends JPanel{
 
     //TODO: Denna information ska importeras från en Properties-fil
     int amountOfRounds =  6;
@@ -29,7 +29,7 @@ public class ResultPanel extends JPanel implements ActionListener{
     JLabel labelPlayerOne = new JLabel();
     JLabel labelPlayerTwo = new JLabel();
     JLabel score = new JLabel(" " + playerOneScore + " - " + playerTwoScore + " ", SwingConstants.CENTER);
-    JLabel text = new JLabel("HÄR SKA VINNAREN STÅ", SwingConstants.CENTER);
+    JLabel text = new JLabel("", SwingConstants.CENTER);
 
     JButton button = new JButton("Nästa runda");
 
@@ -101,6 +101,11 @@ public class ResultPanel extends JPanel implements ActionListener{
 
         //TODO: Importera antal rätt från SPEL panelen
         score.setText(" " + playerOneScore + " - " + playerTwoScore + " ");
+
+        if (rondNr == (amountOfRounds-1)){
+            countTheScore();
+            button.setText("Avsluta");
+        }
     }
 
     public void countTheScore(){
@@ -114,32 +119,6 @@ public class ResultPanel extends JPanel implements ActionListener{
 
     public JButton getButton(){
         return button;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == button) {
-            //Om man klickar på Nytt spel-knappen
-
-//            for (int i = 0; i < 3; i++) {
-//                Random r = new Random();
-//                int testing = r.nextInt(categoryList.length);
-//                newRound(categoryList[testing], i);
-//
-//                if (i == amountOfRounds - 1) {
-//                    countTheScore();
-//                    button.setText("Nytt spel");
-//                    button.setEnabled(false);
-//                    text.setVisible(true);
-//                }
-//
-//                if (i != amountOfRounds - 1) {
-//                    button.setText("Nästa rond");
-//                    button.setEnabled(true);
-//                    text.setVisible(false);
-//                }
-//            }
-        }
     }
 
     public String getNamePlayerOne() {

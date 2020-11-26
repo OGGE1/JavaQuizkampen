@@ -104,6 +104,9 @@ public class Client extends JFrame implements Serializable {
                         util.addEnemyAnswers(message.getResultsFromAnswers()); // Här blir det fel. Får gamla svaren för motståndaren
                         rp.newRound(message.getCategory(), currentRound, util.getRoundAnswers());
                         currentRound++;
+                        if(currentRound == rounds){
+                            enableButtons(true);
+                        }
                     }
 
                 }
@@ -149,6 +152,9 @@ public class Client extends JFrame implements Serializable {
 
     public void setUpResultButtonListener(){
         rp.getButton().addActionListener(l -> {
+            if(rp.getButton().getText().equalsIgnoreCase("Avsluta")){
+                System.exit(0);
+            }
             sendObject(message);
         });
     }

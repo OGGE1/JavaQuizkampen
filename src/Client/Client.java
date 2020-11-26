@@ -91,6 +91,7 @@ public class Client extends JFrame implements Serializable {
 
                     else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
                         message = (Message)fromServer;
+                        util.clearAnswersList();
                         playRound();
                         sendObject(message);
                         changePanel(rp);
@@ -157,10 +158,9 @@ public class Client extends JFrame implements Serializable {
 
     public void playRound() throws InterruptedException {
         changePanel(gp);
-        gp.setGameResult(0);   // nollställer poängen mellann ronderna
-        gp.setRoundNr(currentRound+1);  // detta så att gp visar rätt rond
+        gp.setGameResult(0);
+        gp.setRoundNr(currentRound+1);
         currentQuestion = 0;
-//        setUpGpListener();  // Flyttat upp denna till dom andra då den skapar dubble lyssnare
 
         gp.setCategory(message.getCategory());
         for (int i = 0; i < numQuestions; i++) {

@@ -100,7 +100,7 @@ public class Client extends JFrame implements Serializable {
                     else if (((Message) fromServer).getPerform().equalsIgnoreCase("SEE RESULT")) {
                         message = (Message)fromServer;
                         changePanel(rp);
-                        util.addEnemyAnswers(message.getResultsFromAnswers());
+                        util.addEnemyAnswers(message.getResultsFromAnswers()); // Här blir det fel. Får gamla svaren för motståndaren
                         rp.newRound(message.getCategory(), currentRound, util.getRoundAnswers());
                         currentRound++;
                     }

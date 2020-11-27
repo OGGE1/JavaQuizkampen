@@ -1,15 +1,8 @@
 package Server;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
 
-/**
- * Created by Oscar Norman <br>
- * Date: 2020-11-18   <br>
- * Time: 15:20   <br>
- * Project: JavaQuizkampen <br>
- */
 public class Protocol {
 
     List<QA> qaList = new ArrayList<>();
@@ -36,9 +29,7 @@ public class Protocol {
         if (CURRENT_STATE == CHOOSE_CATEGORY) {
             Message outgoing = new Message();
             outgoing.setPerform("CHOOSE CATEGORY");
-//            message.setPerform("CHOOSE CATEGORY");
             CURRENT_STATE = SEND_QUESTIONS;
-//            return message;
             return outgoing;
         }
 
@@ -94,12 +85,8 @@ public class Protocol {
             CURRENT_STATE = CHOOSE_CATEGORY;
             return message;
         }
-
-
-
         return null;
     }
-
 
     public int getPlayer() {
         return player;

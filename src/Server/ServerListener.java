@@ -1,13 +1,8 @@
 package Server;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * Created by Oscar Norman <br>
- * Date: 2020-11-12   <br>
- * Time: 14:03   <br>
- * Project: JavaQuizkampen <br>
- */
 public class ServerListener {
 
     public static void main(String[] args) throws Exception {

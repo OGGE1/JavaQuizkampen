@@ -13,7 +13,6 @@ public class Utility {
 
     private String playerName;
     private String enemyName;
-
     private int playerID;
 
     private List<Boolean> roundAnswers = new ArrayList<>();
@@ -23,17 +22,17 @@ public class Utility {
         return roundAnswers;
     }
 
-    public void addAnswers(boolean answer){
+    public void addAnswers(boolean answer) {
         this.roundAnswers.add(answer);
     }
 
-    public void addEnemyAnswers(List<Boolean> list){
-        for(var bool : list){
+    public void addEnemyAnswers(List<Boolean> list) {
+        for (var bool : list) {
             roundAnswers.add(bool);
         }
     }
 
-    public void clearAnswersList(){
+    public void clearAnswersList() {
         roundAnswers.clear();
     }
 

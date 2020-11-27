@@ -4,12 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Oscar Norman <br>
- * Date: 2020-11-18   <br>
- * Time: 12:00   <br>
- * Project: JavaQuizkampen <br>
- */
 public class Message implements Serializable {
 
     private List<QA> qaList = new ArrayList<>();

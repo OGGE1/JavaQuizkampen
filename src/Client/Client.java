@@ -35,6 +35,13 @@ public class Client extends JFrame {
 
     public Client() {
 
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {
+            System.out.println("Error setting the LAF..." + e);
+        }
+
         setSettings();
         setUpCategoryButtonListener();
         setUpResultButtonListener();

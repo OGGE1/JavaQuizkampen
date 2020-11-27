@@ -9,12 +9,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Properties;
 
-/**
- * Created by Oscar Norman <br>
- * Date: 2020-11-12   <br>
- * Time: 14:06   <br>
- * Project: JavaQuizkampen <br>
- */
 public class Client extends JFrame implements Serializable {
     InetAddress address = InetAddress.getLoopbackAddress();
     int port = 27015;

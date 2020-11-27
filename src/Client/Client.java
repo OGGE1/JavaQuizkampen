@@ -1,7 +1,7 @@
 package Client;
-
 import Panels.*;
 import Server.Message;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -9,7 +9,13 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Properties;
 
-public class Client extends JFrame {
+/**
+ * Created by Oscar Norman <br>
+ * Date: 2020-11-12   <br>
+ * Time: 14:06   <br>
+ * Project: JavaQuizkampen <br>
+ */
+public class Client extends JFrame implements Serializable {
     InetAddress address = InetAddress.getLoopbackAddress();
     int port = 27015;
     ObjectOutputStream objectOut;
@@ -33,7 +39,8 @@ public class Client extends JFrame {
     int currentRound = 0;
     boolean turn = false;
 
-    public Client() {
+    public Client() throws IOException {
+
         setSettings();
         setUpCategoryButtonListener();
         setUpResultButtonListener();
@@ -62,37 +69,43 @@ public class Client extends JFrame {
 
             startUp();
 
+            System.out.println("Ditt namn: " + util.getPlayerName());
+            System.out.println("Du är spelare #" + util.getPlayerID());
+            System.out.println("Motståndare: " + util.getEnemyName());
+
             rp.setNamePlayerOne(util.getPlayerName());
             rp.setNamePlayerTwo(util.getEnemyName());
 
             while (true) {
                 while ((fromServer = objectIn.readObject()) != null) {
+//                    System.out.println(((Message)fromServer).getPerform());
                     if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
                         turn = true;
                         enableButtons(true);
                         changePanel(cp);
-                    } else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
-                        message = (Message) fromServer;
+                    }
+
+                    else if (((Message) fromServer).getPerform().equalsIgnoreCase("ANSWER QUESTION")) {
+                        message = (Message)fromServer;
                         util.clearAnswersList();
                         playRound();
                         changePanel(rp);
                         sendObject(message);
-                    } else if (((Message) fromServer).getPerform().equalsIgnoreCase("SEE RESULT")) {
-                        message = (Message) fromServer;
+                    }
+
+                    else if (((Message) fromServer).getPerform().equalsIgnoreCase("SEE RESULT")) {
+                        message = (Message)fromServer;
                         changePanel(rp);
-
-                        if (!turn)
+                        if (!turn){
                             enableButtons(true);
-                         else
-                            turn = false;
+                        } else turn = false;
 
-                        util.addEnemyAnswers(message.getResultsFromAnswers());
+                        util.addEnemyAnswers(message.getResultsFromAnswers()); // Här blir det fel. Får gamla svaren för motståndaren
                         rp.newRound(message.getCategory(), currentRound, util.getRoundAnswers());
                         currentRound++;
-
-                        if (currentRound == rounds)
+                        if(currentRound == rounds){
                             enableButtons(true);
-
+                        }
                     }
 
                 }
@@ -102,7 +115,7 @@ public class Client extends JFrame {
         }
     }
 
-    public void enableButtons(Boolean setTo) {
+    public void enableButtons(Boolean setTo){
         rp.getButton().setEnabled(setTo);
     }
 
@@ -117,16 +130,17 @@ public class Client extends JFrame {
         numQuestions = Integer.parseInt(p.getProperty("questionsPerRound", "3"));
     }
 
-    public void setUpGpButtonListener() {
+    public void setUpGpButtonListener(){
         for (var e : gp.getGameButtons()) {
             e.addActionListener(l -> {
                 answer = e.getText();
-                if (e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())) {
-                    e.setBackground(Color.GREEN);
+                if(e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())){
+                    e.setBackground(new Color(101, 255, 96));
                     gp.addPoint();
                     util.addAnswers(true);
-                } else {
-                    e.setBackground(Color.RED);
+                }
+                else {
+                    e.setBackground(new Color(255, 64, 64));
                     util.addAnswers(false);
                 }
                 currentQuestion++;
@@ -135,16 +149,16 @@ public class Client extends JFrame {
         }
     }
 
-    public void setUpResultButtonListener() {
+    public void setUpResultButtonListener(){
         rp.getButton().addActionListener(l -> {
-            if (rp.getButton().getText().equalsIgnoreCase("Avsluta")) {
+            if(rp.getButton().getText().equalsIgnoreCase("Avsluta")){
                 System.exit(0);
             }
             sendObject(message);
         });
     }
 
-    public void setUpLobbyButtonListener() {
+    public void setUpLobbyButtonListener(){
         lp.getButton().addActionListener(l -> {
             sendObject(message);
         });
@@ -164,19 +178,21 @@ public class Client extends JFrame {
     public void playRound() throws InterruptedException {
         changePanel(gp);
         gp.setGameResult(0);
-        gp.setRoundNr(currentRound + 1);
+        gp.setRoundNr(currentRound+1);
         currentQuestion = 0;
 
         gp.setCategory(message.getCategory());
         for (int i = 0; i < numQuestions; i++) {
             gp.setUpQuestion(message.getQaList().get(i));
             hasAnswered = false;
-            while (!hasAnswered) {
-                Thread.sleep(10);
-            }
+            while(!hasAnswered){Thread.sleep(10);}
             Thread.sleep(500);
         }
         message.setResultsFromAnswers(util.getRoundAnswers());
+
+        System.out.println("Mina sparade svar till util: " +util.getRoundAnswers().toString());
+        System.out.println("Skickade svar till servern:  " +message.getResultsFromAnswers().toString());
+
         message.setPlayerID(util.getPlayerID());
     }
 
@@ -199,8 +215,7 @@ public class Client extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (util.getPlayerID() == 2)
-            lp.getButton().setEnabled(false);
+        if(util.getPlayerID() == 2) lp.getButton().setEnabled(false);
     }
 
     public void changePanel(JPanel panel) {
@@ -210,7 +225,7 @@ public class Client extends JFrame {
         mainPanel.repaint();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Client();
     }
 }

@@ -67,11 +67,13 @@ public class Protocol {
             message.setPerform("SEE RESULT");
             CURRENT_STATE = SEE_RESULT;
             message.setResultsFromAnswers(player2Results);
+            System.out.println(player2Results.toString());
             return message;
         }
 
         else if (CURRENT_STATE == SEE_RESULT){
             message.setResultsFromAnswers(player1Results);
+            System.out.println(player1Results.toString());
             if (player == 1) {
                 player = 2;
                 message.setSwitchToPlayer(2);

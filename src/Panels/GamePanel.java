@@ -44,7 +44,7 @@ public class GamePanel extends JPanel {
 
         categoryPanel.setLayout(new FlowLayout());
         categoryPanel.add(categoryLabel);
-        categoryPanel.setBackground(Color.MAGENTA);
+        categoryPanel.setBackground(new Color(166, 80, 213));
         questionPanel.add(categoryPanel,BorderLayout.NORTH);
 
         question.setBackground(Color.WHITE);
@@ -60,11 +60,11 @@ public class GamePanel extends JPanel {
         for(int i = 0; i < 4; i++) {
             buttons.add(new JButton("Svar"+(i+1)));
             buttonPanel.add(buttons.get(i));
-            buttons.get(i).setBorder(BorderFactory.createLineBorder(Color.CYAN,10));
+            buttons.get(i).setBorder(BorderFactory.createLineBorder(new Color(80, 127, 213),10));
         }
         centerPanel.add(buttonPanel);
 
-        topPanel.setBackground(new Color(99, 118, 239));
+        topPanel.setBackground(new Color(80, 127, 213));
 
         answerText.setPreferredSize(new Dimension(70,20));
         topPanel.add(answerText);

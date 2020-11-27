@@ -24,7 +24,7 @@ public class Client extends JFrame {
     ResultPanel rp = new ResultPanel();
     LobbyPanel lp = new LobbyPanel();
     CategoryPanel cp = new CategoryPanel();
-
+    
     String answer = "";
     boolean hasAnswered;
     int rounds;

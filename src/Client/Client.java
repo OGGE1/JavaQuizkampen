@@ -1,7 +1,7 @@
 package Client;
 
 import Panels.*;
-import Server.Message;
+import Server.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;

@@ -1,7 +1,7 @@
 package Client;
+
 import Panels.*;
 import Server.Message;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Properties;
 
-public class Client extends JFrame implements Serializable {
+public class Client extends JFrame {
     InetAddress address = InetAddress.getLoopbackAddress();
     int port = 27015;
     ObjectOutputStream objectOut;
@@ -33,7 +33,7 @@ public class Client extends JFrame implements Serializable {
     int currentRound = 0;
     boolean turn = false;
 
-    public Client() throws IOException {
+    public Client() {
 
         setSettings();
         setUpCategoryButtonListener();
@@ -63,16 +63,11 @@ public class Client extends JFrame implements Serializable {
 
             startUp();
 
-            System.out.println("Ditt namn: " + util.getPlayerName());
-            System.out.println("Du är spelare #" + util.getPlayerID());
-            System.out.println("Motståndare: " + util.getEnemyName());
-
             rp.setNamePlayerOne(util.getPlayerName());
             rp.setNamePlayerTwo(util.getEnemyName());
 
             while (true) {
                 while ((fromServer = objectIn.readObject()) != null) {
-//                    System.out.println(((Message)fromServer).getPerform());
                     if (((Message) fromServer).getPerform().equalsIgnoreCase("CHOOSE CATEGORY")) {
                         turn = true;
                         enableButtons(true);
@@ -183,10 +178,6 @@ public class Client extends JFrame implements Serializable {
             Thread.sleep(500);
         }
         message.setResultsFromAnswers(util.getRoundAnswers());
-
-        System.out.println("Mina sparade svar till util: " +util.getRoundAnswers().toString());
-        System.out.println("Skickade svar till servern:  " +message.getResultsFromAnswers().toString());
-
         message.setPlayerID(util.getPlayerID());
     }
 
@@ -219,7 +210,7 @@ public class Client extends JFrame implements Serializable {
         mainPanel.repaint();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new Client();
     }
 }

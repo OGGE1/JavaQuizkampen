@@ -3,13 +3,6 @@ package Panels;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by Sana Eneroth Boukchana
- * Date: 2020-11-21
- * Time: 15:03
- * Project: JavaQuizkampen
- * Copyright: MIT
- */
 public class LobbyPanel extends JPanel {
     private final JButton startNewGame;
 

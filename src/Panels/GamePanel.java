@@ -1,21 +1,12 @@
 package Panels;
 
-import Client.Utility;
 import Server.QA;
-import jdk.jshell.execution.Util;
-
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Tomas Dahlander <br>
- * Date: 2020-11-12 <br>
- * Time: 15:34 <br>
- * Project: JavaQuizkampen <br>
- */
 public class GamePanel extends JPanel {
 
     private JPanel centerPanel = new JPanel();
@@ -95,38 +86,17 @@ public class GamePanel extends JPanel {
         return buttons;
     }
 
-    public int getGameResult(){
-        return Integer.parseInt(result.getText());
-    }
-
     public void setGameResult(int score){
         this.result.setText(String.valueOf(score));
-    }
-
-    public String getCategory(){
-        return categoryLabel.getText();
     }
 
     public void setCategory(String category){
         this.categoryLabel.setText(category);
     }
 
-    public String getQuestion(){
-        return question.getText();
-    }
-
-    public void setQuestion(String question){
-        this.question.setText(question);
-    }
-
-    public int getRoundNr(){
-        return Integer.parseInt(roundNr.getText());
-    }
-
     public void setRoundNr(int roundNr){
         this.roundNr.setText(String.valueOf(roundNr));
     }
-
 
     public void addPoint(){
         int score = Integer.parseInt(result.getText());

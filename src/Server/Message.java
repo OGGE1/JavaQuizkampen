@@ -16,7 +16,6 @@ public class Message implements Serializable {
 
     private int playerID;
 
-
     public Message(String name, int playerID) {
         this.name = name;
         this.playerID = playerID;
@@ -60,10 +59,6 @@ public class Message implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getPlayerID() {

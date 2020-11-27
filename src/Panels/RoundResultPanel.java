@@ -5,12 +5,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Hanna Edlund
- * Date: 2020-11-17
- * Time: 11:19
- * Project: JavaQuizkampen
- */
 public class RoundResultPanel {
     JLabel rond = new JLabel("ROND", SwingConstants.CENTER);
     JLabel category;

@@ -6,13 +6,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by Sana Eneroth Boukchana
- * Date: 2020-11-21
- * Time: 15:24
- * Project: JavaQuizkampen
- * Copyright: MIT
- */
 public class GradientTopPanel extends JPanel {
 
     public static final Color HEADER_COLOR_START = new Color(0xE2F5FE);
@@ -41,7 +34,8 @@ public class GradientTopPanel extends JPanel {
         add(iconLogo);
     }
 
-    @Override protected void paintComponent( Graphics g ) {
+    @Override
+    protected void paintComponent( Graphics g ) {
         super.paintComponent( g );
         int panelHeight = getHeight();
         int panelWidth = getWidth();

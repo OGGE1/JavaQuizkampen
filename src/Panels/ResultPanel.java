@@ -2,29 +2,16 @@ package Panels;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Random;
 
-/**
- * Created by Hanna Edlund
- * Date: 2020-11-12
- * Time: 15:44
- * Project: JavaQuizkampen
- */
 public class ResultPanel extends JPanel{
 
-    //TODO: Denna information ska importeras från en Properties-fil
     int amountOfRounds;
     int questionsAskedPerRound;
     Properties properties = new Properties();
-
-    //TODO: Denna ska bort och ersättas med att importeras från val av kategori
-    String[] categoryList = {"Sport & Fritid", "Djur & Natur", "Jorden runt", "Data- & tvspel"};
 
     int playerOneScore = 0;
     int playerTwoScore = 0;
@@ -60,10 +47,6 @@ public class ResultPanel extends JPanel{
         topPanel.add(labelPlayerTwo, BorderLayout.EAST);
 
         createBlankBoard();
-
-        // TEST STARTA NYTT SPEL NÄR MAN KLICKAR PÅ KNAPP
-//        button.setText("Starta spelet");
-//        button.addActionListener(this);
 
         backgroundPanel.add(text);
         backgroundPanel.add(button);
@@ -106,7 +89,6 @@ public class ResultPanel extends JPanel{
             }
         }
 
-        //TODO: Importera antal rätt från SPEL panelen
         score.setText(" " + playerOneScore + " - " + playerTwoScore + " ");
 
         if (rondNr == (amountOfRounds-1)){

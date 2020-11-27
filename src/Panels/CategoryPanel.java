@@ -2,20 +2,11 @@ package Panels;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static java.awt.BorderLayout.CENTER;
 
-/**
- * Created by Sana Eneroth Boukchana
- * Date: 2020-11-21
- * Time: 15:03
- * Project: JavaQuizkampen
- * Copyright: MIT
- */
 public class CategoryPanel extends JPanel {
 
     private final Map<JButton, String> buttonMap = new HashMap<>();

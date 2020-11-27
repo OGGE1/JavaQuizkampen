@@ -51,7 +51,10 @@ public class ResultPanel extends JPanel{
         JPanel topPanel = new JPanel(new BorderLayout());
 
         add(backgroundPanel);
+        backgroundPanel.setBackground(new Color(80, 127, 213));
+        this.setBackground(new Color(80, 127, 213));
         backgroundPanel.add(topPanel, 0, 0);
+        topPanel.setBackground(new Color(80, 127, 213));
         topPanel.add(labelPlayerOne, BorderLayout.WEST);
         topPanel.add(score, BorderLayout.CENTER);
         topPanel.add(labelPlayerTwo, BorderLayout.EAST);
@@ -87,19 +90,19 @@ public class ResultPanel extends JPanel{
              */
             if(i < questionsAskedPerRound){
                 if(listOfAnswers.get(i)){
-                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(Color.green);
+                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(new Color(101, 255, 96));
                     playerOneScore++;
                 }
                 else
-                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(Color.red);
+                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(new Color(255, 64, 64));
             }
             else{
                 if(listOfAnswers.get(i)){
-                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(Color.green);
+                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(new Color(101, 255, 96));
                     playerTwoScore++;
                 }
                 else
-                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(Color.red);
+                    roundResultPanelList.get(rondNr).getRuta(i).setBackground(new Color(255, 64, 64));
             }
         }
 

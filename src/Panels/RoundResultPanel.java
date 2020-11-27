@@ -30,7 +30,9 @@ public class RoundResultPanel {
         JPanel leftColumn = new JPanel(new GridLayout(0, questionsAskedPerRound));
 
         JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBackground(new Color(80, 127, 213));
         JPanel centerColumn = new JPanel(new GridLayout(2,0));
+        centerColumn.setBackground(new Color(80, 127, 213));
 
         JPanel rightPanel = new JPanel(new BorderLayout());
         JPanel rightColumn = new JPanel(new GridLayout(0, questionsAskedPerRound));
@@ -44,7 +46,7 @@ public class RoundResultPanel {
             rutaList.add(ruta);
             ruta.setEditable(false);
             ruta.setPreferredSize(new Dimension((90/questionsAskedPerRound), 10));
-            ruta.setBorder(BorderFactory.createLineBorder(Color.white, 2));
+            ruta.setBorder(BorderFactory.createLineBorder(new Color(50, 75, 118), 2));
 
             /*
                 PLACERAR RUTORNA ANTINGEN TILL HÖGER ELLER VÄNSTER

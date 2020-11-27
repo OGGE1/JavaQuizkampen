@@ -136,12 +136,12 @@ public class Client extends JFrame implements Serializable {
             e.addActionListener(l -> {
                 answer = e.getText();
                 if(e.getText().equalsIgnoreCase(message.getQaList().get(currentQuestion).getCorrectAnswer())){
-                    e.setBackground(Color.GREEN);
+                    e.setBackground(new Color(101, 255, 96));
                     gp.addPoint();
                     util.addAnswers(true);
                 }
                 else {
-                    e.setBackground(Color.RED);
+                    e.setBackground(new Color(255, 64, 64));
                     util.addAnswers(false);
                 }
                 currentQuestion++;

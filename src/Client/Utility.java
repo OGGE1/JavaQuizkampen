@@ -3,12 +3,6 @@ package Client;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Oscar Norman <br>
- * Date: 2020-11-18   <br>
- * Time: 09:51   <br>
- * Project: JavaQuizkampen <br>
- */
 public class Utility {
 
     private String playerName;
@@ -16,7 +10,6 @@ public class Utility {
     private int playerID;
 
     private List<Boolean> roundAnswers = new ArrayList<>();
-
 
     public List<Boolean> getRoundAnswers() {
         return roundAnswers;

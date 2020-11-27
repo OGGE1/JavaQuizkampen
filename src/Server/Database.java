@@ -1,14 +1,7 @@
 package Server;
 
-import jdk.jfr.Category;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.io.*;
+import java.util.*;
 
 /**
  * Created by Tomas Dahlander <br>
@@ -68,26 +61,28 @@ public class Database {
         return list;
     }
 
-    public List<QA> getQuestions(int categoryIndex){
+    private List<QA> getQuestions(int categoryIndex){
+        Random rand = new Random();
         List<QA> list = new ArrayList<>();
         for(int i = 0; i < nrOfQuestions; i++){
-            if(categoryIndex == 0) list.add(category0.remove(0));
-            else if(categoryIndex == 1) list.add(category1.remove(0));
-            else if(categoryIndex == 2) list.add(category2.remove(0));
-            else list.add(category3.remove(0));
+            if(categoryIndex == 0) {
+                int x = rand.nextInt(category0.size());
+                list.add(category0.remove(x));
+            }
+            else if(categoryIndex == 1) {
+                int x = rand.nextInt(category1.size());
+                list.add(category1.remove(x));
+            }
+            else if(categoryIndex == 2) {
+                int x = rand.nextInt(category2.size());
+                list.add(category2.remove(x));
+            }
+            else {
+                int x = rand.nextInt(category3.size());
+                list.add(category3.remove(x));
+            }
         }
         return list;
-    }
-
-    public String[] getCategories(){
-        return categories;
-    }
-
-    public List<QA> getQA_List(int categoryIndex){  // Denna metod behövs troligen inte
-        if(categoryIndex == 0) return category0;
-        else if(categoryIndex == 1) return category1;
-        else if(categoryIndex == 3) return category2;
-        else return category3;
     }
 
     public void setSettings() {

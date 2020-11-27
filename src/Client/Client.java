@@ -47,8 +47,7 @@ public class Client extends JFrame implements Serializable {
         setUpLobbyButtonListener();
         setUpGpButtonListener();
 
-        util.setPlayerName(JOptionPane.showInputDialog("Enter name")); //TODO GLÖM EJ ATT TA BORT KOMMENTAREN (hårdkodade namnet)
-        util.setPlayerName("Oscar");
+        util.setPlayerName(JOptionPane.showInputDialog("Enter name"));
         gp.setName(util.getPlayerName());
 
         mainPanel.setLayout(new BorderLayout());

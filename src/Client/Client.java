@@ -112,7 +112,9 @@ public class Client extends JFrame {
     }
 
     public void enableButtons(Boolean setTo){
-        rp.getButton().setEnabled(setTo);
+        if(setTo && rounds == currentRound) rp.getButton().setText("Avsluta");
+        else if(setTo) rp.getButton().setText("Nästa runda");
+        else rp.getButton().setText("Väntar...");
     }
 
     public void setSettings() {
@@ -150,7 +152,9 @@ public class Client extends JFrame {
             if(rp.getButton().getText().equalsIgnoreCase("Avsluta")){
                 System.exit(0);
             }
-            sendObject(message);
+            else if(rp.getButton().getText().equalsIgnoreCase("Nästa runda")){
+                sendObject(message);
+            }
         });
     }
 

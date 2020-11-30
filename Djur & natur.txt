@@ -1,10 +1,10 @@
-Vilket djur passa inte in?
+Vilket djur passar inte in?
 Björn
 Björn
 Katt
 Lejon
 Tiger
-Vad är en albatross för typ av djur?
+Vad är albatross för typ av djur?
 Fågel
 Katt
 Fågel
@@ -16,10 +16,10 @@ En gul sten
 Ett berg
 En nationalpark
 En flod
-Vilken blomma är frislyst i hela landet och får inte plockas?
+Vilken blomma är fridlyst i hela landet och får inte plockas?
 Backsippa
 Tussilago
-Iljekonvalj
+Liljekonvalj
 Blåklocka
 Backsippa
 I vilket landskap ligger Kebnekaise?
@@ -46,13 +46,13 @@ Björk
 Lönn
 Asp
 Ek
-Vad har Världsnaturfonden för forkortning?
+Vad har Världsnaturfonden för förkortning?
 WWF
 WWF
 WNF
 WWW
 WFN
-I vilket land ligger den största delen utav amazoans regnskog?
+I vilket land ligger den största delen utav Amazoans regnskog?
 Brasilien
 Peru
 Brasilien
@@ -64,7 +64,7 @@ Marsvin
 Hund
 Hamster
 Katt
-Vad heter världens längsta flod med sina 6 992 km?
+Vad heter världens längsta flod med sina 6992 km?
 Amazonfloden
 Nilen
 Mississippi

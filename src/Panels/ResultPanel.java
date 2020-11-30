@@ -35,6 +35,9 @@ public class ResultPanel extends JPanel{
         text.setFont(new Font("", Font.BOLD, 18));
         button.setFont(new Font("", Font.BOLD, 16));
 
+        button.setBackground(new Color(139, 177, 255));
+        UIManager.put("Button.disabledText", new Color(87, 111, 161));
+
         JPanel topPanel = new JPanel(new BorderLayout());
 
         add(backgroundPanel);

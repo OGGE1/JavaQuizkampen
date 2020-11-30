@@ -1,7 +1,7 @@
 package Client;
 
 import Panels.*;
-import Server.Message;
+import Server.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -24,7 +24,7 @@ public class Client extends JFrame {
     ResultPanel rp = new ResultPanel();
     LobbyPanel lp = new LobbyPanel();
     CategoryPanel cp = new CategoryPanel();
-    
+
     String answer = "";
     boolean hasAnswered;
     int rounds;
@@ -34,6 +34,13 @@ public class Client extends JFrame {
     boolean turn = false;
 
     public Client() {
+
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {
+            System.out.println("Error setting the LAF..." + e);
+        }
 
         setSettings();
         setUpCategoryButtonListener();
@@ -106,6 +113,10 @@ public class Client extends JFrame {
 
     public void enableButtons(Boolean setTo){
         rp.getButton().setEnabled(setTo);
+
+        if(setTo && rounds == currentRound) rp.getButton().setText("Avsluta");
+        else if(setTo) rp.getButton().setText("Nästa runda");
+        else rp.getButton().setText("Väntar...");
     }
 
     public void setSettings() {
@@ -143,7 +154,7 @@ public class Client extends JFrame {
             if(rp.getButton().getText().equalsIgnoreCase("Avsluta")){
                 System.exit(0);
             }
-            sendObject(message);
+            else sendObject(message);
         });
     }
 
